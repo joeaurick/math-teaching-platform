@@ -41,6 +41,30 @@ function formatDate(value: string) {
   ).format(new Date(value))
 }
 
+function getQuestionTypeLabel(
+  type: string,
+) {
+  switch (type) {
+    case 'multiple_choice':
+      return 'Multiple Choice'
+
+    case 'true_false':
+      return 'True / False'
+
+    case 'short_answer':
+      return 'Short Answer'
+
+    case 'numeric':
+      return 'Numeric'
+
+    case 'essay':
+      return 'Essay'
+
+    default:
+      return type
+  }
+}
+
 export default async function ModuleDetailPage({
   params,
 }: ModuleDetailPageProps) {
@@ -64,7 +88,9 @@ export default async function ModuleDetailPage({
     error: organizationError,
   } = await supabase
     .from('organizations')
-    .select('id, name, slug')
+    .select(
+      'id, name, slug',
+    )
     .eq('slug', slug)
     .maybeSingle()
 
@@ -133,6 +159,42 @@ export default async function ModuleDetailPage({
     notFound()
   }
 
+  /*
+   * Questions yang module_id-nya menunjuk
+   * ke module ini adalah isi dari module.
+   */
+  const {
+    data: questions,
+    error: questionsError,
+  } = await supabase
+    .from('questions')
+    .select(`
+      id,
+      title,
+      question_type,
+      content,
+      status,
+      created_at,
+      updated_at
+    `)
+    .eq(
+      'organization_id',
+      organization.id,
+    )
+    .eq('module_id', module.id)
+    .order(
+      'created_at',
+      {
+        ascending: true,
+      },
+    )
+
+  if (questionsError) {
+    throw new Error(
+      `Gagal mengambil questions: ${questionsError.message}`,
+    )
+  }
+
   return (
     <div className="min-h-full">
       <div className="mx-auto w-full max-w-[1200px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
@@ -173,7 +235,9 @@ export default async function ModuleDetailPage({
                   organization.slug
                 }
                 moduleId={module.id}
-                moduleTitle={module.title}
+                moduleTitle={
+                  module.title
+                }
                 status={module.status}
               />
             </div>
@@ -181,51 +245,142 @@ export default async function ModuleDetailPage({
         />
 
         <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_300px]">
+          {/* QUESTIONS */}
           <Card className="border-sky-200/10 bg-gradient-to-br from-sky-400/[0.045] via-white/[0.025] to-transparent">
             <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
-                  <FileQuestion className="h-[18px] w-[18px] text-sky-300" />
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
+                    <FileQuestion className="h-[18px] w-[18px] text-sky-300" />
+                  </div>
+
+                  <div>
+                    <h2 className="text-sm font-semibold text-white">
+                      Questions
+                    </h2>
+
+                    <p className="mt-1 text-xs text-white/35">
+                      {questions.length}{' '}
+                      {questions.length === 1
+                        ? 'question'
+                        : 'questions'}{' '}
+                      in this module.
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <h2 className="text-sm font-semibold text-white">
-                    Questions
-                  </h2>
-
-                  <p className="mt-1 text-xs text-white/35">
-                    Build and organize questions inside this module.
-                  </p>
-                </div>
+                <Link
+                  href={`/${organization.slug}/questions/new?module=${module.id}`}
+                >
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="sm"
+                    className="border-white/10 bg-white text-black hover:bg-white/90"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Add Question
+                  </Button>
+                </Link>
               </div>
 
-              <div className="mt-6">
-                <EmptyState
-                  icon={
-                    <FileQuestion className="h-5 w-5 text-sky-300" />
-                  }
-                  title="No questions yet"
-                  description="Add your first mathematics question to this module."
-                  action={
-                    <Link
-                      href={`/${organization.slug}/questions`}
-                    >
-                      <Button
-                        type="button"
-                        variant="primary"
-                        size="md"
-                        className="border-white/10 bg-white text-black hover:bg-white/90"
+              {questions.length === 0 ? (
+                <div className="mt-6">
+                  <EmptyState
+                    icon={
+                      <FileQuestion className="h-5 w-5 text-sky-300" />
+                    }
+                    title="No questions yet"
+                    description="Add your first mathematics question to this module."
+                    action={
+                      <Link
+                        href={`/${organization.slug}/questions/new?module=${module.id}`}
                       >
-                        <Plus className="h-4 w-4" />
-                        Add Question
-                      </Button>
-                    </Link>
-                  }
-                />
-              </div>
+                        <Button
+                          type="button"
+                          variant="primary"
+                          size="md"
+                          className="border-white/10 bg-white text-black hover:bg-white/90"
+                        >
+                          <Plus className="h-4 w-4" />
+                          Add Question
+                        </Button>
+                      </Link>
+                    }
+                  />
+                </div>
+              ) : (
+                <div className="mt-6 space-y-3">
+                  {questions.map(
+                    (
+                      question,
+                      index,
+                    ) => (
+                      <Link
+                        key={
+                          question.id
+                        }
+                        href={`/${organization.slug}/questions/${question.id}`}
+                        className="group block"
+                      >
+                        <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 transition-all duration-200 hover:border-sky-300/20 hover:bg-white/[0.04]">
+                          <div className="flex items-start gap-4">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-300/15 bg-sky-400/10 text-xs font-semibold text-sky-300">
+                              {index + 1}
+                            </div>
+
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <h3 className="text-sm font-semibold text-white transition-colors group-hover:text-sky-100">
+                                  {question.title}
+                                </h3>
+
+                                <Badge
+                                  variant={
+                                    question.status ===
+                                    'published'
+                                      ? 'success'
+                                      : question.status ===
+                                          'archived'
+                                        ? 'muted'
+                                        : 'warning'
+                                  }
+                                  className="capitalize"
+                                >
+                                  {question.status}
+                                </Badge>
+                              </div>
+
+                              <p className="mt-2 line-clamp-2 text-sm leading-5 text-white/35">
+                                {question.content}
+                              </p>
+
+                              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-white/30">
+                                <span>
+                                  {getQuestionTypeLabel(
+                                    question.question_type,
+                                  )}
+                                </span>
+
+                                <span>
+                                  Updated{' '}
+                                  {formatDate(
+                                    question.updated_at,
+                                  )}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ),
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
 
+          {/* SIDEBAR */}
           <div className="space-y-4">
             <Card className="border-violet-200/10 bg-gradient-to-br from-violet-400/[0.045] via-white/[0.025] to-transparent">
               <CardContent className="p-5">
@@ -241,6 +396,26 @@ export default async function ModuleDetailPage({
 
                     <p className="mt-0.5 text-sm font-medium text-white">
                       {module.title}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-emerald-200/10 bg-gradient-to-br from-emerald-400/[0.045] via-white/[0.025] to-transparent">
+              <CardContent className="p-5">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-300/20 bg-emerald-400/10">
+                    <FileQuestion className="h-4 w-4 text-emerald-300" />
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-white/35">
+                      Questions
+                    </p>
+
+                    <p className="mt-0.5 text-sm font-medium text-white">
+                      {questions.length}
                     </p>
                   </div>
                 </div>

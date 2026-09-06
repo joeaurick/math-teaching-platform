@@ -1,6 +1,9 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import {
+  useActionState,
+  useState,
+} from 'react'
 import Link from 'next/link'
 import {
   CheckCircle2,
@@ -16,7 +19,10 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
@@ -30,6 +36,7 @@ type Module = {
 type QuestionFormProps = {
   organizationSlug: string
   modules: Module[]
+  selectedModuleId?: string
 }
 
 type FormState = {
@@ -41,13 +48,22 @@ const initialState: FormState = {
   success: false,
 }
 
-const optionLabels = ['A', 'B', 'C', 'D']
+const optionLabels = [
+  'A',
+  'B',
+  'C',
+  'D',
+]
 
 export function QuestionForm({
   organizationSlug,
   modules,
+  selectedModuleId = '',
 }: QuestionFormProps) {
-  const [questionType, setQuestionType] = useState(
+  const [
+    questionType,
+    setQuestionType,
+  ] = useState(
     'multiple_choice',
   )
 
@@ -55,15 +71,24 @@ export function QuestionForm({
     _previousState: FormState,
     formData: FormData,
   ): Promise<FormState> => {
-    const result = await createQuestion(
-      organizationSlug,
-      formData,
-    )
+    const result =
+      await createQuestion(
+        organizationSlug,
+        formData,
+      )
 
-    return result ?? { success: true }
+    return (
+      result ?? {
+        success: true,
+      }
+    )
   }
 
-  const [state, formAction, isPending] = useActionState(
+  const [
+    state,
+    formAction,
+    isPending,
+  ] = useActionState(
     action,
     initialState,
   )
@@ -86,26 +111,39 @@ export function QuestionForm({
               name="module_id"
               required
               disabled={isPending}
-              defaultValue=""
+              defaultValue={
+                selectedModuleId
+              }
               className="h-11 w-full rounded-xl border border-sky-200/[0.10] bg-[#111111] px-3 text-sm text-white outline-none transition-colors focus:border-sky-300/30 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <option value="" disabled>
+              <option
+                value=""
+                disabled
+              >
                 Select a module
               </option>
 
-              {modules.map((module) => (
-                <option
-                  key={module.id}
-                  value={module.id}
-                >
-                  {module.title}
-                </option>
-              ))}
+              {modules.map(
+                (module) => (
+                  <option
+                    key={
+                      module.id
+                    }
+                    value={
+                      module.id
+                    }
+                  >
+                    {module.title}
+                  </option>
+                ),
+              )}
             </select>
 
-            {modules.length === 0 && (
+            {modules.length ===
+              0 && (
               <p className="mt-2 text-xs text-amber-300/70">
-                Belum ada module. Buat module terlebih dahulu
+                Belum ada module. Buat
+                module terlebih dahulu
                 sebelum membuat question.
               </p>
             )}
@@ -143,11 +181,20 @@ export function QuestionForm({
             <select
               id="question_type"
               name="question_type"
-              value={questionType}
-              onChange={(event) => {
-                setQuestionType(event.target.value)
+              value={
+                questionType
+              }
+              onChange={(
+                event,
+              ) => {
+                setQuestionType(
+                  event.target
+                    .value,
+                )
               }}
-              disabled={isPending}
+              disabled={
+                isPending
+              }
               className="h-11 w-full rounded-xl border border-violet-200/[0.10] bg-[#111111] px-3 text-sm text-white outline-none transition-colors focus:border-violet-300/30 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <option value="multiple_choice">
@@ -196,13 +243,14 @@ export function QuestionForm({
             />
 
             <p className="mt-2 text-xs text-white/25">
-              Tulis pertanyaan dengan jelas agar mudah dipahami
-              siswa.
+              Tulis pertanyaan dengan jelas
+              agar mudah dipahami siswa.
             </p>
           </div>
 
           {/* MULTIPLE CHOICE */}
-          {questionType === 'multiple_choice' && (
+          {questionType ===
+            'multiple_choice' && (
             <div className="rounded-2xl border border-violet-300/15 bg-gradient-to-br from-violet-400/[0.07] via-white/[0.02] to-transparent p-5">
               <div className="mb-5 flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10">
@@ -215,53 +263,63 @@ export function QuestionForm({
                   </h3>
 
                   <p className="mt-1 text-xs leading-5 text-white/35">
-                    Enter four options and select the correct
-                    answer.
+                    Enter four options and
+                    select the correct answer.
                   </p>
                 </div>
               </div>
 
               <div className="space-y-4">
-                {optionLabels.map((label, index) => (
-                  <div
-                    key={label}
-                    className="flex items-center gap-3"
-                  >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10 text-sm font-semibold text-violet-200">
-                      {label}
-                    </div>
+                {optionLabels.map(
+                  (
+                    label,
+                    index,
+                  ) => (
+                    <div
+                      key={label}
+                      className="flex items-center gap-3"
+                    >
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10 text-sm font-semibold text-violet-200">
+                        {label}
+                      </div>
 
-                    <Input
-                      type="text"
-                      name={`option_${index}`}
-                      required
-                      disabled={isPending}
-                      placeholder={`Option ${label}`}
-                      className="h-11 min-w-0 flex-1 rounded-xl border-white/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-violet-300/25 focus:bg-white/[0.06]"
-                    />
-
-                    <label className="flex shrink-0 cursor-pointer items-center gap-2 text-xs text-white/45">
-                      <input
-                        type="radio"
-                        name="correct_option"
-                        value={index}
+                      <Input
+                        type="text"
+                        name={`option_${index}`}
                         required
-                        disabled={isPending}
-                        className="h-4 w-4 accent-violet-400"
+                        disabled={
+                          isPending
+                        }
+                        placeholder={`Option ${label}`}
+                        className="h-11 min-w-0 flex-1 rounded-xl border-white/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-violet-300/25 focus:bg-white/[0.06]"
                       />
 
-                      <span className="hidden sm:inline">
-                        Correct
-                      </span>
-                    </label>
-                  </div>
-                ))}
+                      <label className="flex shrink-0 cursor-pointer items-center gap-2 text-xs text-white/45">
+                        <input
+                          type="radio"
+                          name="correct_option"
+                          value={index}
+                          required
+                          disabled={
+                            isPending
+                          }
+                          className="h-4 w-4 accent-violet-400"
+                        />
+
+                        <span className="hidden sm:inline">
+                          Correct
+                        </span>
+                      </label>
+                    </div>
+                  ),
+                )}
               </div>
             </div>
           )}
 
           {/* TRUE / FALSE */}
-          {questionType === 'true_false' && (
+          {questionType ===
+            'true_false' && (
             <div className="rounded-2xl border border-emerald-300/15 bg-gradient-to-br from-emerald-400/[0.07] via-white/[0.02] to-transparent p-5">
               <div className="mb-5 flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-400/10">
@@ -274,8 +332,8 @@ export function QuestionForm({
                   </h3>
 
                   <p className="mt-1 text-xs leading-5 text-white/35">
-                    Select whether the statement is true or
-                    false.
+                    Select whether the statement
+                    is true or false.
                   </p>
                 </div>
               </div>
@@ -287,7 +345,9 @@ export function QuestionForm({
                     name="true_false_answer"
                     value="true"
                     required
-                    disabled={isPending}
+                    disabled={
+                      isPending
+                    }
                     className="h-4 w-4 accent-emerald-400"
                   />
 
@@ -306,7 +366,9 @@ export function QuestionForm({
                     name="true_false_answer"
                     value="false"
                     required
-                    disabled={isPending}
+                    disabled={
+                      isPending
+                    }
                     className="h-4 w-4 accent-rose-400"
                   />
 
@@ -325,7 +387,8 @@ export function QuestionForm({
           )}
 
           {/* SHORT ANSWER */}
-          {questionType === 'short_answer' && (
+          {questionType ===
+            'short_answer' && (
             <div className="rounded-2xl border border-sky-300/15 bg-gradient-to-br from-sky-400/[0.07] via-white/[0.02] to-transparent p-5">
               <div className="mb-5 flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
@@ -338,7 +401,8 @@ export function QuestionForm({
                   </h3>
 
                   <p className="mt-1 text-xs leading-5 text-white/35">
-                    Enter the answer expected from the student.
+                    Enter the answer expected
+                    from the student.
                   </p>
                 </div>
               </div>
@@ -347,7 +411,9 @@ export function QuestionForm({
                 type="text"
                 name="short_answer"
                 required
-                disabled={isPending}
+                disabled={
+                  isPending
+                }
                 placeholder="e.g. x = 5"
                 className="h-11 rounded-xl border-sky-200/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-sky-300/30 focus:bg-white/[0.06]"
               />
@@ -355,7 +421,8 @@ export function QuestionForm({
           )}
 
           {/* NUMERIC */}
-          {questionType === 'numeric' && (
+          {questionType ===
+            'numeric' && (
             <div className="rounded-2xl border border-amber-300/15 bg-gradient-to-br from-amber-400/[0.07] via-white/[0.02] to-transparent p-5">
               <div className="mb-5 flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-300/20 bg-amber-400/10">
@@ -368,7 +435,8 @@ export function QuestionForm({
                   </h3>
 
                   <p className="mt-1 text-xs leading-5 text-white/35">
-                    Enter the exact numeric answer.
+                    Enter the exact numeric
+                    answer.
                   </p>
                 </div>
               </div>
@@ -377,7 +445,9 @@ export function QuestionForm({
                 type="number"
                 name="numeric_answer"
                 required
-                disabled={isPending}
+                disabled={
+                  isPending
+                }
                 step="any"
                 placeholder="e.g. 42"
                 className="h-11 rounded-xl border-amber-200/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-amber-300/30 focus:bg-white/[0.06]"
@@ -386,7 +456,8 @@ export function QuestionForm({
           )}
 
           {/* ESSAY */}
-          {questionType === 'essay' && (
+          {questionType ===
+            'essay' && (
             <div className="rounded-2xl border border-rose-300/15 bg-gradient-to-br from-rose-400/[0.07] via-white/[0.02] to-transparent p-5">
               <div className="flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-rose-300/20 bg-rose-400/10">
@@ -399,9 +470,10 @@ export function QuestionForm({
                   </h3>
 
                   <p className="mt-1 text-xs leading-5 text-white/35">
-                    Essay questions do not require an automatic
-                    answer. The teacher will review and grade the
-                    student's response manually.
+                    Essay questions do not require
+                    an automatic answer. The teacher
+                    will review and grade the student's
+                    response manually.
                   </p>
                 </div>
               </div>
@@ -427,14 +499,17 @@ export function QuestionForm({
               id="explanation"
               name="explanation"
               rows={5}
-              disabled={isPending}
+              disabled={
+                isPending
+              }
               placeholder="Explain the solution or reasoning..."
               className="resize-none rounded-xl border-emerald-200/[0.10] bg-white/[0.04] leading-6 text-white placeholder:text-white/25 focus:border-emerald-300/25 focus:bg-white/[0.06]"
             />
 
             <p className="mt-2 text-xs text-white/25">
-              Explanation dapat digunakan untuk membantu siswa
-              memahami langkah penyelesaian.
+              Explanation dapat digunakan untuk
+              membantu siswa memahami langkah
+              penyelesaian.
             </p>
           </div>
 
@@ -453,8 +528,10 @@ export function QuestionForm({
           <div className="flex flex-col-reverse gap-3 border-t border-white/[0.07] pt-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-xs text-white/25">
               <Sparkles className="h-3.5 w-3.5 text-sky-300/50" />
+
               <span>
-                Question akan tersimpan di Question Bank.
+                Question akan tersimpan di
+                Question Bank.
               </span>
             </div>
 
