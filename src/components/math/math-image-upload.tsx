@@ -1,7 +1,11 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { ImagePlus, X } from 'lucide-react'
+import {
+  Camera,
+  ImagePlus,
+  X,
+} from 'lucide-react'
 
 type MathImageUploadProps = {
   value: File | null
@@ -14,24 +18,39 @@ export function MathImageUpload({
   onChange,
   disabled = false,
 }: MathImageUploadProps) {
-  const inputRef = useRef<HTMLInputElement | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const galleryInputRef =
+    useRef<HTMLInputElement | null>(null)
+
+  const cameraInputRef =
+    useRef<HTMLInputElement | null>(null)
+
+  const [previewUrl, setPreviewUrl] =
+    useState<string | null>(null)
+
   const [error, setError] = useState('')
 
-  function handleSelect(file: File | undefined) {
+  function handleSelect(
+    file: File | undefined,
+  ) {
     setError('')
 
-    if (!file) return
+    if (!file) {
+      return
+    }
 
     if (!file.type.startsWith('image/')) {
-      setError('File harus berupa gambar.')
+      setError(
+        'File harus berupa gambar.',
+      )
       return
     }
 
     const maxSize = 5 * 1024 * 1024
 
     if (file.size > maxSize) {
-      setError('Ukuran gambar maksimal 5 MB.')
+      setError(
+        'Ukuran gambar maksimal 5 MB.',
+      )
       return
     }
 
@@ -39,7 +58,8 @@ export function MathImageUpload({
       URL.revokeObjectURL(previewUrl)
     }
 
-    const url = URL.createObjectURL(file)
+    const url =
+      URL.createObjectURL(file)
 
     setPreviewUrl(url)
     onChange(file)
@@ -53,39 +73,124 @@ export function MathImageUpload({
     setPreviewUrl(null)
     onChange(null)
 
-    if (inputRef.current) {
-      inputRef.current.value = ''
+    if (galleryInputRef.current) {
+      galleryInputRef.current.value = ''
     }
+
+    if (cameraInputRef.current) {
+      cameraInputRef.current.value = ''
+    }
+  }
+
+  function openGallery() {
+    if (disabled) {
+      return
+    }
+
+    galleryInputRef.current?.click()
+  }
+
+  function openCamera() {
+    if (disabled) {
+      return
+    }
+
+    cameraInputRef.current?.click()
   }
 
   return (
     <div className="space-y-3">
+      {/* ================================================== */}
+      {/* HIDDEN INPUT - GALLERY                            */}
+      {/* ================================================== */}
+
       <input
-        ref={inputRef}
+        ref={galleryInputRef}
         type="file"
         accept="image/*"
         className="hidden"
         disabled={disabled}
         onChange={(event) => {
-          handleSelect(event.target.files?.[0])
+          handleSelect(
+            event.target.files?.[0],
+          )
+        }}
+      />
+
+      {/* ================================================== */}
+      {/* HIDDEN INPUT - CAMERA                             */}
+      {/* ================================================== */}
+
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="hidden"
+        disabled={disabled}
+        onChange={(event) => {
+          handleSelect(
+            event.target.files?.[0],
+          )
         }}
       />
 
       {!value ? (
-        <button
-          type="button"
-          disabled={disabled}
-          onClick={() => inputRef.current?.click()}
-          className="flex w-full items-center justify-center gap-3 rounded-xl border border-dashed border-white/[0.12] bg-white/[0.02] px-4 py-5 text-sm text-white/55 transition hover:border-white/[0.20] hover:bg-white/[0.04] hover:text-white/80 disabled:pointer-events-none disabled:opacity-40"
-        >
-          <ImagePlus className="h-5 w-5" />
+        <div className="space-y-3">
+          {/* ============================================== */}
+          {/* CAMERA + GALLERY                              */}
+          {/* ============================================== */}
 
-          <span>
-            Tambahkan foto langkah pengerjaan
-          </span>
-        </button>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <button
+              type="button"
+              disabled={disabled}
+              onClick={openCamera}
+              className="group flex min-h-[120px] flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-sky-300/15 bg-sky-400/[0.035] px-4 py-5 text-center transition hover:border-sky-300/30 hover:bg-sky-400/[0.07] hover:text-white disabled:pointer-events-none disabled:opacity-40"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-sky-300/15 bg-sky-400/10 transition group-hover:scale-105">
+                <Camera className="h-5 w-5 text-sky-300" />
+              </span>
+
+              <span>
+                <span className="block text-sm font-medium text-white/75">
+                  Ambil dari Kamera
+                </span>
+
+                <span className="mt-1 block text-xs text-white/30">
+                  Foto langsung
+                </span>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              disabled={disabled}
+              onClick={openGallery}
+              className="group flex min-h-[120px] flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-violet-300/15 bg-violet-400/[0.035] px-4 py-5 text-center transition hover:border-violet-300/30 hover:bg-violet-400/[0.07] hover:text-white disabled:pointer-events-none disabled:opacity-40"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-300/15 bg-violet-400/10 transition group-hover:scale-105">
+                <ImagePlus className="h-5 w-5 text-violet-300" />
+              </span>
+
+              <span>
+                <span className="block text-sm font-medium text-white/75">
+                  Pilih dari Galeri
+                </span>
+
+                <span className="mt-1 block text-xs text-white/30">
+                  Pilih foto yang sudah ada
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
       ) : (
-        <div className="relative overflow-hidden rounded-xl border border-white/[0.10] bg-white/[0.03]">
+        /* ================================================== */
+        /* IMAGE PREVIEW                                      */
+        /* ================================================== */
+
+        <div className="relative overflow-hidden rounded-2xl border border-white/[0.10] bg-white/[0.03]">
           {previewUrl && (
             <img
               src={previewUrl}

@@ -204,7 +204,7 @@ export default async function OrganizationPage({
                   <Card
                     className={`h-full overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl ${action.color}`}
                   >
-                    <CardContent className="p-5">
+                    <CardContent className="!p-5">
                       <div className="flex items-start justify-between gap-4">
                         <div
                           className={`flex h-11 w-11 items-center justify-center rounded-xl ${action.iconBg}`}
@@ -257,7 +257,7 @@ export default async function OrganizationPage({
                   className="group block"
                 >
                   <Card className="h-full border-white/[0.08] bg-white/[0.025] transition-all duration-200 hover:border-white/[0.14] hover:bg-white/[0.045]">
-                    <CardContent className="p-5">
+                    <CardContent className="!p-5">
                       <div className="flex items-center gap-4">
                         <div
                           className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${action.color}`}
@@ -316,6 +316,7 @@ export default async function OrganizationPage({
                     <p className="text-lg font-semibold text-sky-300">
                       1
                     </p>
+
                     <p className="mt-0.5 text-[10px] text-white/35">
                       Buat Soal
                     </p>
@@ -325,6 +326,7 @@ export default async function OrganizationPage({
                     <p className="text-lg font-semibold text-violet-300">
                       2
                     </p>
+
                     <p className="mt-0.5 text-[10px] text-white/35">
                       Susun
                     </p>
@@ -334,6 +336,7 @@ export default async function OrganizationPage({
                     <p className="text-lg font-semibold text-emerald-300">
                       3
                     </p>
+
                     <p className="mt-0.5 text-[10px] text-white/35">
                       Bagikan
                     </p>

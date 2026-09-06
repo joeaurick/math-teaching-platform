@@ -53,39 +53,50 @@ const geometryColorStyles: Record<
 > = {
   sky: {
     card:
-      'border-sky-300/10 hover:border-sky-300/20 hover:bg-sky-400/[0.05]',
-    icon: 'bg-sky-400/10 text-sky-300',
-    badge: 'text-sky-300/60',
+      'border-sky-200 hover:border-sky-300 hover:bg-sky-50/50',
+    icon:
+      'border-sky-200 bg-sky-50 text-sky-600',
+    badge: 'text-sky-600',
   },
+
   violet: {
     card:
-      'border-violet-300/10 hover:border-violet-300/20 hover:bg-violet-400/[0.05]',
-    icon: 'bg-violet-400/10 text-violet-300',
-    badge: 'text-violet-300/60',
+      'border-violet-200 hover:border-violet-300 hover:bg-violet-50/50',
+    icon:
+      'border-violet-200 bg-violet-50 text-violet-600',
+    badge: 'text-violet-600',
   },
+
   amber: {
     card:
-      'border-amber-300/10 hover:border-amber-300/20 hover:bg-amber-400/[0.05]',
-    icon: 'bg-amber-400/10 text-amber-300',
-    badge: 'text-amber-300/60',
+      'border-amber-200 hover:border-amber-300 hover:bg-amber-50/50',
+    icon:
+      'border-amber-200 bg-amber-50 text-amber-600',
+    badge: 'text-amber-600',
   },
+
   emerald: {
     card:
-      'border-emerald-300/10 hover:border-emerald-300/20 hover:bg-emerald-400/[0.05]',
-    icon: 'bg-emerald-400/10 text-emerald-300',
-    badge: 'text-emerald-300/60',
+      'border-emerald-200 hover:border-emerald-300 hover:bg-emerald-50/50',
+    icon:
+      'border-emerald-200 bg-emerald-50 text-emerald-600',
+    badge: 'text-emerald-600',
   },
+
   rose: {
     card:
-      'border-rose-300/10 hover:border-rose-300/20 hover:bg-rose-400/[0.05]',
-    icon: 'bg-rose-400/10 text-rose-300',
-    badge: 'text-rose-300/60',
+      'border-rose-200 hover:border-rose-300 hover:bg-rose-50/50',
+    icon:
+      'border-rose-200 bg-rose-50 text-rose-600',
+    badge: 'text-rose-600',
   },
+
   cyan: {
     card:
-      'border-cyan-300/10 hover:border-cyan-300/20 hover:bg-cyan-400/[0.05]',
-    icon: 'bg-cyan-400/10 text-cyan-300',
-    badge: 'text-cyan-300/60',
+      'border-cyan-200 hover:border-cyan-300 hover:bg-cyan-50/50',
+    icon:
+      'border-cyan-200 bg-cyan-50 text-cyan-600',
+    badge: 'text-cyan-600',
   },
 }
 
@@ -168,7 +179,7 @@ export default async function GeometryPage({
       <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         <Link
           href={`/${organization.slug}`}
-          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
+          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-sky-600 transition-colors hover:text-sky-700"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
           Kembali ke Dashboard
@@ -186,31 +197,33 @@ export default async function GeometryPage({
           }
         />
 
-        <Card className="mt-8 overflow-hidden border-sky-300/10 bg-gradient-to-br from-sky-400/[0.07] via-violet-400/[0.04] to-transparent">
-          <CardContent className="relative p-6 sm:p-8">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-sky-300/[0.07]" />
+        {/* Hero */}
+
+        <Card className="mt-8 overflow-hidden border-sky-200 bg-gradient-to-br from-sky-50 via-violet-50/60 to-white">
+          <CardContent className="relative !p-6 sm:!p-8">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-sky-200/70" />
 
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-2xl">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-400/10">
-                  <Shapes className="h-5 w-5 text-sky-300" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-sky-200 bg-sky-100">
+                  <Shapes className="h-5 w-5 text-sky-600" />
                 </div>
 
-                <h2 className="mt-5 text-xl font-semibold text-white">
+                <h2 className="mt-5 text-xl font-semibold text-slate-900">
                   Visualisasikan matematika dengan lebih mudah.
                 </h2>
 
-                <p className="mt-2 text-sm leading-6 text-white/40">
+                <p className="mt-2 text-sm leading-6 text-slate-600">
                   Gunakan Geometry untuk membantu menjelaskan
                   konsep matematika melalui bentuk dan visual
                   yang lebih mudah dipahami.
                 </p>
               </div>
 
-              <div className="flex shrink-0 items-center gap-2 rounded-2xl border border-violet-300/10 bg-violet-400/[0.05] px-4 py-3">
-                <Sparkles className="h-4 w-4 text-violet-300" />
+              <div className="flex shrink-0 items-center gap-2 rounded-2xl border border-violet-200 bg-violet-50 px-4 py-3">
+                <Sparkles className="h-4 w-4 text-violet-600" />
 
-                <span className="text-xs text-white/50">
+                <span className="text-xs font-medium text-violet-700">
                   Visual learning tools
                 </span>
               </div>
@@ -218,13 +231,15 @@ export default async function GeometryPage({
           </CardContent>
         </Card>
 
+        {/* Geometry Shapes */}
+
         <section className="mt-10">
-          <div className="mb-5">
-            <h2 className="text-lg font-semibold text-white">
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold text-slate-900">
               Bentuk Geometri
             </h2>
 
-            <p className="mt-1 text-sm text-white/35">
+            <p className="mt-1 text-sm text-slate-600">
               Pilih bentuk yang ingin Anda eksplorasi.
             </p>
           </div>
@@ -238,29 +253,31 @@ export default async function GeometryPage({
               return (
                 <Card
                   key={shape.title}
-                  className={`group cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${colors.card}`}
+                  className={`group cursor-pointer bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${colors.card}`}
                 >
-                  <CardContent className="flex h-full flex-col p-5">
+                  <CardContent className="flex h-full flex-col !p-5">
                     <div className="flex items-start justify-between">
                       <div
-                        className={`flex h-11 w-11 items-center justify-center rounded-xl ${colors.icon}`}
+                        className={`flex h-11 w-11 items-center justify-center rounded-xl border ${colors.icon}`}
                       >
                         <Icon className="h-5 w-5" />
                       </div>
 
-                      <Plus className="h-4 w-4 text-white/20 transition-colors group-hover:text-white/50" />
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 transition-colors group-hover:bg-slate-100">
+                        <Plus className="h-4 w-4 text-slate-400 transition-colors group-hover:text-slate-700" />
+                      </div>
                     </div>
 
-                    <h3 className="mt-5 text-sm font-semibold text-white">
+                    <h3 className="mt-5 text-sm font-semibold text-slate-900">
                       {shape.title}
                     </h3>
 
-                    <p className="mt-2 text-sm leading-6 text-white/35">
+                    <p className="mt-2 text-sm leading-6 text-slate-600">
                       {shape.description}
                     </p>
 
                     <div
-                      className={`mt-auto flex items-center gap-1.5 pt-5 text-xs ${colors.badge}`}
+                      className={`mt-auto flex items-center gap-1.5 pt-5 text-xs font-medium ${colors.badge}`}
                     >
                       <Play className="h-3 w-3" />
                       Eksplorasi
@@ -272,16 +289,20 @@ export default async function GeometryPage({
           </div>
         </section>
 
-        <Card className="mt-8 border-violet-300/10 bg-gradient-to-r from-violet-400/[0.05] via-sky-400/[0.025] to-transparent">
-          <CardContent className="flex items-start gap-3 p-5 sm:p-6">
-            <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-violet-300" />
+        {/* Workspace Info */}
+
+        <Card className="mt-8 border-violet-200 bg-gradient-to-r from-violet-50 via-sky-50/50 to-white">
+          <CardContent className="flex items-start gap-3 !p-5 sm:!p-6">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-violet-50">
+              <Sparkles className="h-4 w-4 text-violet-600" />
+            </div>
 
             <div>
-              <p className="text-sm font-medium text-white/70">
+              <p className="text-sm font-semibold text-slate-800">
                 Geometry Workspace
               </p>
 
-              <p className="mt-1 text-xs leading-5 text-white/35">
+              <p className="mt-1 text-xs leading-5 text-slate-600">
                 Area ini dapat dikembangkan menjadi workspace
                 interaktif untuk menggambar dan memanipulasi
                 objek geometri.
@@ -292,7 +313,7 @@ export default async function GeometryPage({
 
         <Link
           href={`/${organization.slug}`}
-          className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-sky-300/60 transition-colors hover:text-sky-200"
+          className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-sky-600 transition-colors hover:text-sky-700"
         >
           Kembali ke Dashboard
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

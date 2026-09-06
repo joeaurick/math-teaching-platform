@@ -9,28 +9,74 @@ type ButtonVariant =
   | 'ghost'
   | 'danger'
 
-type ButtonSize = 'sm' | 'md' | 'lg' | 'icon'
+type ButtonSize =
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'icon'
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: ButtonVariant
-  size?: ButtonSize
-}
+type ButtonProps =
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    variant?: ButtonVariant
+    size?: ButtonSize
+  }
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'border border-white/10 bg-white text-black shadow-[0_1px_2px_rgba(0,0,0,0.25)] hover:bg-white/90 hover:shadow-[0_4px_12px_rgba(255,255,255,0.08)] active:scale-[0.98]',
+    [
+      'border border-primary',
+      'bg-primary',
+      'text-primary-foreground',
+      'shadow-sm shadow-primary/20',
+      'hover:bg-primary/90',
+      'hover:shadow-md hover:shadow-primary/20',
+      'active:scale-[0.98]',
+    ].join(' '),
 
   secondary:
-    'border border-white/[0.10] bg-white/[0.07] text-white shadow-[0_1px_2px_rgba(0,0,0,0.2)] hover:border-white/[0.16] hover:bg-white/[0.11] active:scale-[0.98]',
+    [
+      'border border-violet-200',
+      'bg-violet-50',
+      'text-violet-700',
+      'shadow-sm',
+      'hover:border-violet-300',
+      'hover:bg-violet-100',
+      'active:scale-[0.98]',
+    ].join(' '),
 
   outline:
-    'border border-white/[0.14] bg-transparent text-white/80 hover:border-white/[0.22] hover:bg-white/[0.06] hover:text-white active:scale-[0.98]',
+    [
+      'border border-slate-200',
+      'bg-white',
+      'text-slate-700',
+      'shadow-sm',
+      'hover:border-slate-300',
+      'hover:bg-slate-50',
+      'hover:text-slate-900',
+      'active:scale-[0.98]',
+    ].join(' '),
 
   ghost:
-    'border border-transparent bg-transparent text-white/60 hover:bg-white/[0.06] hover:text-white active:scale-[0.98]',
+    [
+      'border border-transparent',
+      'bg-transparent',
+      'text-slate-500',
+      'hover:bg-slate-100',
+      'hover:text-slate-900',
+      'active:scale-[0.98]',
+    ].join(' '),
 
   danger:
-    'border border-red-500/20 bg-red-500/[0.08] text-red-300 hover:border-red-500/30 hover:bg-red-500/[0.13] hover:text-red-200 active:scale-[0.98]',
+    [
+      'border border-rose-200',
+      'bg-rose-50',
+      'text-rose-600',
+      'shadow-sm',
+      'hover:border-rose-300',
+      'hover:bg-rose-100',
+      'hover:text-rose-700',
+      'active:scale-[0.98]',
+    ].join(' '),
 }
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -51,13 +97,21 @@ export function Button({
     <button
       type={type}
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-xl font-medium',
-        'whitespace-nowrap select-none cursor-pointer',
+        'inline-flex items-center justify-center gap-2',
+        'rounded-xl',
+        'font-medium',
+        'whitespace-nowrap',
+        'select-none',
+        'cursor-pointer',
         'transition-all duration-200 ease-out',
         'outline-none',
-        'focus-visible:ring-2 focus-visible:ring-white/30',
-        'focus-visible:ring-offset-2 focus-visible:ring-offset-[#090909]',
-        'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-40',
+        'focus-visible:ring-2',
+        'focus-visible:ring-primary/30',
+        'focus-visible:ring-offset-2',
+        'focus-visible:ring-offset-background',
+        'disabled:pointer-events-none',
+        'disabled:cursor-not-allowed',
+        'disabled:opacity-50',
         variantClasses[variant],
         sizeClasses[size],
         className,

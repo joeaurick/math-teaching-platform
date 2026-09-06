@@ -1,17 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #090b10;
-  --foreground: #f8fafc;
+  --background: #f6f8fc;
+  --foreground: #172033;
 
-  --muted: #94a3b8;
-  --border: rgba(255, 255, 255, 0.08);
+  --muted: #64748b;
+  --border: #e2e8f0;
 
-  --primary: #7dd3fc;
-  --primary-foreground: #082f49;
+  --primary: #4f7cff;
+  --primary-foreground: #ffffff;
 
-  --card: rgba(255, 255, 255, 0.025);
-  --card-foreground: #f8fafc;
+  --card: #ffffff;
+  --card-foreground: #172033;
+
+  --secondary: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #f43f5e;
+  --info: #06b6d4;
 }
 
 @theme inline {
@@ -27,6 +33,12 @@
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
 
+  --color-secondary: var(--secondary);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -39,25 +51,29 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
+
   background:
     radial-gradient(
-      circle at 15% 10%,
-      rgba(56, 189, 248, 0.055),
-      transparent 28%
+      circle at 8% 5%,
+      rgba(79, 124, 255, 0.1),
+      transparent 26%
     ),
     radial-gradient(
-      circle at 85% 15%,
-      rgba(139, 92, 246, 0.05),
-      transparent 28%
+      circle at 92% 8%,
+      rgba(139, 92, 246, 0.09),
+      transparent 25%
     ),
     radial-gradient(
       circle at 50% 100%,
-      rgba(16, 185, 129, 0.035),
-      transparent 30%
+      rgba(16, 185, 129, 0.07),
+      transparent 28%
     ),
     var(--background);
+
   color: var(--foreground);
+
   font-family: Arial, Helvetica, sans-serif;
+
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -78,8 +94,8 @@ button:disabled {
 }
 
 ::selection {
-  background: rgba(125, 211, 252, 0.25);
-  color: #ffffff;
+  background: rgba(79, 124, 255, 0.2);
+  color: #172033;
 }
 
 ::-webkit-scrollbar {
@@ -93,9 +109,212 @@ button:disabled {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
+  background: #cbd5e1;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: #94a3b8;
+}
+
+/* =========================================================
+   LIGHT THEME COMPATIBILITY
+   ========================================================= */
+
+/* ---------- Text ---------- */
+
+.text-white {
+  color: #0f172a !important;
+}
+
+.text-white\/90 {
+  color: #1e293b !important;
+}
+
+.text-white\/80 {
+  color: #334155 !important;
+}
+
+.text-white\/75 {
+  color: #334155 !important;
+}
+
+.text-white\/70 {
+  color: #475569 !important;
+}
+
+.text-white\/60 {
+  color: #64748b !important;
+}
+
+.text-white\/50 {
+  color: #64748b !important;
+}
+
+.text-white\/45 {
+  color: #64748b !important;
+}
+
+.text-white\/40 {
+  color: #64748b !important;
+}
+
+.text-white\/35 {
+  color: #94a3b8 !important;
+}
+
+.text-white\/30 {
+  color: #94a3b8 !important;
+}
+
+.text-white\/25 {
+  color: #94a3b8 !important;
+}
+
+.text-white\/20 {
+  color: #94a3b8 !important;
+}
+
+.text-white\/15 {
+  color: #cbd5e1 !important;
+}
+
+.text-white\/10 {
+  color: #cbd5e1 !important;
+}
+
+/* ---------- Borders ---------- */
+
+.border-white\/\[0\.05\] {
+  border-color: #f1f5f9 !important;
+}
+
+.border-white\/\[0\.06\] {
+  border-color: #f1f5f9 !important;
+}
+
+.border-white\/\[0\.07\] {
+  border-color: #e2e8f0 !important;
+}
+
+.border-white\/\[0\.08\] {
+  border-color: #e2e8f0 !important;
+}
+
+.border-white\/\[0\.10\] {
+  border-color: #e2e8f0 !important;
+}
+
+.border-white\/\[0\.12\] {
+  border-color: #e2e8f0 !important;
+}
+
+.border-white\/\[0\.14\] {
+  border-color: #cbd5e1 !important;
+}
+
+.border-white\/\[0\.16\] {
+  border-color: #cbd5e1 !important;
+}
+
+.border-white\/\[0\.20\] {
+  border-color: #cbd5e1 !important;
+}
+
+.border-white\/10 {
+  border-color: #e2e8f0 !important;
+}
+
+.border-white\/20 {
+  border-color: #cbd5e1 !important;
+}
+
+/* ---------- White backgrounds ---------- */
+
+.bg-white\/\[0\.02\] {
+  background-color: #ffffff !important;
+}
+
+.bg-white\/\[0\.025\] {
+  background-color: #ffffff !important;
+}
+
+.bg-white\/\[0\.03\] {
+  background-color: #f8fafc !important;
+}
+
+.bg-white\/\[0\.035\] {
+  background-color: #f8fafc !important;
+}
+
+.bg-white\/\[0\.04\] {
+  background-color: #f8fafc !important;
+}
+
+.bg-white\/\[0\.05\] {
+  background-color: #f8fafc !important;
+}
+
+.bg-white\/\[0\.06\] {
+  background-color: #f1f5f9 !important;
+}
+
+.bg-white\/\[0\.07\] {
+  background-color: #f1f5f9 !important;
+}
+
+.bg-white\/\[0\.08\] {
+  background-color: #f1f5f9 !important;
+}
+
+.bg-white\/\[0\.10\] {
+  background-color: #e2e8f0 !important;
+}
+
+.bg-white\/5 {
+  background-color: #f8fafc !important;
+}
+
+.bg-white\/10 {
+  background-color: #f1f5f9 !important;
+}
+
+/* ---------- Original dark page backgrounds ---------- */
+
+.bg-\[\#090909\] {
+  background-color: #f6f8fc !important;
+}
+
+.bg-\[\#090b10\] {
+  background-color: #f6f8fc !important;
+}
+
+.bg-\[\#111111\] {
+  background-color: #ffffff !important;
+}
+
+/* ---------- Preserve white text on colored buttons / overlays ---------- */
+
+.bg-black.text-white,
+.bg-black\/90.text-white,
+.bg-black\/80.text-white,
+.bg-black\/70.text-white,
+.bg-black\/60.text-white,
+.bg-black\/50.text-white,
+.bg-blue-500.text-white,
+.bg-blue-600.text-white,
+.bg-violet-500.text-white,
+.bg-violet-600.text-white,
+.bg-purple-500.text-white,
+.bg-purple-600.text-white,
+.bg-emerald-500.text-white,
+.bg-emerald-600.text-white,
+.bg-green-500.text-white,
+.bg-green-600.text-white,
+.bg-rose-500.text-white,
+.bg-rose-600.text-white,
+.bg-red-500.text-white,
+.bg-red-600.text-white,
+.bg-cyan-500.text-white,
+.bg-cyan-600.text-white {
+  color: #ffffff !important;
 }

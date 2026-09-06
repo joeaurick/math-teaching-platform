@@ -6,7 +6,10 @@ import {
 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/empty-state'
 import { PageHeader } from '@/components/ui/page-header'
 import { getOrganizationContext } from '@/lib/organization/get-organization-context'
@@ -106,77 +109,79 @@ export default async function QuestionBankPage({
           actions={
             <Link
               href={`/${organization.slug}/questions/new`}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-black shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:bg-white/90"
             >
-              <Plus className="h-4 w-4" />
-              New Question
+              <ButtonNewQuestion />
             </Link>
           }
         />
 
+        {/* Statistics */}
+
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <Card className="border-sky-200/10 bg-gradient-to-br from-sky-400/[0.055] via-white/[0.025] to-transparent">
-            <CardContent className="p-5">
+          <Card className="border-sky-200 bg-gradient-to-br from-sky-50 via-white to-white">
+            <CardContent className="!p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
-                  <FileQuestion className="h-4 w-4 text-sky-300" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
+                  <FileQuestion className="h-4 w-4 text-sky-600" />
                 </div>
 
-                <p className="text-xs text-white/40">
+                <p className="text-xs font-medium text-slate-600">
                   Total Questions
                 </p>
               </div>
 
-              <p className="mt-4 text-2xl font-semibold text-white">
+              <p className="mt-4 text-2xl font-semibold text-slate-900">
                 {questions.length}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-emerald-200/10 bg-gradient-to-br from-emerald-400/[0.055] via-white/[0.025] to-transparent">
-            <CardContent className="p-5">
+          <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-white">
+            <CardContent className="!p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-400/10">
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                 </div>
 
-                <p className="text-xs text-white/40">
+                <p className="text-xs font-medium text-slate-600">
                   Published
                 </p>
               </div>
 
-              <p className="mt-4 text-2xl font-semibold text-white">
+              <p className="mt-4 text-2xl font-semibold text-slate-900">
                 {publishedCount}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-amber-200/10 bg-gradient-to-br from-amber-400/[0.055] via-white/[0.025] to-transparent">
-            <CardContent className="p-5">
+          <Card className="border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white">
+            <CardContent className="!p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-300/20 bg-amber-400/10">
-                  <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-amber-200 bg-amber-50">
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
                 </div>
 
-                <p className="text-xs text-white/40">
+                <p className="text-xs font-medium text-slate-600">
                   Draft
                 </p>
               </div>
 
-              <p className="mt-4 text-2xl font-semibold text-white">
+              <p className="mt-4 text-2xl font-semibold text-slate-900">
                 {draftCount}
               </p>
             </CardContent>
           </Card>
         </div>
 
+        {/* All Questions */}
+
         <div className="mt-8">
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold text-white">
+          <div className="mb-5">
+            <h2 className="text-lg font-semibold text-slate-900">
               All Questions
             </h2>
 
-            <p className="mt-1 text-sm text-white/40">
+            <p className="mt-1 text-sm text-slate-600">
               Semua soal yang tersedia di organization ini.
             </p>
           </div>
@@ -184,17 +189,15 @@ export default async function QuestionBankPage({
           {questions.length === 0 ? (
             <EmptyState
               icon={
-                <FileQuestion className="h-5 w-5 text-sky-300" />
+                <FileQuestion className="h-5 w-5 text-sky-600" />
               }
               title="Belum ada question"
               description="Buat question pertama untuk mulai membangun question bank."
               action={
                 <Link
                   href={`/${organization.slug}/questions/new`}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-black shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:bg-white/90"
                 >
-                  <Plus className="h-4 w-4" />
-                  Create Question
+                  <ButtonNewQuestion label="Create Question" />
                 </Link>
               }
             />
@@ -215,28 +218,28 @@ export default async function QuestionBankPage({
                 return (
                   <Card
                     key={question.id}
-                    className="border-white/[0.07] bg-white/[0.025] transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-200/15 hover:bg-white/[0.04]"
+                    className="border-slate-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md hover:shadow-slate-200/60"
                   >
-                    <CardContent className="p-5">
+                    <CardContent className="!p-5">
                       <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                         <div className="flex min-w-0 items-start gap-4">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
-                            <FileQuestion className="h-[18px] w-[18px] text-sky-300" />
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
+                            <FileQuestion className="h-[18px] w-[18px] text-sky-600" />
                           </div>
 
                           <div className="min-w-0">
-                            <h3 className="text-sm font-semibold text-white">
+                            <h3 className="text-sm font-semibold text-slate-900">
                               {question.title}
                             </h3>
 
-                            <p className="mt-1 line-clamp-2 text-sm leading-5 text-white/35">
+                            <p className="mt-1 line-clamp-2 text-sm leading-5 text-slate-600">
                               {question.content}
                             </p>
 
                             <div className="mt-3 flex flex-wrap items-center gap-2">
                               <Badge
                                 variant="info"
-                                className="border-violet-300/20 bg-violet-400/10 text-violet-200"
+                                className="border-violet-200 bg-violet-50 text-violet-700"
                               >
                                 {questionType}
                               </Badge>
@@ -256,7 +259,7 @@ export default async function QuestionBankPage({
                                 {question.status}
                               </Badge>
 
-                              <span className="text-xs text-white/30">
+                              <span className="text-xs font-medium text-slate-500">
                                 {module?.title ??
                                   'Unknown module'}
                               </span>
@@ -267,14 +270,14 @@ export default async function QuestionBankPage({
                         <div className="flex shrink-0 items-center gap-2">
                           <Link
                             href={`/${organization.slug}/questions/${question.id}/preview`}
-                            className="inline-flex h-9 items-center justify-center rounded-xl border border-white/[0.10] bg-transparent px-3 text-xs font-medium text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
+                            className="inline-flex h-9 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
                           >
                             Preview
                           </Link>
 
                           <Link
                             href={`/${organization.slug}/questions/${question.id}`}
-                            className="inline-flex h-9 items-center justify-center gap-2 rounded-xl bg-white px-3 text-xs font-medium text-black transition-colors hover:bg-white/90"
+                            className="inline-flex h-9 items-center justify-center gap-2 rounded-xl bg-primary px-3 text-xs font-medium text-white shadow-sm shadow-primary/20 transition-colors hover:bg-primary/90"
                           >
                             Open
                             <ArrowRight className="h-3.5 w-3.5" />
@@ -290,5 +293,18 @@ export default async function QuestionBankPage({
         </div>
       </div>
     </div>
+  )
+}
+
+function ButtonNewQuestion({
+  label = 'New Question',
+}: {
+  label?: string
+}) {
+  return (
+    <span className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-primary bg-primary px-4 text-sm font-medium text-white shadow-sm shadow-primary/20 transition-all duration-200 hover:bg-primary/90">
+      <Plus className="h-4 w-4" />
+      {label}
+    </span>
   )
 }

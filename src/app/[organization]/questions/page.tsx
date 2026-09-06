@@ -5,7 +5,11 @@ import {
 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/empty-state'
 import { PageHeader } from '@/components/ui/page-header'
 import { getOrganizationContext } from '@/lib/organization/get-organization-context'
@@ -64,10 +68,15 @@ export default async function QuestionsPage({
           actions={
             <Link
               href={`/${organization.slug}/questions/new`}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-black shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:bg-white/90"
             >
-              <Plus className="h-4 w-4" />
-              New Question
+              <Button
+                type="button"
+                variant="primary"
+                size="md"
+              >
+                <Plus className="h-4 w-4" />
+                New Question
+              </Button>
             </Link>
           }
         />
@@ -76,17 +85,22 @@ export default async function QuestionsPage({
           <div className="mt-8">
             <EmptyState
               icon={
-                <FileQuestion className="h-5 w-5 text-sky-300" />
+                <FileQuestion className="h-5 w-5 text-sky-600" />
               }
               title="No questions yet"
               description="Create your first mathematics question."
               action={
                 <Link
                   href={`/${organization.slug}/questions/new`}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-black shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:bg-white/90"
                 >
-                  <Plus className="h-4 w-4" />
-                  Create Question
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="md"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Create Question
+                  </Button>
                 </Link>
               }
             />
@@ -106,11 +120,11 @@ export default async function QuestionsPage({
                   href={`/${organization.slug}/questions/${question.id}`}
                   className="group"
                 >
-                  <Card className="h-full border-white/[0.07] bg-white/[0.025] transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-200/15 hover:bg-white/[0.04]">
-                    <CardContent className="p-5">
+                  <Card className="h-full border-slate-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md hover:shadow-slate-200/60">
+                    <CardContent className="!p-5">
                       <div className="flex items-start justify-between gap-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
-                          <FileQuestion className="h-[18px] w-[18px] text-sky-300" />
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
+                          <FileQuestion className="h-[18px] w-[18px] text-sky-600" />
                         </div>
 
                         <Badge
@@ -129,20 +143,20 @@ export default async function QuestionsPage({
                         </Badge>
                       </div>
 
-                      <h2 className="mt-5 line-clamp-2 text-base font-semibold text-white transition-colors group-hover:text-sky-100">
+                      <h2 className="mt-5 line-clamp-2 text-base font-semibold text-slate-900 transition-colors group-hover:text-primary">
                         {question.title}
                       </h2>
 
-                      <p className="mt-2 line-clamp-3 text-sm leading-5 text-white/35">
+                      <p className="mt-2 line-clamp-3 text-sm leading-5 text-slate-600">
                         {question.content}
                       </p>
 
-                      <div className="mt-5 border-t border-white/[0.07] pt-4">
-                        <p className="text-xs text-white/30">
+                      <div className="mt-5 border-t border-slate-100 pt-4">
+                        <p className="text-xs text-slate-400">
                           Module
                         </p>
 
-                        <p className="mt-1 truncate text-sm text-white/65">
+                        <p className="mt-1 truncate text-sm font-medium text-slate-600">
                           {module?.title ||
                             'Unknown module'}
                         </p>

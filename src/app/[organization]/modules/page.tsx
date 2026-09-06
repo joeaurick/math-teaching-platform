@@ -49,7 +49,7 @@ const quickLinks = [
     href: 'questions',
     icon: PenLine,
     iconClass:
-      'border-sky-300/20 bg-sky-400/10 text-sky-300',
+      'border-sky-200 bg-sky-50 text-sky-600',
   },
   {
     title: 'Geometry',
@@ -58,7 +58,7 @@ const quickLinks = [
     href: 'geometry',
     icon: Shapes,
     iconClass:
-      'border-violet-300/20 bg-violet-400/10 text-violet-300',
+      'border-violet-200 bg-violet-50 text-violet-600',
   },
   {
     title: 'Question Bank',
@@ -67,7 +67,7 @@ const quickLinks = [
     href: 'question-bank',
     icon: FileQuestion,
     iconClass:
-      'border-amber-300/20 bg-amber-400/10 text-amber-300',
+      'border-amber-200 bg-amber-50 text-amber-600',
   },
   {
     title: 'Classes',
@@ -76,7 +76,7 @@ const quickLinks = [
     href: 'classes',
     icon: Users,
     iconClass:
-      'border-emerald-300/20 bg-emerald-400/10 text-emerald-300',
+      'border-emerald-200 bg-emerald-50 text-emerald-600',
   },
   {
     title: 'Live Classroom',
@@ -85,7 +85,7 @@ const quickLinks = [
     href: 'live-classroom',
     icon: Video,
     iconClass:
-      'border-rose-300/20 bg-rose-400/10 text-rose-300',
+      'border-rose-200 bg-rose-50 text-rose-600',
   },
   {
     title: 'Photo / Scan',
@@ -94,7 +94,7 @@ const quickLinks = [
     href: 'photo-scan',
     icon: Camera,
     iconClass:
-      'border-cyan-300/20 bg-cyan-400/10 text-cyan-300',
+      'border-cyan-200 bg-cyan-50 text-cyan-600',
   },
 ]
 
@@ -125,7 +125,6 @@ export default async function ModulesPage({
                 type="button"
                 variant="primary"
                 size="md"
-                className="border-white/10 bg-white text-black hover:bg-white/90"
               >
                 <Plus className="h-4 w-4" />
                 New Module
@@ -139,7 +138,7 @@ export default async function ModulesPage({
             <div className="mt-8">
               <EmptyState
                 icon={
-                  <BookOpen className="h-5 w-5 text-sky-300" />
+                  <BookOpen className="h-5 w-5 text-sky-600" />
                 }
                 title="No modules yet"
                 description="Create your first teaching module to start organizing your mathematics content."
@@ -151,7 +150,6 @@ export default async function ModulesPage({
                       type="button"
                       variant="primary"
                       size="md"
-                      className="border-white/10 bg-white text-black hover:bg-white/90"
                     >
                       <Plus className="h-4 w-4" />
                       Create your first module
@@ -162,12 +160,12 @@ export default async function ModulesPage({
             </div>
 
             <section className="mt-8">
-              <div className="mb-4">
-                <h2 className="text-sm font-semibold text-white">
+              <div className="mb-5">
+                <h2 className="text-sm font-semibold text-slate-900">
                   Other teaching tools
                 </h2>
 
-                <p className="mt-1 text-xs text-white/35">
+                <p className="mt-1 text-xs text-slate-600">
                   Continue building your teaching workspace.
                 </p>
               </div>
@@ -182,7 +180,7 @@ export default async function ModulesPage({
                       href={`/${organization.slug}/${item.href}`}
                       className="group"
                     >
-                      <Card className="h-full border-white/[0.07] bg-white/[0.025] transition-all duration-200 hover:-translate-y-0.5 hover:border-white/[0.14] hover:bg-white/[0.04]">
+                      <Card className="h-full border-slate-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
                         <CardContent className="flex items-center gap-4 p-4">
                           <div
                             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${item.iconClass}`}
@@ -191,11 +189,11 @@ export default async function ModulesPage({
                           </div>
 
                           <div className="min-w-0">
-                            <h3 className="truncate text-sm font-medium text-white/80 transition-colors group-hover:text-white">
+                            <h3 className="truncate text-sm font-medium text-slate-800 transition-colors group-hover:text-slate-950">
                               {item.title}
                             </h3>
 
-                            <p className="mt-1 truncate text-xs text-white/30">
+                            <p className="mt-1 truncate text-xs text-slate-500">
                               {item.description}
                             </p>
                           </div>
@@ -209,12 +207,12 @@ export default async function ModulesPage({
           </>
         ) : (
           <section className="mt-8">
-            <div className="mb-4">
-              <h2 className="text-sm font-semibold text-white">
+            <div className="mb-5">
+              <h2 className="text-sm font-semibold text-slate-900">
                 Your modules
               </h2>
 
-              <p className="mt-1 text-xs text-white/35">
+              <p className="mt-1 text-xs text-slate-600">
                 {modules.length} module
                 {modules.length === 1
                   ? ''
@@ -227,17 +225,17 @@ export default async function ModulesPage({
               {modules.map((module) => (
                 <Card
                   key={module.id}
-                  className="h-full overflow-hidden border-white/[0.07] bg-white/[0.025] transition-all duration-200 hover:border-white/[0.14] hover:bg-white/[0.04]"
+                  className="h-full overflow-hidden border-slate-200 bg-white transition-all duration-200 hover:border-slate-300 hover:shadow-md"
                 >
-                  <CardContent className="p-5">
+                  <CardContent className="p-5 sm:p-6">
                     <div className="flex items-start justify-between gap-4">
                       <Link
                         href={`/${organization.slug}/modules/${module.id}`}
                         className="group"
                         aria-label={`Open ${module.title}`}
                       >
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-300/15 bg-sky-400/10 transition-colors group-hover:border-sky-300/30 group-hover:bg-sky-400/15">
-                          <BookOpen className="h-[18px] w-[18px] text-sky-300" />
+                        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-sky-200 bg-sky-50 transition-colors group-hover:border-sky-300 group-hover:bg-sky-100">
+                          <BookOpen className="h-[18px] w-[18px] text-sky-600" />
                         </div>
                       </Link>
 
@@ -261,17 +259,17 @@ export default async function ModulesPage({
                       href={`/${organization.slug}/modules/${module.id}`}
                       className="group block"
                     >
-                      <h2 className="mt-5 line-clamp-2 text-base font-semibold tracking-tight text-white transition-colors group-hover:text-sky-100">
+                      <h2 className="mt-5 line-clamp-2 text-base font-semibold tracking-tight text-slate-900 transition-colors group-hover:text-primary">
                         {module.title}
                       </h2>
 
-                      <p className="mt-2 line-clamp-3 min-h-[60px] text-sm leading-5 text-white/35">
+                      <p className="mt-2 line-clamp-3 min-h-[60px] text-sm leading-5 text-slate-600">
                         {module.description ||
                           'No description added yet.'}
                       </p>
 
-                      <div className="mt-5 flex items-center gap-2 border-t border-white/[0.07] pt-4 text-xs text-white/30">
-                        <Clock3 className="h-3.5 w-3.5 text-sky-300/50" />
+                      <div className="mt-5 flex items-center gap-2 border-t border-slate-100 pt-4 text-xs text-slate-500">
+                        <Clock3 className="h-3.5 w-3.5 text-sky-500" />
 
                         <span>
                           Updated{' '}
@@ -282,7 +280,7 @@ export default async function ModulesPage({
                       </div>
                     </Link>
 
-                    <div className="mt-4 border-t border-white/[0.07] pt-4">
+                    <div className="mt-4 border-t border-slate-100 pt-4">
                       <ModuleActions
                         organizationSlug={
                           organization.slug

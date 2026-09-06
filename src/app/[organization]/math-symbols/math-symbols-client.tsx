@@ -7,7 +7,10 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 
-import { Card, CardContent } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
 
 type SymbolColor =
   | 'sky'
@@ -126,51 +129,68 @@ const symbolCategories: SymbolCategory[] = [
 const categoryStyles = {
   sky: {
     border:
-      'border-sky-300/10 hover:border-sky-300/20',
-    background: 'bg-sky-400/[0.035]',
-    icon: 'bg-sky-400/10 text-sky-300',
+      'border-sky-200 hover:border-sky-300',
+    background:
+      'bg-gradient-to-br from-sky-50/80 via-white to-white',
+    icon:
+      'border-sky-200 bg-sky-50 text-sky-600',
     symbol:
-      'border-sky-300/10 hover:border-sky-300/25 hover:bg-sky-400/10',
+      'border-sky-200 bg-white text-slate-800 hover:border-sky-300 hover:bg-sky-50',
   },
+
   violet: {
     border:
-      'border-violet-300/10 hover:border-violet-300/20',
-    background: 'bg-violet-400/[0.035]',
-    icon: 'bg-violet-400/10 text-violet-300',
+      'border-violet-200 hover:border-violet-300',
+    background:
+      'bg-gradient-to-br from-violet-50/80 via-white to-white',
+    icon:
+      'border-violet-200 bg-violet-50 text-violet-600',
     symbol:
-      'border-violet-300/10 hover:border-violet-300/25 hover:bg-violet-400/10',
+      'border-violet-200 bg-white text-slate-800 hover:border-violet-300 hover:bg-violet-50',
   },
+
   emerald: {
     border:
-      'border-emerald-300/10 hover:border-emerald-300/20',
-    background: 'bg-emerald-400/[0.035]',
-    icon: 'bg-emerald-400/10 text-emerald-300',
+      'border-emerald-200 hover:border-emerald-300',
+    background:
+      'bg-gradient-to-br from-emerald-50/80 via-white to-white',
+    icon:
+      'border-emerald-200 bg-emerald-50 text-emerald-600',
     symbol:
-      'border-emerald-300/10 hover:border-emerald-300/25 hover:bg-emerald-400/10',
+      'border-emerald-200 bg-white text-slate-800 hover:border-emerald-300 hover:bg-emerald-50',
   },
+
   amber: {
     border:
-      'border-amber-300/10 hover:border-amber-300/20',
-    background: 'bg-amber-400/[0.035]',
-    icon: 'bg-amber-400/10 text-amber-300',
+      'border-amber-200 hover:border-amber-300',
+    background:
+      'bg-gradient-to-br from-amber-50/80 via-white to-white',
+    icon:
+      'border-amber-200 bg-amber-50 text-amber-600',
     symbol:
-      'border-amber-300/10 hover:border-amber-300/25 hover:bg-amber-400/10',
+      'border-amber-200 bg-white text-slate-800 hover:border-amber-300 hover:bg-amber-50',
   },
+
   rose: {
     border:
-      'border-rose-300/10 hover:border-rose-300/20',
-    background: 'bg-rose-400/[0.035]',
-    icon: 'bg-rose-400/10 text-rose-300',
+      'border-rose-200 hover:border-rose-300',
+    background:
+      'bg-gradient-to-br from-rose-50/80 via-white to-white',
+    icon:
+      'border-rose-200 bg-rose-50 text-rose-600',
     symbol:
-      'border-rose-300/10 hover:border-rose-300/25 hover:bg-rose-400/10',
+      'border-rose-200 bg-white text-slate-800 hover:border-rose-300 hover:bg-rose-50',
   },
+
   cyan: {
     border:
-      'border-cyan-300/10 hover:border-cyan-300/20',
-    background: 'bg-cyan-400/[0.035]',
-    icon: 'bg-cyan-400/10 text-cyan-300',
+      'border-cyan-200 hover:border-cyan-300',
+    background:
+      'bg-gradient-to-br from-cyan-50/80 via-white to-white',
+    icon:
+      'border-cyan-200 bg-cyan-50 text-cyan-600',
     symbol:
-      'border-cyan-300/10 hover:border-cyan-300/25 hover:bg-cyan-400/10',
+      'border-cyan-200 bg-white text-slate-800 hover:border-cyan-300 hover:bg-cyan-50',
   },
 } satisfies Record<
   SymbolColor,
@@ -189,6 +209,7 @@ export function MathSymbolsClient() {
   async function copySymbol(symbol: string) {
     try {
       await navigator.clipboard.writeText(symbol)
+
       setCopiedSymbol(symbol)
 
       window.setTimeout(() => {
@@ -202,12 +223,12 @@ export function MathSymbolsClient() {
   return (
     <>
       <section className="mt-10">
-        <div className="mb-5">
-          <h2 className="text-lg font-semibold text-white">
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold text-slate-900">
             Koleksi Simbol
           </h2>
 
-          <p className="mt-1 text-sm text-white/35">
+          <p className="mt-1 text-sm text-slate-600">
             Pilih simbol yang Anda perlukan.
           </p>
         </div>
@@ -220,22 +241,22 @@ export function MathSymbolsClient() {
             return (
               <Card
                 key={category.title}
-                className={`${styles.border} ${styles.background}`}
+                className={`${styles.border} ${styles.background} transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md`}
               >
-                <CardContent className="p-5">
+                <CardContent className="!p-5">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl ${styles.icon}`}
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${styles.icon}`}
                     >
                       <Sparkles className="h-4 w-4" />
                     </div>
 
-                    <div>
-                      <h3 className="text-sm font-semibold text-white">
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-semibold text-slate-900">
                         {category.title}
                       </h3>
 
-                      <p className="mt-0.5 text-xs text-white/30">
+                      <p className="mt-0.5 text-xs text-slate-600">
                         {category.description}
                       </p>
                     </div>
@@ -258,17 +279,17 @@ export function MathSymbolsClient() {
                               ? 'Tersalin'
                               : `Salin ${symbol}`
                           }
-                          className={`group relative flex h-14 items-center justify-center rounded-xl border bg-white/[0.02] transition-all duration-150 ${styles.symbol}`}
+                          className={`group relative flex h-14 items-center justify-center rounded-xl border transition-all duration-150 ${styles.symbol}`}
                         >
                           {isCopied ? (
-                            <Check className="h-4 w-4 text-emerald-300" />
+                            <Check className="h-4 w-4 text-emerald-600" />
                           ) : (
-                            <span className="text-xl font-medium text-white/80 transition-transform group-hover:scale-110">
+                            <span className="text-xl font-medium text-slate-800 transition-transform group-hover:scale-110">
                               {symbol}
                             </span>
                           )}
 
-                          <Copy className="absolute bottom-1.5 right-1.5 h-2.5 w-2.5 text-white/10 opacity-0 transition-opacity group-hover:opacity-100" />
+                          <Copy className="absolute bottom-1.5 right-1.5 h-2.5 w-2.5 text-slate-300 opacity-0 transition-opacity group-hover:opacity-100" />
                         </button>
                       )
                     })}
@@ -280,16 +301,18 @@ export function MathSymbolsClient() {
         </div>
       </section>
 
-      <Card className="mt-8 border-sky-300/10 bg-gradient-to-r from-sky-400/[0.045] via-violet-400/[0.025] to-transparent">
-        <CardContent className="flex items-start gap-3 p-5 sm:p-6">
-          <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-sky-300" />
+      <Card className="mt-8 border-sky-200 bg-gradient-to-r from-sky-50 via-violet-50/50 to-white">
+        <CardContent className="flex items-start gap-3 !p-5 sm:!p-6">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-50">
+            <Sparkles className="h-4 w-4 text-sky-600" />
+          </div>
 
           <div>
-            <p className="text-sm font-medium text-white/70">
+            <p className="text-sm font-semibold text-slate-800">
               Tips
             </p>
 
-            <p className="mt-1 text-xs leading-5 text-white/35">
+            <p className="mt-1 text-xs leading-5 text-slate-600">
               Klik simbol yang Anda perlukan. Simbol akan
               langsung disalin sehingga dapat ditempelkan
               ke editor soal atau materi.

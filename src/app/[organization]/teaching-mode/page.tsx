@@ -7,7 +7,6 @@ import {
   ClipboardList,
   FileQuestion,
   GraduationCap,
-  MessageCircle,
   PenLine,
   Sparkles,
   Users,
@@ -41,7 +40,7 @@ export default async function TeachingModePage({
       <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
         <Link
           href={`/${organization.slug}`}
-          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-emerald-300/70 transition-colors hover:text-emerald-200"
+          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-emerald-600 transition-colors hover:text-emerald-700"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
           Kembali ke Dashboard
@@ -61,21 +60,21 @@ export default async function TeachingModePage({
 
         {/* Hero */}
 
-        <Card className="mt-8 overflow-hidden border-emerald-300/10 bg-gradient-to-br from-emerald-400/[0.07] via-sky-400/[0.04] to-violet-400/[0.03]">
-          <CardContent className="relative p-6 sm:p-8">
-            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full border border-emerald-300/[0.07]" />
+        <Card className="mt-8 overflow-hidden border-emerald-200 bg-gradient-to-br from-emerald-50 via-sky-50/60 to-violet-50/50">
+          <CardContent className="relative !p-6 sm:!p-8">
+            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full border border-emerald-200/60" />
 
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div className="max-w-2xl">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-400/10">
-                  <GraduationCap className="h-6 w-6 text-emerald-300" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-200 bg-emerald-100">
+                  <GraduationCap className="h-6 w-6 text-emerald-600" />
                 </div>
 
-                <h2 className="mt-5 text-2xl font-semibold tracking-tight text-white">
+                <h2 className="mt-5 text-2xl font-semibold tracking-tight text-slate-900">
                   Siapkan kelas dan mulai mengajar.
                 </h2>
 
-                <p className="mt-3 text-sm leading-6 text-white/40">
+                <p className="mt-3 text-sm leading-6 text-slate-600">
                   Akses materi, soal, worksheet, dan data siswa
                   dari satu ruang kerja sehingga Anda dapat fokus
                   pada proses pembelajaran.
@@ -85,7 +84,7 @@ export default async function TeachingModePage({
               <div className="flex flex-col gap-2 sm:flex-row lg:flex-col">
                 <Link
                   href={`/${organization.slug}/modules`}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-emerald-400 px-4 text-sm font-semibold text-slate-950 transition-colors hover:bg-emerald-300"
+                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 text-sm font-semibold text-white shadow-sm shadow-emerald-200 transition-colors hover:bg-emerald-600"
                 >
                   Buka Module
                   <ArrowRight className="h-4 w-4" />
@@ -93,7 +92,7 @@ export default async function TeachingModePage({
 
                 <Link
                   href={`/${organization.slug}/classes`}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 text-sm font-medium text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
+                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
                 >
                   Buka Kelas
                 </Link>
@@ -105,12 +104,12 @@ export default async function TeachingModePage({
         {/* Quick Actions */}
 
         <section className="mt-10">
-          <div className="mb-5">
-            <h2 className="text-lg font-semibold text-white">
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold text-slate-900">
               Aksi Mengajar
             </h2>
 
-            <p className="mt-1 text-sm text-white/35">
+            <p className="mt-1 text-sm text-slate-600">
               Pilih aktivitas yang ingin Anda lakukan.
             </p>
           </div>
@@ -198,18 +197,18 @@ export default async function TeachingModePage({
 
         {/* Future Workspace */}
 
-        <Card className="mt-8 border-violet-300/10 bg-gradient-to-r from-violet-400/[0.05] via-sky-400/[0.025] to-transparent">
-          <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-start sm:p-6">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-400/10">
-              <Sparkles className="h-4 w-4 text-violet-300" />
+        <Card className="mt-8 border-violet-200 bg-gradient-to-r from-violet-50 via-sky-50/50 to-white">
+          <CardContent className="flex flex-col gap-4 !p-5 sm:flex-row sm:items-start sm:!p-6">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-200 bg-violet-100">
+              <Sparkles className="h-4 w-4 text-violet-600" />
             </div>
 
             <div>
-              <p className="text-sm font-medium text-white/70">
+              <p className="text-sm font-semibold text-slate-800">
                 Teaching Workspace
               </p>
 
-              <p className="mt-1 max-w-2xl text-xs leading-5 text-white/35">
+              <p className="mt-1 max-w-2xl text-xs leading-5 text-slate-600">
                 Area ini nantinya dapat dikembangkan menjadi
                 ruang mengajar interaktif dengan whiteboard,
                 presentasi soal, komunikasi siswa, dan aktivitas
@@ -219,10 +218,10 @@ export default async function TeachingModePage({
           </CardContent>
         </Card>
 
-        <div className="mt-6 flex flex-wrap gap-4">
+        <div className="mt-6 flex flex-wrap gap-5">
           <Link
             href={`/${organization.slug}/submissions`}
-            className="group inline-flex items-center gap-2 text-sm font-medium text-emerald-300/60 transition-colors hover:text-emerald-200"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-emerald-600 transition-colors hover:text-emerald-700"
           >
             Lihat Student Submissions
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -230,7 +229,7 @@ export default async function TeachingModePage({
 
           <Link
             href={`/${organization.slug}/classes`}
-            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-300/60 transition-colors hover:text-sky-200"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-600 transition-colors hover:text-sky-700"
           >
             Kelola Kelas
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -246,7 +245,13 @@ type TeachingActionProps = {
   icon: React.ComponentType<{
     className?: string
   }>
-  color: 'sky' | 'violet' | 'amber' | 'rose' | 'emerald' | 'cyan'
+  color:
+    | 'sky'
+    | 'violet'
+    | 'amber'
+    | 'rose'
+    | 'emerald'
+    | 'cyan'
   title: string
   description: string
 }
@@ -260,28 +265,40 @@ function TeachingAction({
 }: TeachingActionProps) {
   const styles = {
     sky: {
-      border: 'border-sky-300/10 hover:border-sky-300/20',
-      icon: 'bg-sky-400/10 text-sky-300',
+      border:
+        'border-sky-200 hover:border-sky-300',
+      icon:
+        'border-sky-200 bg-sky-50 text-sky-600',
     },
     violet: {
-      border: 'border-violet-300/10 hover:border-violet-300/20',
-      icon: 'bg-violet-400/10 text-violet-300',
+      border:
+        'border-violet-200 hover:border-violet-300',
+      icon:
+        'border-violet-200 bg-violet-50 text-violet-600',
     },
     amber: {
-      border: 'border-amber-300/10 hover:border-amber-300/20',
-      icon: 'bg-amber-400/10 text-amber-300',
+      border:
+        'border-amber-200 hover:border-amber-300',
+      icon:
+        'border-amber-200 bg-amber-50 text-amber-600',
     },
     rose: {
-      border: 'border-rose-300/10 hover:border-rose-300/20',
-      icon: 'bg-rose-400/10 text-rose-300',
+      border:
+        'border-rose-200 hover:border-rose-300',
+      icon:
+        'border-rose-200 bg-rose-50 text-rose-600',
     },
     emerald: {
-      border: 'border-emerald-300/10 hover:border-emerald-300/20',
-      icon: 'bg-emerald-400/10 text-emerald-300',
+      border:
+        'border-emerald-200 hover:border-emerald-300',
+      icon:
+        'border-emerald-200 bg-emerald-50 text-emerald-600',
     },
     cyan: {
-      border: 'border-cyan-300/10 hover:border-cyan-300/20',
-      icon: 'bg-cyan-400/10 text-cyan-300',
+      border:
+        'border-cyan-200 hover:border-cyan-300',
+      icon:
+        'border-cyan-200 bg-cyan-50 text-cyan-600',
     },
   }[color]
 
@@ -291,24 +308,26 @@ function TeachingAction({
       className="group block"
     >
       <Card
-        className={`h-full transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/[0.03] ${styles.border}`}
+        className={`h-full border bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${styles.border}`}
       >
-        <CardContent className="flex h-full flex-col p-5">
+        <CardContent className="flex h-full flex-col !p-5">
           <div className="flex items-start justify-between gap-4">
             <div
-              className={`flex h-11 w-11 items-center justify-center rounded-xl ${styles.icon}`}
+              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border ${styles.icon}`}
             >
               <Icon className="h-5 w-5" />
             </div>
 
-            <ArrowRight className="h-4 w-4 text-white/20 transition-transform group-hover:translate-x-1 group-hover:text-white/60" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50">
+              <ArrowRight className="h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-slate-700" />
+            </div>
           </div>
 
-          <h3 className="mt-5 text-sm font-semibold text-white">
+          <h3 className="mt-5 text-sm font-semibold text-slate-900">
             {title}
           </h3>
 
-          <p className="mt-2 text-sm leading-6 text-white/35">
+          <p className="mt-2 text-sm leading-6 text-slate-600">
             {description}
           </p>
         </CardContent>
@@ -336,37 +355,45 @@ function FlowCard({
 }: FlowCardProps) {
   const styles = {
     sky: {
-      border: 'border-sky-300/10',
-      number: 'bg-sky-400/10 text-sky-300',
+      border: 'border-sky-200',
+      number:
+        'bg-sky-50 text-sky-600 border-sky-200',
+      icon: 'text-sky-600',
     },
     violet: {
-      border: 'border-violet-300/10',
-      number: 'bg-violet-400/10 text-violet-300',
+      border: 'border-violet-200',
+      number:
+        'bg-violet-50 text-violet-600 border-violet-200',
+      icon: 'text-violet-600',
     },
     emerald: {
-      border: 'border-emerald-300/10',
-      number: 'bg-emerald-400/10 text-emerald-300',
+      border: 'border-emerald-200',
+      number:
+        'bg-emerald-50 text-emerald-600 border-emerald-200',
+      icon: 'text-emerald-600',
     },
   }[color]
 
   return (
     <Card className={styles.border}>
-      <CardContent className="p-5 sm:p-6">
+      <CardContent className="!p-5 sm:!p-6">
         <div className="flex items-center gap-3">
           <div
-            className={`flex h-9 w-9 items-center justify-center rounded-xl text-xs font-semibold ${styles.number}`}
+            className={`flex h-9 w-9 items-center justify-center rounded-xl border text-xs font-semibold ${styles.number}`}
           >
             {number}
           </div>
 
-          <Icon className="h-4 w-4 text-white/30" />
+          <Icon
+            className={`h-4 w-4 ${styles.icon}`}
+          />
         </div>
 
-        <h3 className="mt-5 text-sm font-semibold text-white">
+        <h3 className="mt-5 text-sm font-semibold text-slate-900">
           {title}
         </h3>
 
-        <p className="mt-2 text-sm leading-6 text-white/35">
+        <p className="mt-2 text-sm leading-6 text-slate-600">
           {description}
         </p>
       </CardContent>

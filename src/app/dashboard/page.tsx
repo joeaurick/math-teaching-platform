@@ -53,9 +53,9 @@ export default async function DashboardPage() {
             description={user.email ?? ''}
           />
 
-          <Card className="mt-8 border-rose-400/20 bg-rose-400/[0.05]">
+          <Card className="mt-8 border-rose-200 bg-rose-50">
             <CardContent className="p-5">
-              <p className="text-sm leading-6 text-rose-300">
+              <p className="text-sm leading-6 text-rose-700">
                 Gagal mengambil organization:{' '}
                 {error.message}
               </p>
@@ -89,19 +89,19 @@ export default async function DashboardPage() {
 
         {/* Organizations */}
         <section className="mt-8">
-          <Card className="overflow-hidden border-sky-300/10 bg-gradient-to-br from-sky-400/[0.05] via-white/[0.02] to-violet-400/[0.04]">
+          <Card className="overflow-hidden border-sky-200 bg-gradient-to-br from-sky-50 via-white to-violet-50">
             <CardContent className="p-6 sm:p-7">
               <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-400/10">
-                  <Sparkles className="h-5 w-5 text-sky-300" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-100">
+                  <Sparkles className="h-5 w-5 text-sky-600" />
                 </div>
 
                 <div>
-                  <h2 className="text-lg font-semibold text-white">
+                  <h2 className="text-lg font-semibold text-slate-900">
                     Your Organizations
                   </h2>
 
-                  <p className="mt-1 text-sm leading-6 text-white/40">
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
                     Pilih organization untuk masuk
                     ke workspace.
                   </p>
@@ -109,16 +109,16 @@ export default async function DashboardPage() {
               </div>
 
               {memberships.length === 0 ? (
-                <div className="mt-7 rounded-2xl border border-violet-300/10 bg-violet-400/[0.035] px-6 py-10 text-center">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-400/10">
-                    <Building2 className="h-6 w-6 text-violet-300" />
+                <div className="mt-7 rounded-2xl border border-violet-200 bg-violet-50 px-6 py-10 text-center">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100">
+                    <Building2 className="h-6 w-6 text-violet-600" />
                   </div>
 
-                  <h3 className="mt-5 text-base font-semibold text-white">
+                  <h3 className="mt-5 text-base font-semibold text-slate-900">
                     Belum ada organization
                   </h3>
 
-                  <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-white/40">
+                  <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
                     Buat organization terlebih dahulu
                     untuk mulai membuat module dan
                     mengelola siswa.
@@ -156,29 +156,29 @@ export default async function DashboardPage() {
                         href={`/${organization.slug}`}
                         className="group block"
                       >
-                        <Card className="h-full border-white/[0.08] bg-white/[0.025] transition-all duration-200 group-hover:border-sky-300/20 group-hover:bg-sky-400/[0.04]">
+                        <Card className="h-full border-slate-200 bg-white transition-all duration-200 group-hover:border-sky-300 group-hover:bg-sky-50/50 group-hover:shadow-md group-hover:shadow-sky-100/60">
                           <CardContent className="p-5">
                             <div className="flex items-start justify-between gap-4">
                               <div className="flex min-w-0 items-start gap-4">
-                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-400/10">
-                                  <Building2 className="h-5 w-5 text-sky-300" />
+                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-100">
+                                  <Building2 className="h-5 w-5 text-sky-600" />
                                 </div>
 
                                 <div className="min-w-0">
-                                  <h3 className="truncate text-base font-semibold text-white">
+                                  <h3 className="truncate text-base font-semibold text-slate-900">
                                     {organization.name}
                                   </h3>
 
-                                  <p className="mt-1 truncate text-sm text-white/35">
+                                  <p className="mt-1 truncate text-sm text-slate-500">
                                     {organization.slug}
                                   </p>
                                 </div>
                               </div>
 
-                              <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-white/25 transition-all duration-200 group-hover:translate-x-1 group-hover:text-sky-300" />
+                              <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-slate-400 transition-all duration-200 group-hover:translate-x-1 group-hover:text-sky-600" />
                             </div>
 
-                            <div className="mt-5 flex items-center justify-between border-t border-white/[0.07] pt-4">
+                            <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
                               <Badge
                                 variant={
                                   membership.role ===
@@ -191,7 +191,7 @@ export default async function DashboardPage() {
                                 {membership.role}
                               </Badge>
 
-                              <span className="text-xs font-medium text-white/30 transition-colors group-hover:text-sky-300/70">
+                              <span className="text-xs font-medium text-slate-500 transition-colors group-hover:text-sky-600">
                                 Open Workspace
                               </span>
                             </div>
