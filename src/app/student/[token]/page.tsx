@@ -2,15 +2,19 @@ import Link from 'next/link'
 import {
   ArrowRight,
   BookOpen,
+  ClipboardList,
   FileText,
   GraduationCap,
-  ClipboardList,
   MessageCircle,
+  Sparkles,
 } from 'lucide-react'
 import { notFound } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/server'
 
 type StudentPageProps = {
@@ -34,6 +38,53 @@ type StudentWorksheet = {
   worksheet_status: string
   created_at: string
 }
+
+const workspaceMenus = [
+  {
+    title: 'Module Saya',
+    description:
+      'Lihat materi pembelajaran yang diberikan oleh guru.',
+    href: 'modules',
+    icon: BookOpen,
+    color:
+      'border-sky-300/15 bg-sky-400/[0.06]',
+    iconColor: 'text-sky-300',
+    iconBg: 'bg-sky-400/10',
+  },
+  {
+    title: 'Worksheet Saya',
+    description:
+      'Kerjakan latihan dan tugas yang diberikan kepada Anda.',
+    href: 'worksheets',
+    icon: ClipboardList,
+    color:
+      'border-violet-300/15 bg-violet-400/[0.06]',
+    iconColor: 'text-violet-300',
+    iconBg: 'bg-violet-400/10',
+  },
+  {
+    title: 'Jawaban Saya',
+    description:
+      'Lihat jawaban dan hasil pekerjaan yang sudah dikirim.',
+    href: 'submissions',
+    icon: FileText,
+    color:
+      'border-emerald-300/15 bg-emerald-400/[0.06]',
+    iconColor: 'text-emerald-300',
+    iconBg: 'bg-emerald-400/10',
+  },
+  {
+    title: 'Chat dengan Guru',
+    description:
+      'Berkomunikasi langsung dengan guru jika membutuhkan bantuan.',
+    href: 'chat',
+    icon: MessageCircle,
+    color:
+      'border-amber-300/15 bg-amber-400/[0.06]',
+    iconColor: 'text-amber-300',
+    iconBg: 'bg-amber-400/10',
+  },
+]
 
 export default async function StudentPage({
   params,
@@ -72,7 +123,7 @@ export default async function StudentPage({
 
   const studentName =
     workspace.student_name?.trim() ||
-    'Student'
+    'Siswa'
 
   // ------------------------------------------------------------
   // Student Worksheets
@@ -98,180 +149,154 @@ export default async function StudentPage({
     (worksheetData ?? []) as StudentWorksheet[]
 
   return (
-    <div className="min-h-screen bg-[#090909] text-white">
-      <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+    <div className="min-h-screen">
+      <main className="mx-auto w-full max-w-6xl px-4 py-7 sm:px-6 sm:py-9 lg:px-8 lg:py-12">
         {/* ---------------------------------------------------- */}
         {/* Header                                               */}
         {/* ---------------------------------------------------- */}
 
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <p className="text-sm text-white/40">
-              {workspace.organization_name}
-            </p>
+        <div className="relative overflow-hidden rounded-3xl border border-sky-300/10 bg-gradient-to-br from-sky-400/[0.07] via-violet-400/[0.045] to-emerald-400/[0.035] p-6 sm:p-8">
+          <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full border border-sky-300/[0.08]" />
 
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">
-              Student Workspace
-            </h1>
+          <div className="pointer-events-none absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-violet-400/[0.035] blur-3xl" />
 
-            <p className="mt-2 text-sm text-white/45">
-              Selamat datang, {studentName}.
-            </p>
-          </div>
+          <div className="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-sky-300/15 bg-sky-300/[0.06] px-3 py-1.5 text-xs font-medium text-sky-200/80">
+                <Sparkles className="h-3.5 w-3.5" />
+                Ruang Belajar
+              </div>
 
-          <div className="flex items-center gap-2">
-            <Badge>
-              Student
+              <h1 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                Halo, {studentName} 👋
+              </h1>
+
+              <p className="mt-3 max-w-xl text-sm leading-6 text-white/45">
+                Selamat datang di ruang belajar
+                Anda. Kerjakan tugas, pelajari
+                module, dan berkomunikasi dengan
+                guru dari satu tempat.
+              </p>
+
+              <div className="mt-5 flex items-center gap-2">
+                <GraduationCap className="h-4 w-4 text-sky-300/70" />
+
+                <span className="text-sm text-white/40">
+                  {workspace.organization_name}
+                </span>
+              </div>
+            </div>
+
+            <Badge
+              variant="info"
+              className="w-fit"
+            >
+              Siswa
             </Badge>
           </div>
         </div>
 
         {/* ---------------------------------------------------- */}
-        {/* Workspace Cards                                      */}
+        {/* Menu Utama                                           */}
         {/* ---------------------------------------------------- */}
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          {/* My Modules */}
-
-          <Link
-            href={`/student/${token}/modules`}
-            className="group block"
-          >
-            <Card className="h-full transition-colors hover:border-white/[0.18] hover:bg-white/[0.04]">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06]">
-                    <BookOpen className="h-5 w-5 text-white/60" />
-                  </div>
-
-                  <ArrowRight className="h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-white/60" />
-                </div>
-
-                <h2 className="mt-6 text-base font-semibold">
-                  My Modules
-                </h2>
-
-                <p className="mt-2 text-sm leading-6 text-white/40">
-                  Lihat module pembelajaran yang diberikan
-                  kepada Anda.
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          {/* My Worksheets */}
-
-          <Link
-            href={`/student/${token}/worksheets`}
-            className="group block"
-          >
-            <Card className="h-full transition-colors hover:border-white/[0.18] hover:bg-white/[0.04]">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06]">
-                    <ClipboardList className="h-5 w-5 text-white/60" />
-                  </div>
-
-                  <ArrowRight className="h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-white/60" />
-                </div>
-
-                <h2 className="mt-6 text-base font-semibold">
-                  My Worksheets
-                </h2>
-
-                <p className="mt-2 text-sm leading-6 text-white/40">
-                  Lihat worksheet yang diberikan kepada Anda.
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-          {/* My Submissions */}
-
-          <Link
-            href={`/student/${token}/submissions`}
-            className="group block"
-          >
-            <Card className="h-full transition-colors hover:border-white/[0.18] hover:bg-white/[0.04]">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06]">
-                    <FileText className="h-5 w-5 text-white/60" />
-                  </div>
-
-                  <ArrowRight className="h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-white/60" />
-                </div>
-
-                <h2 className="mt-6 text-base font-semibold">
-                  My Submissions
-                </h2>
-
-                <p className="mt-2 text-sm leading-6 text-white/40">
-                  Lihat jawaban dan hasil submission Anda.
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-{/* Chat */}
-
-          <Link
-            href={`/student/${token}/chat`}
-            className="group block"
-          >
-            <Card className="h-full transition-colors hover:border-white/[0.18] hover:bg-white/[0.04]">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/[0.06]">
-                    <MessageCircle className="h-5 w-5 text-white/60" />
-                  </div>
-
-                  <ArrowRight className="h-5 w-5 text-white/25 transition-transform group-hover:translate-x-1 group-hover:text-white/60" />
-                </div>
-
-                <h2 className="mt-6 text-base font-semibold">
-                  Chat
-                </h2>
-
-                <p className="mt-2 text-sm leading-6 text-white/40">
-                  Berkomunikasi langsung dengan guru Anda.
-                </p>
-              </CardContent>
-            </Card>
-          </Link>
-
-        </div>
-
-                  
-
-        {/* ---------------------------------------------------- */}
-        {/* Assigned Worksheets                                  */}
-        {/* ---------------------------------------------------- */}
-
-        <div className="mt-10">
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold">
-              Assigned Worksheets
+        <section className="mt-9">
+          <div className="mb-5">
+            <h2 className="text-lg font-semibold text-white">
+              Ruang Belajar Saya
             </h2>
 
-            <p className="mt-1 text-sm text-white/40">
-              Worksheet yang diberikan kepada Anda.
+            <p className="mt-1 text-sm text-white/35">
+              Akses pembelajaran dan komunikasi
+              Anda.
             </p>
           </div>
 
+          <div className="grid gap-4 sm:grid-cols-2">
+            {workspaceMenus.map((menu) => {
+              const Icon = menu.icon
+
+              return (
+                <Link
+                  key={menu.title}
+                  href={`/student/${token}/${menu.href}`}
+                  className="group block"
+                >
+                  <Card
+                    className={`h-full overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl ${menu.color}`}
+                  >
+                    <CardContent className="p-5 sm:p-6">
+                      <div className="flex items-start justify-between gap-4">
+                        <div
+                          className={`flex h-11 w-11 items-center justify-center rounded-xl ${menu.iconBg}`}
+                        >
+                          <Icon
+                            className={`h-5 w-5 ${menu.iconColor}`}
+                          />
+                        </div>
+
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.03] transition-colors group-hover:bg-white/[0.08]">
+                          <ArrowRight className="h-4 w-4 text-white/25 transition-all group-hover:translate-x-0.5 group-hover:text-white/70" />
+                        </div>
+                      </div>
+
+                      <h3 className="mt-5 text-base font-semibold text-white">
+                        {menu.title}
+                      </h3>
+
+                      <p className="mt-2 max-w-md text-sm leading-6 text-white/40">
+                        {menu.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------- */}
+        {/* Worksheet Terbaru                                    */}
+        {/* ---------------------------------------------------- */}
+
+        <section className="mt-9">
+          <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-white">
+                Worksheet Saya
+              </h2>
+
+              <p className="mt-1 text-sm text-white/35">
+                Tugas yang diberikan oleh guru kepada
+                Anda.
+              </p>
+            </div>
+
+            {worksheets.length > 0 && (
+              <Link
+                href={`/student/${token}/worksheets`}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
+              >
+                Lihat semua
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            )}
+          </div>
+
           {worksheets.length === 0 ? (
-            <Card>
+            <Card className="overflow-hidden border-amber-300/10 bg-gradient-to-br from-amber-400/[0.06] via-white/[0.02] to-transparent">
               <CardContent className="flex min-h-[220px] flex-col items-center justify-center p-8 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04]">
-                  <ClipboardList className="h-5 w-5 text-white/30" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-amber-300/15 bg-amber-400/10">
+                  <ClipboardList className="h-6 w-6 text-amber-300" />
                 </div>
 
-                <h3 className="mt-5 text-base font-medium text-white/80">
+                <h3 className="mt-5 text-base font-semibold text-white">
                   Belum ada worksheet
                 </h3>
 
                 <p className="mt-2 max-w-md text-sm leading-6 text-white/35">
-                  Belum ada worksheet yang diberikan
-                  kepada Anda.
+                  Saat guru memberikan worksheet,
+                  tugas tersebut akan muncul di sini.
                 </p>
               </CardContent>
             </Card>
@@ -283,12 +308,12 @@ export default async function StudentPage({
                   href={`/student/${token}/worksheets/${worksheet.worksheet_id}`}
                   className="group block"
                 >
-                  <Card className="transition-colors hover:border-white/[0.18] hover:bg-white/[0.04]">
+                  <Card className="overflow-hidden border-white/[0.08] bg-white/[0.025] transition-all duration-200 hover:border-violet-300/20 hover:bg-violet-400/[0.035]">
                     <CardContent className="p-5">
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex min-w-0 items-start gap-4">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.06]">
-                            <ClipboardList className="h-5 w-5 text-white/50" />
+                          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-400/10">
+                            <ClipboardList className="h-5 w-5 text-violet-300" />
                           </div>
 
                           <div className="min-w-0">
@@ -303,14 +328,14 @@ export default async function StudentPage({
 
                             <div className="mt-3">
                               <Badge variant="success">
-                                Published
+                                Tersedia
                               </Badge>
                             </div>
                           </div>
                         </div>
 
-                        <div className="flex shrink-0 items-center gap-2 text-sm font-medium text-white/50 transition-colors group-hover:text-white">
-                          Mulai
+                        <div className="flex shrink-0 items-center gap-2 text-sm font-medium text-violet-300/70 transition-colors group-hover:text-violet-200">
+                          Kerjakan
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </div>
                       </div>
@@ -320,24 +345,88 @@ export default async function StudentPage({
               ))}
             </div>
           )}
-        </div>
+        </section>
+
+        {/* ---------------------------------------------------- */}
+        {/* Cara Menggunakan                                     */}
+        {/* ---------------------------------------------------- */}
+
+        <section className="mt-9">
+          <Card className="overflow-hidden border-white/[0.08] bg-white/[0.02]">
+            <CardContent className="p-6 sm:p-7">
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-xl">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-emerald-300" />
+
+                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-emerald-300/60">
+                      Cara Belajar
+                    </p>
+                  </div>
+
+                  <h2 className="mt-2 text-lg font-semibold text-white">
+                    Belajar dalam tiga langkah
+                  </h2>
+
+                  <p className="mt-2 text-sm leading-6 text-white/40">
+                    Buka module untuk mempelajari
+                    materi, kerjakan worksheet yang
+                    diberikan, lalu kirim jawaban Anda.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                  <div className="min-w-20 rounded-xl border border-sky-300/10 bg-sky-400/[0.05] px-3 py-3 text-center">
+                    <p className="text-lg font-semibold text-sky-300">
+                      1
+                    </p>
+
+                    <p className="mt-1 text-[10px] text-white/35">
+                      Pelajari
+                    </p>
+                  </div>
+
+                  <div className="min-w-20 rounded-xl border border-violet-300/10 bg-violet-400/[0.05] px-3 py-3 text-center">
+                    <p className="text-lg font-semibold text-violet-300">
+                      2
+                    </p>
+
+                    <p className="mt-1 text-[10px] text-white/35">
+                      Kerjakan
+                    </p>
+                  </div>
+
+                  <div className="min-w-20 rounded-xl border border-emerald-300/10 bg-emerald-400/[0.05] px-3 py-3 text-center">
+                    <p className="text-lg font-semibold text-emerald-300">
+                      3
+                    </p>
+
+                    <p className="mt-1 text-[10px] text-white/35">
+                      Kirim
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
 
         {/* ---------------------------------------------------- */}
         {/* Organization Information                            */}
         {/* ---------------------------------------------------- */}
 
-        <Card className="mt-10">
+        <Card className="mt-9 border-white/[0.07] bg-white/[0.02]">
           <CardContent className="flex items-center gap-4 p-5">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.06]">
-              <GraduationCap className="h-5 w-5 text-white/50" />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-400/10">
+              <GraduationCap className="h-5 w-5 text-sky-300" />
             </div>
 
             <div className="min-w-0">
-              <p className="text-xs text-white/35">
-                Learning Organization
+              <p className="text-xs uppercase tracking-[0.12em] text-white/25">
+                Organisasi Pembelajaran
               </p>
 
-              <p className="mt-1 truncate text-sm font-medium">
+              <p className="mt-1 truncate text-sm font-medium text-white">
                 {workspace.organization_name}
               </p>
             </div>
