@@ -114,9 +114,9 @@ export default async function ModuleDetailPage({
       <div className="mx-auto w-full max-w-[1200px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}/modules`}
-          className="mb-6 inline-flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
+          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
           Back to Modules
         </Link>
 
@@ -144,17 +144,18 @@ export default async function ModuleDetailPage({
         />
 
         <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_300px]">
-          <Card>
+          <Card className="border-sky-200/10 bg-gradient-to-br from-sky-400/[0.045] via-white/[0.025] to-transparent">
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04]">
-                  <FileQuestion className="h-[18px] w-[18px] text-white/55" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
+                  <FileQuestion className="h-[18px] w-[18px] text-sky-300" />
                 </div>
 
                 <div>
                   <h2 className="text-sm font-semibold text-white">
                     Questions
                   </h2>
+
                   <p className="mt-1 text-xs text-white/35">
                     Build and organize questions inside this module.
                   </p>
@@ -163,7 +164,9 @@ export default async function ModuleDetailPage({
 
               <div className="mt-6">
                 <EmptyState
-                  icon={<FileQuestion className="h-5 w-5" />}
+                  icon={
+                    <FileQuestion className="h-5 w-5 text-sky-300" />
+                  }
                   title="No questions yet"
                   description="Add your first mathematics question to this module."
                   action={
@@ -181,17 +184,18 @@ export default async function ModuleDetailPage({
           </Card>
 
           <div className="space-y-4">
-            <Card>
+            <Card className="border-violet-200/10 bg-gradient-to-br from-violet-400/[0.045] via-white/[0.025] to-transparent">
               <CardContent className="p-5">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04]">
-                    <BookOpen className="h-4 w-4 text-white/50" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-300/20 bg-violet-400/10">
+                    <BookOpen className="h-4 w-4 text-violet-300" />
                   </div>
 
                   <div>
                     <p className="text-xs text-white/35">
                       Module
                     </p>
+
                     <p className="mt-0.5 text-sm font-medium text-white">
                       {module.title}
                     </p>
@@ -200,15 +204,16 @@ export default async function ModuleDetailPage({
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-amber-200/10 bg-gradient-to-br from-amber-400/[0.045] via-white/[0.025] to-transparent">
               <CardContent className="space-y-4 p-5">
                 <div className="flex items-center gap-3">
-                  <Clock3 className="h-4 w-4 text-white/35" />
+                  <Clock3 className="h-4 w-4 text-amber-300/70" />
 
                   <div>
                     <p className="text-[11px] text-white/30">
                       Created
                     </p>
+
                     <p className="mt-0.5 text-xs text-white/65">
                       {formatDate(module.created_at)}
                     </p>
@@ -219,6 +224,7 @@ export default async function ModuleDetailPage({
                   <p className="text-[11px] text-white/30">
                     Last updated
                   </p>
+
                   <p className="mt-1 text-xs text-white/65">
                     {formatDate(module.updated_at)}
                   </p>

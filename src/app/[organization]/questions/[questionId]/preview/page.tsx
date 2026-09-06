@@ -5,7 +5,9 @@ import { notFound, redirect } from 'next/navigation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import { PageHeader } from '@/components/ui/page-header'
+import { Textarea } from '@/components/ui/textarea'
 import { createClient } from '@/lib/supabase/server'
 
 type QuestionPreviewPageProps = {
@@ -147,204 +149,215 @@ export default async function QuestionPreviewPage({
   }
 
   const questionTypeLabels: Record<string, string> = {
-  multiple_choice: 'Multiple Choice',
-  true_false: 'True / False',
-  short_answer: 'Short Answer',
-  numeric: 'Numeric',
-  essay: 'Essay',
-}
+    multiple_choice: 'Multiple Choice',
+    true_false: 'True / False',
+    short_answer: 'Short Answer',
+    numeric: 'Numeric',
+    essay: 'Essay',
+  }
 
-const questionTypeLabel =
-  questionTypeLabels[question.question_type] ??
-  question.question_type
+  const questionTypeLabel =
+    questionTypeLabels[question.question_type] ??
+    question.question_type
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10">
-      <PageHeader
-        eyebrow="Question Builder / Preview"
-        title="Question Preview"
-        description="See how this question will appear to a student."
-        actions={
-          <div className="flex items-center gap-2">
-            <Badge
-              variant={
-                question.status === 'published'
-                  ? 'success'
-                  : question.status === 'archived'
-                    ? 'muted'
-                    : 'warning'
-              }
-              className="capitalize"
-            >
-              {question.status}
-            </Badge>
-
-            <Link
-              href={`/${organization.slug}/questions/${question.id}`}
-            >
-              <Button variant="outline">
-                <ArrowLeft className="h-4 w-4" />
-                Back to Edit
-              </Button>
-            </Link>
-          </div>
-        }
-      />
-
-      <div className="mt-8 space-y-5">
-        {/* Question information */}
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="muted">
-                {questionTypeLabel}
+    <div className="min-h-full">
+      <div className="mx-auto w-full max-w-5xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10">
+        <PageHeader
+          eyebrow="Question Builder / Preview"
+          title="Question Preview"
+          description="See how this question will appear to a student."
+          actions={
+            <div className="flex items-center gap-2">
+              <Badge
+                variant={
+                  question.status === 'published'
+                    ? 'success'
+                    : question.status === 'archived'
+                      ? 'muted'
+                      : 'warning'
+                }
+                className="capitalize"
+              >
+                {question.status}
               </Badge>
 
-              {module && (
-                <Badge variant="muted">
-                  {module.title}
-                </Badge>
-              )}
+              <Link
+                href={`/${organization.slug}/questions/${question.id}`}
+              >
+                <Button variant="outline">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Edit
+                </Button>
+              </Link>
             </div>
-          </CardContent>
-        </Card>
+          }
+        />
 
-        {/* Student preview */}
+        <div className="mt-8 space-y-5">
+          {/* Question information */}
 
-        <Card>
-          <CardContent className="p-6 sm:p-8">
-            <div className="mb-8 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-white/30">
-              <Eye className="h-4 w-4" />
-              Student Preview
-            </div>
-
-            <h2 className="text-xl font-semibold tracking-tight text-white">
-              {question.title}
-            </h2>
-
-            <div className="mt-5 whitespace-pre-wrap text-sm leading-7 text-white/70">
-              {question.content}
-            </div>
-
-            {/* Multiple Choice */}
-
-            {question.question_type ===
-              'multiple_choice' && (
-              <div className="mt-8 space-y-3">
-                {options.map((option, index) => (
-                  <label
-                    key={option.id}
-                    className="flex cursor-pointer items-center gap-4 rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 transition-colors hover:bg-white/[0.05]"
-                  >
-                    <input
-                      type="radio"
-                      name="preview-answer"
-                      className="h-4 w-4"
-                    />
-
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04] text-xs font-medium text-white/50">
-                      {String.fromCharCode(65 + index)}
-                    </span>
-
-                    <span className="text-sm text-white/75">
-                      {option.option_text}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            )}
-
-            {/* True / False */}
-
-            {question.question_type ===
-              'true_false' && (
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {options.map((option) => (
-                  <label
-                    key={option.id}
-                    className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 transition-colors hover:bg-white/[0.05]"
-                  >
-                    <input
-                      type="radio"
-                      name="preview-answer"
-                      className="h-4 w-4"
-                    />
-
-                    <span className="text-sm text-white/75">
-                      {option.option_text}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            )}
-
-            {/* Short Answer */}
-
-            {question.question_type ===
-              'short_answer' && (
-              <div className="mt-8">
-                <input
-                  type="text"
-                  placeholder="Type your answer..."
-                  disabled
-                  className="h-11 w-full rounded-xl border border-white/[0.10] bg-white/[0.03] px-4 text-sm text-white/60 outline-none placeholder:text-white/25"
-                />
-              </div>
-            )}
-
-            {/* Numeric */}
-
-            {question.question_type === 'numeric' && (
-              <div className="mt-8">
-                <input
-                  type="number"
-                  placeholder="Enter your answer..."
-                  disabled
-                  className="h-11 w-full rounded-xl border border-white/[0.10] bg-white/[0.03] px-4 text-sm text-white/60 outline-none placeholder:text-white/25"
-                />
-              </div>
-            )}
-
-            {/* Essay */}
-
-            {question.question_type === 'essay' && (
-              <div className="mt-8">
-                <textarea
-                  rows={7}
-                  placeholder="Write your answer..."
-                  disabled
-                  className="w-full resize-none rounded-xl border border-white/[0.10] bg-white/[0.03] px-4 py-3 text-sm leading-6 text-white/60 outline-none placeholder:text-white/25"
-                />
-              </div>
-            )}
-
-            <div className="mt-8 flex justify-end border-t border-white/[0.07] pt-5">
-              <Button disabled>
-                Submit Answer
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Explanation */}
-
-        {question.explanation && (
-          <Card>
+          <Card className="border-violet-200/10 bg-gradient-to-br from-violet-400/[0.045] via-white/[0.025] to-transparent">
             <CardContent className="p-6">
-              <p className="text-xs font-medium uppercase tracking-[0.14em] text-white/30">
-                Explanation
-              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge
+                  variant="info"
+                  className="border-violet-300/20 bg-violet-400/10 text-violet-200"
+                >
+                  {questionTypeLabel}
+                </Badge>
 
-              <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-white/60">
-                {question.explanation}
-              </p>
+                {module && (
+                  <Badge
+                    variant="muted"
+                    className="border-sky-300/15 bg-sky-400/10 text-sky-200"
+                  >
+                    {module.title}
+                  </Badge>
+                )}
+              </div>
             </CardContent>
           </Card>
-        )}
 
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 text-xs text-white/30">
-          Preview mode — answers are not submitted or saved.
+          {/* Student preview */}
+
+          <Card className="border-sky-200/10 bg-gradient-to-br from-sky-400/[0.04] via-white/[0.025] to-transparent">
+            <CardContent className="p-6 sm:p-8">
+              <div className="mb-8 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-sky-300/50">
+                <Eye className="h-4 w-4 text-sky-300/70" />
+                Student Preview
+              </div>
+
+              <h2 className="text-xl font-semibold tracking-tight text-white">
+                {question.title}
+              </h2>
+
+              <div className="mt-5 whitespace-pre-wrap text-sm leading-7 text-white/70">
+                {question.content}
+              </div>
+
+              {/* Multiple Choice */}
+
+              {question.question_type ===
+                'multiple_choice' && (
+                <div className="mt-8 space-y-3">
+                  {options.map((option, index) => (
+                    <label
+                      key={option.id}
+                      className="flex cursor-pointer items-center gap-4 rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 transition-all duration-200 hover:border-sky-300/15 hover:bg-sky-400/[0.04]"
+                    >
+                      <input
+                        type="radio"
+                        name="preview-answer"
+                        className="h-4 w-4"
+                      />
+
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-sky-300/15 bg-sky-400/10 text-xs font-medium text-sky-200/70">
+                        {String.fromCharCode(
+                          65 + index,
+                        )}
+                      </span>
+
+                      <span className="text-sm text-white/75">
+                        {option.option_text}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              {/* True / False */}
+
+              {question.question_type ===
+                'true_false' && (
+                <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                  {options.map((option) => (
+                    <label
+                      key={option.id}
+                      className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.02] p-4 transition-all duration-200 hover:border-violet-300/15 hover:bg-violet-400/[0.04]"
+                    >
+                      <input
+                        type="radio"
+                        name="preview-answer"
+                        className="h-4 w-4"
+                      />
+
+                      <span className="text-sm text-white/75">
+                        {option.option_text}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              {/* Short Answer */}
+
+              {question.question_type ===
+                'short_answer' && (
+                <div className="mt-8">
+                  <Input
+                    type="text"
+                    placeholder="Type your answer..."
+                    disabled
+                    className="h-11 border-white/[0.10] bg-white/[0.03] text-white/60 placeholder:text-white/25"
+                  />
+                </div>
+              )}
+
+              {/* Numeric */}
+
+              {question.question_type ===
+                'numeric' && (
+                <div className="mt-8">
+                  <Input
+                    type="number"
+                    placeholder="Enter your answer..."
+                    disabled
+                    className="h-11 border-white/[0.10] bg-white/[0.03] text-white/60 placeholder:text-white/25"
+                  />
+                </div>
+              )}
+
+              {/* Essay */}
+
+              {question.question_type === 'essay' && (
+                <div className="mt-8">
+                  <Textarea
+                    rows={7}
+                    placeholder="Write your answer..."
+                    disabled
+                    className="resize-none border-white/[0.10] bg-white/[0.03] leading-6 text-white/60 placeholder:text-white/25"
+                  />
+                </div>
+              )}
+
+              <div className="mt-8 flex justify-end border-t border-white/[0.07] pt-5">
+                <Button disabled>
+                  Submit Answer
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Explanation */}
+
+          {question.explanation && (
+            <Card className="border-emerald-200/10 bg-gradient-to-br from-emerald-400/[0.035] via-white/[0.025] to-transparent">
+              <CardContent className="p-6">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-emerald-300/50">
+                  Explanation
+                </p>
+
+                <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-white/60">
+                  {question.explanation}
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
+          <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3 text-xs text-white/30">
+            Preview mode — answers are not submitted or saved.
+          </div>
         </div>
       </div>
     </div>

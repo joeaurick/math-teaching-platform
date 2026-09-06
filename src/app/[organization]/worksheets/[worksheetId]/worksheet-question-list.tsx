@@ -50,10 +50,11 @@ export function WorksheetQuestionList({
   worksheetId,
   questions,
 }: WorksheetQuestionListProps) {
-  const [isPending, startTransition] = useTransition()
-  const [pendingAction, setPendingAction] = useState<string | null>(
-    null,
-  )
+  const [isPending, startTransition] =
+    useTransition()
+
+  const [pendingAction, setPendingAction] =
+    useState<string | null>(null)
 
   function handleMove(
     worksheetQuestionId: string,
@@ -64,12 +65,13 @@ export function WorksheetQuestionList({
     setPendingAction(actionKey)
 
     startTransition(async () => {
-      const result = await moveWorksheetQuestion({
-        organizationSlug,
-        worksheetId,
-        worksheetQuestionId,
-        direction,
-      })
+      const result =
+        await moveWorksheetQuestion({
+          organizationSlug,
+          worksheetId,
+          worksheetQuestionId,
+          direction,
+        })
 
       setPendingAction(null)
 
@@ -98,14 +100,17 @@ export function WorksheetQuestionList({
       return
     }
 
-    setPendingAction(`${worksheetQuestionId}-remove`)
+    setPendingAction(
+      `${worksheetQuestionId}-remove`,
+    )
 
     startTransition(async () => {
-      const result = await removeQuestionFromWorksheet({
-        organizationSlug,
-        worksheetId,
-        worksheetQuestionId,
-      })
+      const result =
+        await removeQuestionFromWorksheet({
+          organizationSlug,
+          worksheetId,
+          worksheetQuestionId,
+        })
 
       setPendingAction(null)
 
@@ -114,23 +119,25 @@ export function WorksheetQuestionList({
         return
       }
 
-      toast.success('Soal berhasil dihapus dari worksheet.')
+      toast.success(
+        'Soal berhasil dihapus dari worksheet.',
+      )
     })
   }
 
   if (questions.length === 0) {
     return (
-      <Card>
+      <Card className="overflow-hidden border-violet-200/10 bg-gradient-to-br from-violet-400/[0.04] via-white/[0.02] to-transparent">
         <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.06]">
-            <FileText className="h-5 w-5 text-white/50" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-300/15 bg-violet-400/10">
+            <FileText className="h-6 w-6 text-violet-300/70" />
           </div>
 
-          <h3 className="text-base font-semibold">
+          <h3 className="mt-5 text-base font-semibold text-white">
             Belum ada soal
           </h3>
 
-          <p className="mt-2 max-w-md text-sm text-white/50">
+          <p className="mt-2 max-w-md text-sm leading-6 text-white/40">
             Tambahkan soal dari Question Bank untuk mulai
             menyusun worksheet.
           </p>
@@ -149,54 +156,74 @@ export function WorksheetQuestionList({
         }
 
         const questionType =
-          questionTypeLabels[question.question_type] ??
-          question.question_type
+          questionTypeLabels[
+            question.question_type
+          ] ?? question.question_type
 
         const isFirst = index === 0
-        const isLast = index === questions.length - 1
+        const isLast =
+          index === questions.length - 1
 
         const moveUpKey = `${item.id}-up`
         const moveDownKey = `${item.id}-down`
         const removeKey = `${item.id}-remove`
 
         const isMovingUp =
-          isPending && pendingAction === moveUpKey
+          isPending &&
+          pendingAction === moveUpKey
 
         const isMovingDown =
-          isPending && pendingAction === moveDownKey
+          isPending &&
+          pendingAction === moveDownKey
 
         const isRemoving =
-          isPending && pendingAction === removeKey
+          isPending &&
+          pendingAction === removeKey
 
         return (
-          <Card key={item.id}>
+          <Card
+            key={item.id}
+            className="group overflow-hidden border-sky-200/10 bg-gradient-to-br from-sky-400/[0.035] via-white/[0.015] to-transparent transition-all duration-200 hover:border-sky-300/20 hover:shadow-[0_12px_35px_rgba(56,189,248,0.04)]"
+          >
             <CardContent className="p-4 sm:p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <div className="flex min-w-0 flex-1 items-start gap-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/[0.06] text-sm font-medium text-white/70">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10 text-sm font-semibold text-sky-200">
                     {index + 1}
                   </div>
 
                   <div className="min-w-0">
-                    <h3 className="text-sm font-semibold text-white">
+                    <h3 className="line-clamp-2 text-sm font-semibold text-white">
                       {question.title}
                     </h3>
 
                     <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <Badge>
+                      <Badge
+                        variant="info"
+                        className="border-violet-300/20 bg-violet-400/10 text-violet-200"
+                      >
                         {questionType}
                       </Badge>
 
-                      <span className="text-xs text-white/40">
-                        {question.status === 'published'
+                      <Badge
+                        variant={
+                          question.status ===
+                          'published'
+                            ? 'success'
+                            : 'warning'
+                        }
+                        className="capitalize"
+                      >
+                        {question.status ===
+                        'published'
                           ? 'Published'
                           : 'Draft'}
-                      </span>
+                      </Badge>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex shrink-0 items-center gap-2">
+                <div className="flex shrink-0 items-center gap-2 border-t border-white/[0.06] pt-3 sm:border-0 sm:pt-0">
                   <Button
                     variant="outline"
                     size="icon"
@@ -211,6 +238,7 @@ export function WorksheetQuestionList({
                       )
                     }
                     aria-label="Pindahkan soal ke atas"
+                    className="border-sky-300/10 bg-sky-400/[0.025] hover:border-sky-300/20 hover:bg-sky-400/[0.08]"
                   >
                     {isMovingUp ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -233,6 +261,7 @@ export function WorksheetQuestionList({
                       )
                     }
                     aria-label="Pindahkan soal ke bawah"
+                    className="border-sky-300/10 bg-sky-400/[0.025] hover:border-sky-300/20 hover:bg-sky-400/[0.08]"
                   >
                     {isMovingDown ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -252,6 +281,7 @@ export function WorksheetQuestionList({
                       )
                     }
                     aria-label="Hapus soal dari worksheet"
+                    className="border border-rose-300/10 bg-rose-400/[0.04] hover:bg-rose-400/[0.10]"
                   >
                     {isRemoving ? (
                       <Loader2 className="h-4 w-4 animate-spin" />

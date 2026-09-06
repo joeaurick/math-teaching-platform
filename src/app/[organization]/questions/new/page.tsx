@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 import { notFound, redirect } from 'next/navigation'
 
 import { PageHeader } from '@/components/ui/page-header'
@@ -79,9 +80,10 @@ export default async function NewQuestionPage({
       <div className="mx-auto w-full max-w-[1000px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}/questions`}
-          className="mb-6 inline-flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
+          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
         >
-          ← Back to Questions
+          <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+          Back to Questions
         </Link>
 
         <PageHeader

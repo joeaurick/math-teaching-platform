@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import { MessageCircle } from 'lucide-react'
 
 import { ChatMessages } from '@/components/chat/chat-messages'
 
@@ -63,19 +64,17 @@ export function ChatRoom({
       <div className="min-h-[420px]">
         {messages.length === 0 ? (
           <div className="flex min-h-[320px] flex-col items-center justify-center px-5 text-center sm:px-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04]">
-              <span className="text-lg">
-                💬
-              </span>
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-300/20 bg-gradient-to-br from-violet-400/15 to-sky-400/10 shadow-[0_12px_30px_rgba(139,92,246,0.08)]">
+              <MessageCircle className="h-6 w-6 text-violet-300" />
             </div>
 
-            <p className="mt-4 text-sm font-medium text-white/70">
+            <p className="mt-4 text-sm font-semibold text-white/75">
               Conversation siap digunakan
             </p>
 
-            <p className="mt-1 max-w-sm text-xs leading-5 text-white/30">
-              Kirim pesan pertama kepada
-              siswa.
+            <p className="mt-1 max-w-sm text-xs leading-5 text-white/35">
+              Kirim pesan pertama kepada siswa
+              untuk memulai percakapan.
             </p>
           </div>
         ) : (
@@ -91,7 +90,7 @@ export function ChatRoom({
         )}
       </div>
 
-      <div className="border-t border-white/[0.08] p-4 sm:p-5">
+      <div className="border-t border-white/[0.08] bg-white/[0.015] p-4 sm:p-5">
         <ChatComposer
           organizationId={organizationId}
           studentAccessId={studentAccessId}

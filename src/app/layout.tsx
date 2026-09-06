@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Math Teaching Platform',
   description:
-    'A professional workspace for mathematics teaching.',
+    'Platform pembelajaran matematika untuk membantu guru membuat soal, worksheet, mengelola kelas, dan memantau pekerjaan siswa.',
 }
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="id">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

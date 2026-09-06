@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import {
+  ArrowRight,
   FileText,
   Plus,
-  ArrowRight,
 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/empty-state'
 import { PageHeader } from '@/components/ui/page-header'
@@ -60,6 +61,16 @@ export default async function WorksheetsPage({
 
   const worksheets = (worksheetData ?? []) as Worksheet[]
 
+  const publishedCount = worksheets.filter(
+    (worksheet) =>
+      worksheet.status === 'published',
+  ).length
+
+  const draftCount = worksheets.filter(
+    (worksheet) =>
+      worksheet.status === 'draft',
+  ).length
+
   return (
     <div className="min-h-full">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
@@ -70,10 +81,11 @@ export default async function WorksheetsPage({
           actions={
             <Link
               href={`/${organization.slug}/worksheets/new`}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-black shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:bg-white/90"
             >
-              <Plus className="h-4 w-4" />
-              New Worksheet
+              <Button>
+                <Plus className="h-4 w-4" />
+                New Worksheet
+              </Button>
             </Link>
           }
         />
@@ -81,49 +93,57 @@ export default async function WorksheetsPage({
         {/* Summary */}
 
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <Card>
-            <CardContent className="p-5">
-              <p className="text-xs text-white/40">
-                Total Worksheets
-              </p>
+          <Card className="overflow-hidden border-sky-200/10 bg-gradient-to-br from-sky-400/[0.07] via-white/[0.02] to-transparent shadow-[0_14px_40px_rgba(56,189,248,0.04)]">
+            <CardContent className="flex items-center gap-4 p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
+                <FileText className="h-5 w-5 text-sky-300" />
+              </div>
 
-              <p className="mt-2 text-2xl font-semibold">
-                {worksheets.length}
-              </p>
+              <div>
+                <p className="text-xs font-medium text-sky-200/45">
+                  Total Worksheets
+                </p>
+
+                <p className="mt-1 text-2xl font-semibold tracking-tight text-white">
+                  {worksheets.length}
+                </p>
+              </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardContent className="p-5">
-              <p className="text-xs text-white/40">
-                Published
-              </p>
+          <Card className="overflow-hidden border-emerald-200/10 bg-gradient-to-br from-emerald-400/[0.07] via-white/[0.02] to-transparent shadow-[0_14px_40px_rgba(52,211,153,0.04)]">
+            <CardContent className="flex items-center gap-4 p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-400/10">
+                <FileText className="h-5 w-5 text-emerald-300" />
+              </div>
 
-              <p className="mt-2 text-2xl font-semibold">
-                {
-                  worksheets.filter(
-                    (worksheet) =>
-                      worksheet.status === 'published',
-                  ).length
-                }
-              </p>
+              <div>
+                <p className="text-xs font-medium text-emerald-200/45">
+                  Published
+                </p>
+
+                <p className="mt-1 text-2xl font-semibold tracking-tight text-white">
+                  {publishedCount}
+                </p>
+              </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardContent className="p-5">
-              <p className="text-xs text-white/40">
-                Draft
-              </p>
+          <Card className="overflow-hidden border-amber-200/10 bg-gradient-to-br from-amber-400/[0.07] via-white/[0.02] to-transparent shadow-[0_14px_40px_rgba(251,191,36,0.04)]">
+            <CardContent className="flex items-center gap-4 p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-amber-300/20 bg-amber-400/10">
+                <FileText className="h-5 w-5 text-amber-300" />
+              </div>
 
-              <p className="mt-2 text-2xl font-semibold">
-                {
-                  worksheets.filter(
-                    (worksheet) =>
-                      worksheet.status === 'draft',
-                  ).length
-                }
-              </p>
+              <div>
+                <p className="text-xs font-medium text-amber-200/45">
+                  Draft
+                </p>
+
+                <p className="mt-1 text-2xl font-semibold tracking-tight text-white">
+                  {draftCount}
+                </p>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -132,12 +152,13 @@ export default async function WorksheetsPage({
 
         <div className="mt-8">
           <div className="mb-4">
-            <h2 className="text-lg font-semibold">
+            <h2 className="text-lg font-semibold text-white">
               All Worksheets
             </h2>
 
             <p className="mt-1 text-sm text-white/40">
-              Kelola worksheet yang tersedia di organization ini.
+              Kelola worksheet yang tersedia di organization
+              ini.
             </p>
           </div>
 
@@ -151,10 +172,11 @@ export default async function WorksheetsPage({
               action={
                 <Link
                   href={`/${organization.slug}/worksheets/new`}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-black shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:bg-white/90"
                 >
-                  <Plus className="h-4 w-4" />
-                  Create Worksheet
+                  <Button>
+                    <Plus className="h-4 w-4" />
+                    Create Worksheet
+                  </Button>
                 </Link>
               }
             />
@@ -166,18 +188,20 @@ export default async function WorksheetsPage({
                   href={`/${organization.slug}/worksheets/${worksheet.id}`}
                   className="group"
                 >
-                  <Card className="h-full transition-all duration-200 hover:border-white/[0.14] hover:bg-white/[0.03]">
+                  <Card className="h-full overflow-hidden border-violet-200/10 bg-gradient-to-br from-violet-400/[0.035] via-white/[0.02] to-transparent transition-all duration-200 hover:-translate-y-0.5 hover:border-violet-300/20 hover:shadow-[0_16px_40px_rgba(139,92,246,0.06)]">
                     <CardContent className="p-5">
                       <div className="flex items-start justify-between gap-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04]">
-                          <FileText className="h-[18px] w-[18px] text-white/55" />
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10 transition-colors duration-200 group-hover:bg-violet-400/15">
+                          <FileText className="h-[18px] w-[18px] text-violet-300" />
                         </div>
 
                         <Badge
                           variant={
-                            worksheet.status === 'published'
+                            worksheet.status ===
+                            'published'
                               ? 'success'
-                              : worksheet.status === 'archived'
+                              : worksheet.status ===
+                                  'archived'
                                 ? 'muted'
                                 : 'warning'
                           }
@@ -197,13 +221,13 @@ export default async function WorksheetsPage({
                       </p>
 
                       <div className="mt-5 flex items-center justify-between border-t border-white/[0.07] pt-4">
-                        <span className="text-xs text-white/30">
+                        <span className="text-xs text-sky-200/35">
                           Worksheet
                         </span>
 
-                        <span className="inline-flex items-center gap-1 text-xs text-white/40 transition-colors group-hover:text-white/70">
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-violet-200/45 transition-all duration-200 group-hover:gap-1.5 group-hover:text-violet-200">
                           Open
-                          <ArrowRight className="h-3.5 w-3.5" />
+                          <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
                         </span>
                       </div>
                     </CardContent>

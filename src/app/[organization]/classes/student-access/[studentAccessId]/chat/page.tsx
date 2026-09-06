@@ -1,9 +1,9 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import {
   ArrowLeft,
   MessageCircle,
 } from 'lucide-react'
-import { notFound, redirect } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
 import {
@@ -11,7 +11,7 @@ import {
   CardContent,
 } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
-import { createClient } from '@/lib/supabase/server'
+import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 
 import { ChatRoom } from './chat-room'
 
@@ -22,6 +22,15 @@ type StudentChatPageProps = {
   }>
 }
 
+type ChatMessage = {
+  id: string
+  conversation_id: string
+  sender_profile_id: string | null
+  sender_student_access_id: string | null
+  message: string
+  created_at: string
+}
+
 export default async function StudentChatPage({
   params,
 }: StudentChatPageProps) {
@@ -30,69 +39,50 @@ export default async function StudentChatPage({
     studentAccessId,
   } = await params
 
-  const supabase = await createClient()
-
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    supabase,
+    organization,
+    user,
+  } = await getOrganizationContext(
+    organizationSlug,
+  )
 
-  if (!user) {
-    redirect('/login')
-  }
+  const [
+    studentAccessResult,
+    conversationResult,
+  ] = await Promise.all([
+    supabase
+      .from('student_access')
+      .select(`
+        id,
+        student_name,
+        is_active,
+        expires_at
+      `)
+      .eq('id', studentAccessId)
+      .eq('organization_id', organization.id)
+      .maybeSingle(),
 
-  const {
-    data: organization,
-    error: organizationError,
-  } = await supabase
-    .from('organizations')
-    .select('id, name, slug')
-    .eq('slug', organizationSlug)
-    .maybeSingle()
-
-  if (organizationError) {
-    throw new Error(
-      `Gagal mengambil organization: ${organizationError.message}`,
-    )
-  }
-
-  if (!organization) {
-    notFound()
-  }
-
-  const {
-    data: membership,
-    error: membershipError,
-  } = await supabase
-    .from('organization_members')
-    .select('id, role')
-    .eq('organization_id', organization.id)
-    .eq('user_id', user.id)
-    .maybeSingle()
-
-  if (membershipError) {
-    throw new Error(
-      `Gagal mengambil membership: ${membershipError.message}`,
-    )
-  }
-
-  if (!membership) {
-    notFound()
-  }
+    supabase
+      .from('chat_conversations')
+      .select(`
+        id,
+        organization_id,
+        student_access_id,
+        teacher_profile_id,
+        created_at,
+        updated_at
+      `)
+      .eq('organization_id', organization.id)
+      .eq('student_access_id', studentAccessId)
+      .eq('teacher_profile_id', user.id)
+      .maybeSingle(),
+  ])
 
   const {
     data: studentAccess,
     error: studentAccessError,
-  } = await supabase
-    .from('student_access')
-    .select(`
-      id,
-      student_name,
-      is_active,
-      expires_at
-    `)
-    .eq('id', studentAccessId)
-    .eq('organization_id', organization.id)
-    .maybeSingle()
+  } = studentAccessResult
 
   if (studentAccessError) {
     throw new Error(
@@ -107,20 +97,7 @@ export default async function StudentChatPage({
   const {
     data: conversation,
     error: conversationError,
-  } = await supabase
-    .from('chat_conversations')
-    .select(`
-      id,
-      organization_id,
-      student_access_id,
-      teacher_profile_id,
-      created_at,
-      updated_at
-    `)
-    .eq('organization_id', organization.id)
-    .eq('student_access_id', studentAccess.id)
-    .eq('teacher_profile_id', user.id)
-    .maybeSingle()
+  } = conversationResult
 
   if (conversationError) {
     throw new Error(
@@ -128,14 +105,7 @@ export default async function StudentChatPage({
     )
   }
 
-  let messages: Array<{
-    id: string
-    conversation_id: string
-    sender_profile_id: string | null
-    sender_student_access_id: string | null
-    message: string
-    created_at: string
-  }> = []
+  let messages: ChatMessage[] = []
 
   if (conversation) {
     const {
@@ -166,71 +136,87 @@ export default async function StudentChatPage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10">
-      <PageHeader
-        eyebrow="Classes / Student Access / Chat"
-        title={
-          studentAccess.student_name ||
-          'Student Chat'
-        }
-        description="Percakapan langsung antara guru dan siswa."
-        actions={
-          <Badge
-            variant={
-              studentAccess.is_active
-                ? 'success'
-                : 'muted'
-            }
+    <div className="min-h-full">
+      <div className="mx-auto w-full max-w-5xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10">
+        <PageHeader
+          eyebrow="Classes / Student Access / Chat"
+          title={
+            studentAccess.student_name ||
+            'Student Chat'
+          }
+          description="Percakapan langsung antara guru dan siswa."
+          actions={
+            <Badge
+              variant={
+                studentAccess.is_active
+                  ? 'success'
+                  : 'muted'
+              }
+              className={
+                studentAccess.is_active
+                  ? 'border-emerald-300/20 bg-emerald-400/10 text-emerald-200'
+                  : ''
+              }
+            >
+              {studentAccess.is_active
+                ? 'Active'
+                : 'Inactive'}
+            </Badge>
+          }
+        />
+
+        <div className="mt-6">
+          <Link
+            href={`/${organization.slug}/classes/student-access/${studentAccess.id}`}
+            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
           >
-            {studentAccess.is_active
-              ? 'Active'
-              : 'Inactive'}
-          </Badge>
-        }
-      />
+            <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
+            Back to Student
+          </Link>
+        </div>
 
-      <div className="mt-6">
-        <Link
-          href={`/${organization.slug}/classes/student-access/${studentAccess.id}`}
-          className="inline-flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Student
-        </Link>
-      </div>
+        <Card className="mt-8 overflow-hidden border-violet-200/50 bg-gradient-to-br from-violet-50/[0.08] via-white/[0.025] to-transparent shadow-[0_16px_50px_rgba(139,92,246,0.05)]">
+          <CardContent className="p-0">
+            <div className="border-b border-violet-200/10 bg-violet-400/[0.035] px-5 py-4 sm:px-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-300/25 bg-violet-400/10">
+                  <MessageCircle className="h-5 w-5 text-violet-300" />
+                </div>
 
-      <Card className="mt-8 overflow-hidden">
-        <CardContent className="p-0">
-          <div className="border-b border-white/[0.08] px-5 py-4 sm:px-6">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04]">
-                <MessageCircle className="h-5 w-5 text-white/60" />
-              </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-white">
+                    {studentAccess.student_name ||
+                      'Unnamed Student'}
+                  </p>
 
-              <div>
-                <p className="text-sm font-medium text-white">
-                  {studentAccess.student_name ||
-                    'Unnamed Student'}
-                </p>
+                  <p className="mt-0.5 text-xs text-white/35">
+                    Direct conversation
+                  </p>
+                </div>
 
-                <p className="mt-0.5 text-xs text-white/35">
-                  Direct conversation
-                </p>
+                <div className="ml-auto hidden sm:block">
+                  <Badge
+                    variant="info"
+                    className="border-sky-300/20 bg-sky-400/10 text-sky-200"
+                  >
+                    Live Chat
+                  </Badge>
+                </div>
               </div>
             </div>
-          </div>
 
-          <ChatRoom
-            organizationId={organization.id}
-            studentAccessId={studentAccess.id}
-            conversationId={
-              conversation?.id ?? null
-            }
-            initialMessages={messages}
-            currentTeacherProfileId={user.id}
-          />
-        </CardContent>
-      </Card>
+            <ChatRoom
+              organizationId={organization.id}
+              studentAccessId={studentAccess.id}
+              conversationId={
+                conversation?.id ?? null
+              }
+              initialMessages={messages}
+              currentTeacherProfileId={user.id}
+            />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

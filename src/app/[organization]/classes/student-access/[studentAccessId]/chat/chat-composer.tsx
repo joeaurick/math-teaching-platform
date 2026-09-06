@@ -8,6 +8,7 @@ import { Send } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
 
 import {
   getOrCreateChatConversation,
@@ -113,7 +114,7 @@ export function ChatComposer({
         onSubmit={handleSubmit}
         className="flex items-end gap-3"
       >
-        <textarea
+        <Textarea
           value={message}
           onChange={(event) =>
             setMessage(event.target.value)
@@ -123,7 +124,7 @@ export function ChatComposer({
           rows={2}
           maxLength={5000}
           disabled={isPending}
-          className="min-h-[52px] flex-1 resize-none rounded-xl border border-white/[0.10] bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition-colors placeholder:text-white/25 focus:border-white/[0.20] disabled:cursor-not-allowed disabled:opacity-50"
+          className="min-h-[52px] flex-1 resize-none rounded-xl border-white/[0.10] bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-white/[0.20]"
         />
 
         <Button

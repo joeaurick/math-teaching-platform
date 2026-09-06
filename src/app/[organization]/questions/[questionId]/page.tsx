@@ -133,9 +133,9 @@ export default async function QuestionDetailPage({
       <div className="mx-auto w-full max-w-[1000px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}/questions`}
-          className="mb-6 inline-flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
+          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
           Back to Questions
         </Link>
 
@@ -161,8 +161,8 @@ export default async function QuestionDetailPage({
 
         <div className="mt-8">
           <div className="mb-5 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04]">
-              <FileQuestion className="h-[18px] w-[18px] text-white/55" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
+              <FileQuestion className="h-[18px] w-[18px] text-sky-300" />
             </div>
 
             <div>

@@ -5,6 +5,8 @@ import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { createModule } from './actions'
 
 type ModuleFormProps = {
@@ -52,14 +54,14 @@ export function ModuleForm({
               Module title
             </label>
 
-            <input
+            <Input
               id="title"
               name="title"
               type="text"
               placeholder="e.g. Algebra Basics"
               required
               disabled={isPending}
-              className="h-11 w-full rounded-xl border border-white/[0.10] bg-white/[0.04] px-3 text-sm text-white outline-none placeholder:text-white/25 transition-colors focus:border-white/[0.20] focus:bg-white/[0.06] disabled:opacity-50"
+              className="h-11 rounded-xl border-white/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-white/[0.20] focus:bg-white/[0.06]"
             />
           </div>
 
@@ -71,13 +73,13 @@ export function ModuleForm({
               Description
             </label>
 
-            <textarea
+            <Textarea
               id="description"
               name="description"
               rows={5}
               placeholder="Describe what students will learn in this module..."
               disabled={isPending}
-              className="w-full resize-none rounded-xl border border-white/[0.10] bg-white/[0.04] px-3 py-3 text-sm leading-6 text-white outline-none placeholder:text-white/25 transition-colors focus:border-white/[0.20] focus:bg-white/[0.06] disabled:opacity-50"
+              className="resize-none rounded-xl border-white/[0.10] bg-white/[0.04] leading-6 text-white placeholder:text-white/25 focus:border-white/[0.20] focus:bg-white/[0.06]"
             />
           </div>
 
@@ -99,7 +101,9 @@ export function ModuleForm({
               type="submit"
               disabled={isPending}
             >
-              {isPending ? 'Creating...' : 'Create Module'}
+              {isPending
+                ? 'Creating...'
+                : 'Create Module'}
             </Button>
           </div>
         </CardContent>

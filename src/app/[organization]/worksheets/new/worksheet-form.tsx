@@ -2,10 +2,17 @@
 
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Loader2 } from 'lucide-react'
+import {
+  ArrowLeft,
+  Loader2,
+  FilePlus2,
+  AlignLeft,
+} from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 
 import { createWorksheet } from './actions'
 
@@ -51,27 +58,34 @@ export function WorksheetForm({
   }
 
   return (
-    <Card>
+    <Card className="overflow-hidden border-sky-300/10 bg-gradient-to-br from-sky-400/[0.05] via-white/[0.025] to-violet-400/[0.04]">
       <CardContent className="p-6 sm:p-8">
         <form
           onSubmit={handleSubmit}
-          className="space-y-6"
+          className="space-y-7"
         >
           {/* Title */}
 
           <div>
-            <label
-              htmlFor="title"
-              className="text-sm font-medium text-white"
-            >
-              Worksheet Title
-            </label>
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-400/10">
+                <FilePlus2 className="h-4 w-4 text-sky-300" />
+              </div>
 
-            <p className="mt-1 text-xs text-white/40">
-              Berikan nama yang jelas untuk worksheet.
+              <label
+                htmlFor="title"
+                className="text-sm font-semibold text-white"
+              >
+                Worksheet Title
+              </label>
+            </div>
+
+            <p className="mt-2 text-xs leading-5 text-white/40">
+              Berikan nama yang jelas untuk
+              worksheet.
             </p>
 
-            <input
+            <Input
               id="title"
               type="text"
               value={title}
@@ -80,25 +94,32 @@ export function WorksheetForm({
                 setTitle(event.target.value)
               }
               placeholder="Contoh: Latihan Persamaan Linear"
-              className="mt-3 h-11 w-full rounded-xl border border-white/[0.10] bg-white/[0.03] px-4 text-sm text-white outline-none placeholder:text-white/25 focus:border-white/25 disabled:opacity-50"
+              className="mt-3"
             />
           </div>
 
           {/* Description */}
 
           <div>
-            <label
-              htmlFor="description"
-              className="text-sm font-medium text-white"
-            >
-              Description
-            </label>
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-400/10">
+                <AlignLeft className="h-4 w-4 text-violet-300" />
+              </div>
 
-            <p className="mt-1 text-xs text-white/40">
-              Deskripsi worksheet bersifat opsional.
+              <label
+                htmlFor="description"
+                className="text-sm font-semibold text-white"
+              >
+                Description
+              </label>
+            </div>
+
+            <p className="mt-2 text-xs leading-5 text-white/40">
+              Deskripsi worksheet bersifat
+              opsional.
             </p>
 
-            <textarea
+            <Textarea
               id="description"
               value={description}
               disabled={isPending}
@@ -107,14 +128,14 @@ export function WorksheetForm({
               }
               placeholder="Contoh: Latihan mandiri materi persamaan linear."
               rows={5}
-              className="mt-3 w-full resize-y rounded-xl border border-white/[0.10] bg-white/[0.03] px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-white/25 focus:border-white/25 disabled:opacity-50"
+              className="mt-3"
             />
           </div>
 
           {/* Error */}
 
           {error && (
-            <div className="rounded-xl border border-red-500/20 bg-red-500/[0.06] px-4 py-3 text-sm text-red-300">
+            <div className="rounded-xl border border-rose-400/20 bg-rose-400/[0.06] px-4 py-3 text-sm leading-5 text-rose-300">
               {error}
             </div>
           )}
@@ -146,7 +167,10 @@ export function WorksheetForm({
                   Creating...
                 </>
               ) : (
-                'Create Worksheet'
+                <>
+                  <FilePlus2 className="h-4 w-4" />
+                  Create Worksheet
+                </>
               )}
             </Button>
           </div>

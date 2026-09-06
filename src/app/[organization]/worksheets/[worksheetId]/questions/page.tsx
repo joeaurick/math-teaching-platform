@@ -1,11 +1,15 @@
 import Link from 'next/link'
-import { ArrowLeft, FileQuestion } from 'lucide-react'
-import { notFound, redirect } from 'next/navigation'
+import {
+  ArrowLeft,
+  FileQuestion,
+} from 'lucide-react'
+import { notFound } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
-import { createClient } from '@/lib/supabase/server'
+import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 
 import { QuestionPicker } from './question-picker'
 
@@ -47,69 +51,13 @@ export default async function WorksheetQuestionsPage({
     worksheetId,
   } = await params
 
-  const supabase = await createClient()
-
-  // ------------------------------------------------------------
-  // 1. User
-  // ------------------------------------------------------------
-
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
+    supabase,
+    organization,
+  } = await getOrganizationContext(slug)
 
   // ------------------------------------------------------------
-  // 2. Organization
-  // ------------------------------------------------------------
-
-  const {
-    data: organization,
-    error: organizationError,
-  } = await supabase
-    .from('organizations')
-    .select('id, name, slug')
-    .eq('slug', slug)
-    .maybeSingle()
-
-  if (organizationError) {
-    throw new Error(
-      `Gagal mengambil organization: ${organizationError.message}`,
-    )
-  }
-
-  if (!organization) {
-    notFound()
-  }
-
-  // ------------------------------------------------------------
-  // 3. Membership
-  // ------------------------------------------------------------
-
-  const {
-    data: membership,
-    error: membershipError,
-  } = await supabase
-    .from('organization_members')
-    .select('id, role')
-    .eq('organization_id', organization.id)
-    .eq('user_id', user.id)
-    .maybeSingle()
-
-  if (membershipError) {
-    throw new Error(
-      `Gagal mengambil membership: ${membershipError.message}`,
-    )
-  }
-
-  if (!membership) {
-    notFound()
-  }
-
-  // ------------------------------------------------------------
-  // 4. Worksheet
+  // 1. Worksheet
   // ------------------------------------------------------------
 
   const {
@@ -117,7 +65,9 @@ export default async function WorksheetQuestionsPage({
     error: worksheetError,
   } = await supabase
     .from('worksheets')
-    .select('id, title, description, status')
+    .select(
+      'id, title, description, status',
+    )
     .eq('id', worksheetId)
     .eq('organization_id', organization.id)
     .maybeSingle()
@@ -133,28 +83,42 @@ export default async function WorksheetQuestionsPage({
   }
 
   // ------------------------------------------------------------
-  // 5. Semua questions organization
+  // 2. Question Bank + Existing Questions
   // ------------------------------------------------------------
+
+  const [
+    questionsResult,
+    worksheetQuestionsResult,
+  ] = await Promise.all([
+    supabase
+      .from('questions')
+      .select(`
+        id,
+        title,
+        question_type,
+        content,
+        status,
+        module_id,
+        modules (
+          id,
+          title
+        )
+      `)
+      .eq('organization_id', organization.id)
+      .order('created_at', {
+        ascending: false,
+      }),
+
+    supabase
+      .from('worksheet_questions')
+      .select('question_id')
+      .eq('worksheet_id', worksheet.id),
+  ])
 
   const {
     data: questionData,
     error: questionsError,
-  } = await supabase
-    .from('questions')
-    .select(`
-      id,
-      title,
-      question_type,
-      content,
-      status,
-      module_id,
-      modules (
-        id,
-        title
-      )
-    `)
-    .eq('organization_id', organization.id)
-    .order('created_at', { ascending: false })
+  } = questionsResult
 
   if (questionsError) {
     throw new Error(
@@ -162,19 +126,10 @@ export default async function WorksheetQuestionsPage({
     )
   }
 
-  const questions = (questionData ?? []) as Question[]
-
-  // ------------------------------------------------------------
-  // 6. Questions yang sudah masuk worksheet
-  // ------------------------------------------------------------
-
   const {
     data: worksheetQuestionData,
     error: worksheetQuestionsError,
-  } = await supabase
-    .from('worksheet_questions')
-    .select('question_id')
-    .eq('worksheet_id', worksheet.id)
+  } = worksheetQuestionsResult
 
   if (worksheetQuestionsError) {
     throw new Error(
@@ -182,36 +137,46 @@ export default async function WorksheetQuestionsPage({
     )
   }
 
+  const questions =
+    (questionData ?? []) as Question[]
+
   const existingQuestions =
     (worksheetQuestionData ?? []) as WorksheetQuestion[]
 
-  const existingQuestionIds = existingQuestions.map(
-    (item) => item.question_id,
-  )
+  const existingQuestionIds =
+    existingQuestions.map(
+      (item) => item.question_id,
+    )
 
   return (
     <div className="min-h-full">
       <div className="mx-auto w-full max-w-[1200px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+        {/* Back */}
+
         <div className="mb-6">
           <Link
             href={`/${organization.slug}/worksheets/${worksheet.id}`}
-            className="inline-flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
             Kembali ke Worksheet
           </Link>
         </div>
 
+        {/* Header */}
+
         <PageHeader
-          eyebrow="Worksheet"
+          eyebrow="Worksheet / Question Bank"
           title="Add Questions"
           description={`Pilih soal dari Question Bank untuk "${worksheet.title}".`}
           actions={
             <Badge
               variant={
-                worksheet.status === 'published'
+                worksheet.status ===
+                'published'
                   ? 'success'
-                  : worksheet.status === 'archived'
+                  : worksheet.status ===
+                      'archived'
                     ? 'muted'
                     : 'warning'
               }
@@ -222,37 +187,46 @@ export default async function WorksheetQuestionsPage({
           }
         />
 
+        {/* Content */}
+
         <div className="mt-8">
           {questions.length === 0 ? (
-            <Card>
-              <CardContent className="flex min-h-60 flex-col items-center justify-center text-center">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.06]">
-                  <FileQuestion className="h-5 w-5 text-white/50" />
+            <Card className="overflow-hidden border-violet-200/10 bg-gradient-to-br from-violet-400/[0.05] via-white/[0.02] to-transparent">
+              <CardContent className="flex min-h-60 flex-col items-center justify-center px-6 py-12 text-center">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-300/15 bg-violet-400/10">
+                  <FileQuestion className="h-6 w-6 text-violet-300/70" />
                 </div>
 
-                <h2 className="text-base font-semibold">
+                <h2 className="mt-5 text-base font-semibold text-white">
                   Question Bank masih kosong
                 </h2>
 
-                <p className="mt-2 max-w-md text-sm text-white/40">
-                  Buat question terlebih dahulu sebelum
-                  menambahkannya ke worksheet.
+                <p className="mt-2 max-w-md text-sm leading-6 text-white/40">
+                  Buat question terlebih dahulu
+                  sebelum menambahkannya ke
+                  worksheet.
                 </p>
 
                 <Link
                   href={`/${organization.slug}/questions/new`}
-                  className="mt-5 inline-flex h-10 items-center justify-center rounded-xl bg-white px-4 text-sm font-medium text-black transition-colors hover:bg-white/90"
+                  className="mt-5"
                 >
-                  Create Question
+                  <Button>
+                    Create Question
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
           ) : (
             <QuestionPicker
-              organizationSlug={organization.slug}
+              organizationSlug={
+                organization.slug
+              }
               worksheetId={worksheet.id}
               questions={questions}
-              existingQuestionIds={existingQuestionIds}
+              existingQuestionIds={
+                existingQuestionIds
+              }
             />
           )}
         </div>

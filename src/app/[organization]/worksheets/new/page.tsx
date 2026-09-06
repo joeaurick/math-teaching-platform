@@ -1,7 +1,5 @@
-import { notFound, redirect } from 'next/navigation'
-
 import { PageHeader } from '@/components/ui/page-header'
-import { createClient } from '@/lib/supabase/server'
+import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 
 import { WorksheetForm } from './worksheet-form'
 
@@ -16,54 +14,8 @@ export default async function NewWorksheetPage({
 }: NewWorksheetPageProps) {
   const { organization: slug } = await params
 
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
-
-  const {
-    data: organization,
-    error: organizationError,
-  } = await supabase
-    .from('organizations')
-    .select('id, name, slug')
-    .eq('slug', slug)
-    .maybeSingle()
-
-  if (organizationError) {
-    throw new Error(
-      `Gagal mengambil organization: ${organizationError.message}`,
-    )
-  }
-
-  if (!organization) {
-    notFound()
-  }
-
-  const {
-    data: membership,
-    error: membershipError,
-  } = await supabase
-    .from('organization_members')
-    .select('id, role')
-    .eq('organization_id', organization.id)
-    .eq('user_id', user.id)
-    .maybeSingle()
-
-  if (membershipError) {
-    throw new Error(
-      `Gagal mengambil membership: ${membershipError.message}`,
-    )
-  }
-
-  if (!membership) {
-    notFound()
-  }
+  const { organization } =
+    await getOrganizationContext(slug)
 
   return (
     <div className="min-h-full">

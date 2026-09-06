@@ -5,6 +5,15 @@ import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
 
 import { updateQuestion } from './actions'
 
@@ -104,23 +113,30 @@ export function QuestionEditForm({
               Module
             </label>
 
-            <select
-              id="module_id"
+            <Select
               name="module_id"
-              required
-              disabled={isPending}
               defaultValue={initialData.moduleId}
-              className="h-11 w-full rounded-xl border border-white/[0.10] bg-[#111111] px-3 text-sm text-white outline-none transition-colors focus:border-white/[0.20] disabled:opacity-50"
+              disabled={isPending}
+              required
             >
-              {modules.map((module) => (
-                <option
-                  key={module.id}
-                  value={module.id}
-                >
-                  {module.title}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger
+                id="module_id"
+                className="h-11 w-full rounded-xl border-white/[0.10] bg-white/[0.04] text-white focus:border-white/[0.20]"
+              >
+                <SelectValue placeholder="Select module" />
+              </SelectTrigger>
+
+              <SelectContent>
+                {modules.map((module) => (
+                  <SelectItem
+                    key={module.id}
+                    value={module.id}
+                  >
+                    {module.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
@@ -131,14 +147,14 @@ export function QuestionEditForm({
               Question title
             </label>
 
-            <input
+            <Input
               id="title"
               name="title"
               type="text"
               required
               disabled={isPending}
               defaultValue={initialData.title}
-              className="h-11 w-full rounded-xl border border-white/[0.10] bg-white/[0.04] px-3 text-sm text-white outline-none placeholder:text-white/25 transition-colors focus:border-white/[0.20] focus:bg-white/[0.06] disabled:opacity-50"
+              className="h-11 rounded-xl border-white/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-white/[0.20] focus:bg-white/[0.06]"
             />
           </div>
 
@@ -150,36 +166,41 @@ export function QuestionEditForm({
               Question type
             </label>
 
-            <select
-              id="question_type"
+            <Select
               name="question_type"
               value={questionType}
-              onChange={(event) =>
-                setQuestionType(event.target.value)
-              }
+              onValueChange={setQuestionType}
               disabled={isPending}
-              className="h-11 w-full rounded-xl border border-white/[0.10] bg-[#111111] px-3 text-sm text-white outline-none transition-colors focus:border-white/[0.20] disabled:opacity-50"
             >
-              <option value="multiple_choice">
-                Multiple Choice
-              </option>
+              <SelectTrigger
+                id="question_type"
+                className="h-11 w-full rounded-xl border-white/[0.10] bg-white/[0.04] text-white focus:border-white/[0.20]"
+              >
+                <SelectValue />
+              </SelectTrigger>
 
-              <option value="true_false">
-                True / False
-              </option>
+              <SelectContent>
+                <SelectItem value="multiple_choice">
+                  Multiple Choice
+                </SelectItem>
 
-              <option value="short_answer">
-                Short Answer
-              </option>
+                <SelectItem value="true_false">
+                  True / False
+                </SelectItem>
 
-              <option value="numeric">
-                Numeric
-              </option>
+                <SelectItem value="short_answer">
+                  Short Answer
+                </SelectItem>
 
-              <option value="essay">
-                Essay
-              </option>
-            </select>
+                <SelectItem value="numeric">
+                  Numeric
+                </SelectItem>
+
+                <SelectItem value="essay">
+                  Essay
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
@@ -190,19 +211,19 @@ export function QuestionEditForm({
               Question
             </label>
 
-            <textarea
+            <Textarea
               id="content"
               name="content"
               required
               rows={7}
               disabled={isPending}
               defaultValue={initialData.content}
-              className="w-full resize-none rounded-xl border border-white/[0.10] bg-white/[0.04] px-3 py-3 text-sm leading-6 text-white outline-none placeholder:text-white/25 transition-colors focus:border-white/[0.20] focus:bg-white/[0.06] disabled:opacity-50"
+              className="resize-none rounded-xl border-white/[0.10] bg-white/[0.04] leading-6 text-white placeholder:text-white/25 focus:border-white/[0.20] focus:bg-white/[0.06]"
             />
           </div>
 
           {questionType === 'multiple_choice' && (
-            <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5">
+            <div className="rounded-2xl border border-violet-300/10 bg-violet-400/[0.025] p-5">
               <div className="mb-5">
                 <h3 className="text-sm font-semibold text-white">
                   Answer Options
@@ -219,18 +240,18 @@ export function QuestionEditForm({
                     key={label}
                     className="flex items-center gap-3"
                   >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] text-sm font-medium text-white/60">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10 text-sm font-medium text-violet-200">
                       {label}
                     </div>
 
-                    <input
+                    <Input
                       type="text"
                       name={`option_${index}`}
                       required
                       disabled={isPending}
                       defaultValue={getOptionValue(index)}
                       placeholder={`Option ${label}`}
-                      className="h-11 min-w-0 flex-1 rounded-xl border border-white/[0.10] bg-white/[0.04] px-3 text-sm text-white outline-none placeholder:text-white/25 transition-colors focus:border-white/[0.20] focus:bg-white/[0.06] disabled:opacity-50"
+                      className="h-11 min-w-0 flex-1 rounded-xl border-white/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-white/[0.20] focus:bg-white/[0.06]"
                     />
 
                     <label className="flex shrink-0 cursor-pointer items-center gap-2 text-xs text-white/45">
@@ -266,14 +287,14 @@ export function QuestionEditForm({
               </span>
             </label>
 
-            <textarea
+            <Textarea
               id="explanation"
               name="explanation"
               rows={5}
               disabled={isPending}
               defaultValue={initialData.explanation}
               placeholder="Explain the solution or reasoning..."
-              className="w-full resize-none rounded-xl border border-white/[0.10] bg-white/[0.04] px-3 py-3 text-sm leading-6 text-white outline-none placeholder:text-white/25 transition-colors focus:border-white/[0.20] focus:bg-white/[0.06] disabled:opacity-50"
+              className="resize-none rounded-xl border-white/[0.10] bg-white/[0.04] leading-6 text-white placeholder:text-white/25 focus:border-white/[0.20] focus:bg-white/[0.06]"
             />
           </div>
 
@@ -285,25 +306,33 @@ export function QuestionEditForm({
               Status
             </label>
 
-            <select
-              id="status"
+            <Select
               name="status"
               defaultValue={initialData.status}
               disabled={isPending}
-              className="h-11 w-full rounded-xl border border-white/[0.10] bg-[#111111] px-3 text-sm text-white outline-none transition-colors focus:border-white/[0.20] disabled:opacity-50"
+              required
             >
-              <option value="draft">
-                Draft
-              </option>
+              <SelectTrigger
+                id="status"
+                className="h-11 w-full rounded-xl border-white/[0.10] bg-white/[0.04] text-white focus:border-white/[0.20]"
+              >
+                <SelectValue />
+              </SelectTrigger>
 
-              <option value="published">
-                Published
-              </option>
+              <SelectContent>
+                <SelectItem value="draft">
+                  Draft
+                </SelectItem>
 
-              <option value="archived">
-                Archived
-              </option>
-            </select>
+                <SelectItem value="published">
+                  Published
+                </SelectItem>
+
+                <SelectItem value="archived">
+                  Archived
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {state.error && (

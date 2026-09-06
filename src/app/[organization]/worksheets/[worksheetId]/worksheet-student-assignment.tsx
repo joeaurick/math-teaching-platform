@@ -38,13 +38,17 @@ export function WorksheetStudentAssignment({
   assignedStudentAccessIds,
   worksheetStatus,
 }: WorksheetStudentAssignmentProps) {
-  const [selectedIds, setSelectedIds] = useState<string[]>(
-    assignedStudentAccessIds,
-  )
+  const [selectedIds, setSelectedIds] =
+    useState<string[]>(
+      assignedStudentAccessIds,
+    )
 
-  const [isPending, startTransition] = useTransition()
+  const [isPending, startTransition] =
+    useTransition()
 
-  function toggleStudent(studentAccessId: string) {
+  function toggleStudent(
+    studentAccessId: string,
+  ) {
     setSelectedIds((current) =>
       current.includes(studentAccessId)
         ? current.filter(
@@ -81,15 +85,15 @@ export function WorksheetStudentAssignment({
   const selectedCount = selectedIds.length
 
   return (
-    <Card>
+    <Card className="overflow-hidden border-violet-200/10 bg-gradient-to-br from-violet-400/[0.035] via-white/[0.015] to-transparent">
       <CardContent className="p-5 sm:p-6">
         <div className="flex flex-col gap-5">
           {/* Header */}
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04]">
-                <Users className="h-5 w-5 text-white/50" />
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10">
+                <Users className="h-5 w-5 text-violet-300" />
               </div>
 
               <div>
@@ -104,15 +108,21 @@ export function WorksheetStudentAssignment({
               </div>
             </div>
 
-            <Badge variant="muted">
-              {selectedCount} Student
+            <Badge
+              variant="info"
+              className="w-fit border-sky-300/20 bg-sky-400/10 text-sky-200"
+            >
+              {selectedCount}{' '}
+              {selectedCount === 1
+                ? 'Student'
+                : 'Students'}
             </Badge>
           </div>
 
           {/* Published requirement */}
 
           {worksheetStatus !== 'published' ? (
-            <div className="rounded-xl border border-amber-500/20 bg-amber-500/[0.06] px-4 py-3">
+            <div className="rounded-xl border border-amber-300/15 bg-gradient-to-r from-amber-400/[0.08] to-transparent px-4 py-3">
               <p className="text-sm font-medium text-amber-200">
                 Worksheet belum dipublish
               </p>
@@ -124,14 +134,16 @@ export function WorksheetStudentAssignment({
               </p>
             </div>
           ) : activeStudents.length === 0 ? (
-            <div className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-8 text-center">
-              <Users className="mx-auto h-5 w-5 text-white/30" />
+            <div className="rounded-2xl border border-sky-200/10 bg-sky-400/[0.025] px-4 py-10 text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-300/15 bg-sky-400/10">
+                <Users className="h-5 w-5 text-sky-300/60" />
+              </div>
 
-              <p className="mt-3 text-sm font-medium text-white/70">
+              <p className="mt-4 text-sm font-medium text-white/75">
                 Belum ada Student Access
               </p>
 
-              <p className="mt-1 text-xs leading-5 text-white/35">
+              <p className="mx-auto mt-1 max-w-sm text-xs leading-5 text-white/35">
                 Buat Student Access terlebih dahulu
                 melalui menu Classes.
               </p>
@@ -141,62 +153,77 @@ export function WorksheetStudentAssignment({
               {/* Student list */}
 
               <div className="space-y-2">
-                {activeStudents.map((student) => {
-                  const isSelected =
-                    selectedIds.includes(student.id)
+                {activeStudents.map(
+                  (student) => {
+                    const isSelected =
+                      selectedIds.includes(
+                        student.id,
+                      )
 
-                  return (
-                    <button
-                      key={student.id}
-                      type="button"
-                      disabled={isPending}
-                      onClick={() =>
-                        toggleStudent(student.id)
-                      }
-                      className={`flex w-full items-center gap-3 rounded-xl border p-4 text-left transition-all duration-200 ${
-                        isSelected
-                          ? 'border-white/[0.18] bg-white/[0.07]'
-                          : 'border-white/[0.08] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.04]'
-                      } disabled:pointer-events-none disabled:opacity-50`}
-                    >
-                      <div
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors ${
+                    return (
+                      <button
+                        key={student.id}
+                        type="button"
+                        disabled={isPending}
+                        onClick={() =>
+                          toggleStudent(
+                            student.id,
+                          )
+                        }
+                        className={`group flex w-full items-center gap-3 rounded-xl border p-4 text-left transition-all duration-200 ${
                           isSelected
-                            ? 'bg-white text-black'
-                            : 'bg-white/[0.06] text-white/30'
-                        }`}
+                            ? 'border-emerald-300/20 bg-emerald-400/[0.07] shadow-[0_8px_25px_rgba(52,211,153,0.04)]'
+                            : 'border-white/[0.08] bg-white/[0.02] hover:border-sky-300/15 hover:bg-sky-400/[0.035]'
+                        } disabled:pointer-events-none disabled:opacity-50`}
                       >
-                        {isSelected ? (
-                          <Check className="h-4 w-4" />
-                        ) : (
-                          <Users className="h-4 w-4" />
+                        <div
+                          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all duration-200 ${
+                            isSelected
+                              ? 'border border-emerald-300/20 bg-emerald-400/15 text-emerald-300'
+                              : 'border border-sky-300/10 bg-sky-400/[0.05] text-sky-300/40 group-hover:bg-sky-400/[0.10] group-hover:text-sky-300/60'
+                          }`}
+                        >
+                          {isSelected ? (
+                            <Check className="h-4 w-4" />
+                          ) : (
+                            <Users className="h-4 w-4" />
+                          )}
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium text-white">
+                            {student.student_name ||
+                              'Student'}
+                          </p>
+
+                          <p className="mt-1 text-xs text-white/35">
+                            Student Access
+                          </p>
+                        </div>
+
+                        {isSelected && (
+                          <Badge
+                            variant="success"
+                            className="shrink-0"
+                          >
+                            Assigned
+                          </Badge>
                         )}
-                      </div>
-
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-white">
-                          {student.student_name ||
-                            'Student'}
-                        </p>
-
-                        <p className="mt-1 text-xs text-white/35">
-                          Student Access
-                        </p>
-                      </div>
-
-                      {isSelected && (
-                        <Badge variant="success">
-                          Assigned
-                        </Badge>
-                      )}
-                    </button>
-                  )
-                })}
+                      </button>
+                    )
+                  },
+                )}
               </div>
 
               {/* Save */}
 
-              <div className="flex items-center justify-end border-t border-white/[0.08] pt-5">
+              <div className="flex flex-col gap-3 border-t border-white/[0.08] pt-5 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs text-white/30">
+                  {selectedCount === 0
+                    ? 'Belum ada student yang dipilih.'
+                    : `${selectedCount} student akan mendapatkan worksheet ini.`}
+                </p>
+
                 <Button
                   disabled={isPending}
                   onClick={handleSave}
