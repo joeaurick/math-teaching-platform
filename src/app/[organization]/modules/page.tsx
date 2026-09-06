@@ -10,13 +10,12 @@ import {
   Users,
   Video,
 } from 'lucide-react'
-import { notFound, redirect } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/empty-state'
 import { PageHeader } from '@/components/ui/page-header'
-import { createClient } from '@/lib/supabase/server'
+import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 import { getModules } from '@/lib/modules/get-modules'
 
 type ModulesPageProps = {
@@ -77,50 +76,8 @@ export default async function ModulesPage({
 }: ModulesPageProps) {
   const { organization: slug } = await params
 
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
-
-  const { data: organization, error: organizationError } =
-    await supabase
-      .from('organizations')
-      .select('id, name, slug')
-      .eq('slug', slug)
-      .maybeSingle()
-
-  if (organizationError) {
-    throw new Error(
-      `Gagal mengambil organization: ${organizationError.message}`
-    )
-  }
-
-  if (!organization) {
-    notFound()
-  }
-
-  const { data: membership, error: membershipError } =
-    await supabase
-      .from('organization_members')
-      .select('id, role')
-      .eq('organization_id', organization.id)
-      .eq('user_id', user.id)
-      .maybeSingle()
-
-  if (membershipError) {
-    throw new Error(
-      `Gagal mengambil membership: ${membershipError.message}`
-    )
-  }
-
-  if (!membership) {
-    notFound()
-  }
+  const { organization } =
+    await getOrganizationContext(slug)
 
   const modules = await getModules(organization.id)
 

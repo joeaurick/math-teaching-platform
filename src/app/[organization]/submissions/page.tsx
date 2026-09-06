@@ -5,13 +5,12 @@ import {
   FileText,
   UserRound,
 } from 'lucide-react'
-import { notFound, redirect } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
-import { createClient } from '@/lib/supabase/server'
+import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 
 type SubmissionsPageProps = {
   params: Promise<{
@@ -63,70 +62,10 @@ export default async function SubmissionsPage({
 }: SubmissionsPageProps) {
   const { organization: slug } = await params
 
-  const supabase = await createClient()
-
-  // ------------------------------------------------------------
-  // 1. User
-  // ------------------------------------------------------------
-
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
-
-  // ------------------------------------------------------------
-  // 2. Organization
-  // ------------------------------------------------------------
-
-  const {
-    data: organization,
-    error: organizationError,
-  } = await supabase
-    .from('organizations')
-    .select('id, name, slug')
-    .eq('slug', slug)
-    .maybeSingle()
-
-  if (organizationError) {
-    throw new Error(
-      `Gagal mengambil organization: ${organizationError.message}`,
-    )
-  }
-
-  if (!organization) {
-    notFound()
-  }
-
-  // ------------------------------------------------------------
-  // 3. Membership
-  // ------------------------------------------------------------
-
-  const {
-    data: membership,
-    error: membershipError,
-  } = await supabase
-    .from('organization_members')
-    .select('role')
-    .eq('organization_id', organization.id)
-    .eq('user_id', user.id)
-    .maybeSingle()
-
-  if (membershipError) {
-    throw new Error(
-      `Gagal mengambil membership: ${membershipError.message}`,
-    )
-  }
-
-  if (!membership) {
-    notFound()
-  }
-
-  // ------------------------------------------------------------
-  // 4. Submissions
-  // ------------------------------------------------------------
+    supabase,
+    organization,
+  } = await getOrganizationContext(slug)
 
   const {
     data: submissionsData,
@@ -203,7 +142,7 @@ export default async function SubmissionsPage({
     )
 
   // ------------------------------------------------------------
-  // 5. Statistics
+  // Statistics
   // ------------------------------------------------------------
 
   const totalSubmissions = submissions.length

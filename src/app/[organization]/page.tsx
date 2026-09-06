@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { notFound, redirect } from 'next/navigation'
 import {
   ArrowRight,
   BookOpen,
@@ -14,7 +13,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
-import { createClient } from '@/lib/supabase/server'
+import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 
 type OrganizationPageProps = {
   params: Promise<{
@@ -75,57 +74,11 @@ export default async function OrganizationPage({
 }: OrganizationPageProps) {
   const { organization: slug } = await params
 
-  const supabase = await createClient()
-
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
-
-  const { data: organization, error: organizationError } =
-    await supabase
-      .from('organizations')
-      .select(`
-        id,
-        name,
-        slug
-      `)
-      .eq('slug', slug)
-      .maybeSingle()
-
-  if (organizationError) {
-    throw new Error(
-      `Gagal mengambil organization: ${organizationError.message}`
-    )
-  }
-
-  if (!organization) {
-    notFound()
-  }
-
-  const { data: membership, error: membershipError } =
-    await supabase
-      .from('organization_members')
-      .select(`
-        id,
-        role
-      `)
-      .eq('organization_id', organization.id)
-      .eq('user_id', user.id)
-      .maybeSingle()
-
-  if (membershipError) {
-    throw new Error(
-      `Gagal mengambil membership: ${membershipError.message}`
-    )
-  }
-
-  if (!membership) {
-    notFound()
-  }
+    organization,
+    membership,
+    user,
+  } = await getOrganizationContext(slug)
 
   const firstName =
     user.email?.split('@')[0] || 'Teacher'
@@ -133,6 +86,7 @@ export default async function OrganizationPage({
   return (
     <div className="min-h-full">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+
         <PageHeader
           eyebrow="Workspace"
           title={`Good to see you, ${firstName}`}
@@ -146,6 +100,8 @@ export default async function OrganizationPage({
             </Badge>
           }
         />
+
+        {/* Quick Actions */}
 
         <section className="mt-8">
           <div className="mb-4">
@@ -193,6 +149,8 @@ export default async function OrganizationPage({
           </div>
         </section>
 
+        {/* Teaching Workspace */}
+
         <section className="mt-8">
           <div className="mb-4">
             <h2 className="text-sm font-semibold text-white">
@@ -237,9 +195,12 @@ export default async function OrganizationPage({
           </div>
         </section>
 
+        {/* Workspace Information */}
+
         <section className="mt-8">
           <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5 sm:p-6">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+
               <div>
                 <p className="text-xs font-medium uppercase tracking-[0.14em] text-white/25">
                   Workspace
@@ -266,9 +227,11 @@ export default async function OrganizationPage({
                   {membership.role}
                 </Badge>
               </div>
+
             </div>
           </div>
         </section>
+
       </div>
     </div>
   )

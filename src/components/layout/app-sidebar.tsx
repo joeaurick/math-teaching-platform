@@ -2,104 +2,23 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { ComponentType } from 'react'
 import {
   BarChart3,
-  BookOpen,
-  Camera,
-  ClipboardList,
-  FileQuestion,
   FolderKanban,
-  GraduationCap,
-  LayoutDashboard,
-  Library,
-  PenLine,
-  Settings,
-  Shapes,
-  Sparkles,
-  Users,
-  Video,
 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import {
+  systemNavigation,
+  teachingNavigation,
+  workspaceNavigation,
+} from './navigation'
 
 type AppSidebarProps = {
   organizationSlug: string
   organizationName: string
   role: string
 }
-
-type NavigationItem = {
-  label: string
-  href: string
-  icon: ComponentType<{ className?: string }>
-}
-
-const workspaceNavigation: NavigationItem[] = [
-  {
-    label: 'Dashboard',
-    href: '',
-    icon: LayoutDashboard,
-  },
-  {
-    label: 'My Modules',
-    href: '/modules',
-    icon: BookOpen,
-  },
-  {
-    label: 'Question Builder',
-    href: '/questions',
-    icon: PenLine,
-  },
-  {
-    label: 'Geometry',
-    href: '/geometry',
-    icon: Shapes,
-  },
-  {
-    label: 'Math Symbols',
-    href: '/symbols',
-    icon: Sparkles,
-  },
-  {
-    label: 'Photo / Scan',
-    href: '/photo-scan',
-    icon: Camera,
-  },
-]
-
-const teachingNavigation: NavigationItem[] = [
-  {
-    label: 'Question Bank',
-    href: '/question-bank',
-    icon: Library,
-  },
-  {
-    label: 'Worksheets',
-    href: '/worksheets',
-    icon: ClipboardList,
-  },
-  {
-    label: 'Teaching Mode',
-    href: '/teaching-mode',
-    icon: GraduationCap,
-  },
-  {
-    label: 'Classes',
-    href: '/classes',
-    icon: Users,
-  },
-  {
-    label: 'Live Classroom',
-    href: '/live-classroom',
-    icon: Video,
-  },
-  {
-    label: 'Student Submissions',
-    href: '/submissions',
-    icon: FileQuestion,
-  },
-]
 
 function NavigationSection({
   title,
@@ -108,7 +27,7 @@ function NavigationSection({
   pathname,
 }: {
   title: string
-  items: NavigationItem[]
+  items: typeof workspaceNavigation
   basePath: string
   pathname: string
 }) {
@@ -179,6 +98,9 @@ export function AppSidebar({
   return (
     <aside className="hidden w-64 shrink-0 border-r border-white/[0.07] bg-[#090909] lg:flex lg:flex-col">
       <div className="flex min-h-0 flex-1 flex-col">
+
+        {/* Header */}
+
         <div className="flex h-[72px] shrink-0 items-center border-b border-white/[0.07] px-5">
           <Link
             href={basePath}
@@ -200,6 +122,8 @@ export function AppSidebar({
           </Link>
         </div>
 
+        {/* Organization */}
+
         <div className="shrink-0 px-4 py-4">
           <div className="rounded-xl border border-white/[0.07] bg-white/[0.025] p-3">
             <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-white/25">
@@ -216,6 +140,8 @@ export function AppSidebar({
           </div>
         </div>
 
+        {/* Navigation */}
+
         <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <NavigationSection
             title="Workspace"
@@ -231,26 +157,15 @@ export function AppSidebar({
             pathname={pathname}
           />
 
-          <section>
-            <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/25">
-              System
-            </p>
-
-            <Link
-              href={settingsPath}
-              className={cn(
-                'flex min-h-10 items-center gap-3 rounded-xl px-3',
-                'text-sm transition-colors',
-                settingsActive
-                  ? 'bg-white/[0.08] text-white'
-                  : 'text-white/45 hover:bg-white/[0.045] hover:text-white/80',
-              )}
-            >
-              <Settings className="h-[17px] w-[17px]" />
-              <span>Settings</span>
-            </Link>
-          </section>
+          <NavigationSection
+            title="System"
+            items={systemNavigation}
+            basePath={basePath}
+            pathname={pathname}
+          />
         </div>
+
+        {/* Footer */}
 
         <div className="shrink-0 border-t border-white/[0.07] p-4">
           <Link
@@ -258,6 +173,7 @@ export function AppSidebar({
             className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/40 transition-colors hover:bg-white/[0.045] hover:text-white/75"
           >
             <FolderKanban className="h-[17px] w-[17px]" />
+
             <span>All Organizations</span>
           </Link>
         </div>

@@ -1,12 +1,16 @@
 import Link from 'next/link'
-import { ArrowRight, BookOpen, Plus, Users } from 'lucide-react'
-import { notFound, redirect } from 'next/navigation'
+import {
+  ArrowRight,
+  BookOpen,
+  Plus,
+  Users,
+} from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
-import { createClient } from '@/lib/supabase/server'
+import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 
 type ClassesPageProps = {
   params: Promise<{
@@ -19,50 +23,8 @@ export default async function ClassesPage({
 }: ClassesPageProps) {
   const { organization: organizationSlug } = await params
 
-  const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
-
-  const { data: organization, error: organizationError } =
-    await supabase
-      .from('organizations')
-      .select('id, name, slug')
-      .eq('slug', organizationSlug)
-      .maybeSingle()
-
-  if (organizationError) {
-    throw new Error(
-      `Gagal mengambil organization: ${organizationError.message}`,
-    )
-  }
-
-  if (!organization) {
-    notFound()
-  }
-
-  const { data: membership, error: membershipError } =
-    await supabase
-      .from('organization_members')
-      .select('role')
-      .eq('organization_id', organization.id)
-      .eq('user_id', user.id)
-      .maybeSingle()
-
-  if (membershipError) {
-    throw new Error(
-      `Gagal mengambil membership: ${membershipError.message}`,
-    )
-  }
-
-  if (!membership) {
-    notFound()
-  }
+  const { organization } =
+    await getOrganizationContext(organizationSlug)
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10">

@@ -1,17 +1,7 @@
-import { redirect } from 'next/navigation'
-
 import { createClient } from '@/lib/supabase/server'
 
 export async function getModules(organizationId: string) {
   const supabase = await createClient()
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
-  }
 
   const { data, error } = await supabase
     .from('modules')
