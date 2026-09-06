@@ -200,7 +200,7 @@ export default async function ModuleDetailPage({
       <div className="mx-auto w-full max-w-[1200px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}/modules`}
-          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
+          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
         >
           <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
           Back to Modules
@@ -246,20 +246,20 @@ export default async function ModuleDetailPage({
 
         <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_300px]">
           {/* QUESTIONS */}
-          <Card className="border-sky-200/10 bg-gradient-to-br from-sky-400/[0.045] via-white/[0.025] to-transparent">
-            <CardContent className="p-6">
+          <Card className="border-sky-200 bg-gradient-to-br from-sky-50 via-white to-white shadow-sm shadow-sky-100/70">
+            <CardContent className="!p-6">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
-                    <FileQuestion className="h-[18px] w-[18px] text-sky-300" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
+                    <FileQuestion className="h-[18px] w-[18px] text-sky-600" />
                   </div>
 
                   <div>
-                    <h2 className="text-sm font-semibold text-white">
+                    <h2 className="text-sm font-semibold text-slate-900">
                       Questions
                     </h2>
 
-                    <p className="mt-1 text-xs text-white/35">
+                    <p className="mt-1 text-xs text-slate-500">
                       {questions.length}{' '}
                       {questions.length === 1
                         ? 'question'
@@ -276,7 +276,6 @@ export default async function ModuleDetailPage({
                     type="button"
                     variant="primary"
                     size="sm"
-                    className="border-white/10 bg-white text-black hover:bg-white/90"
                   >
                     <Plus className="h-4 w-4" />
                     Add Question
@@ -288,7 +287,7 @@ export default async function ModuleDetailPage({
                 <div className="mt-6">
                   <EmptyState
                     icon={
-                      <FileQuestion className="h-5 w-5 text-sky-300" />
+                      <FileQuestion className="h-5 w-5 text-sky-600" />
                     }
                     title="No questions yet"
                     description="Add your first mathematics question to this module."
@@ -300,7 +299,6 @@ export default async function ModuleDetailPage({
                           type="button"
                           variant="primary"
                           size="md"
-                          className="border-white/10 bg-white text-black hover:bg-white/90"
                         >
                           <Plus className="h-4 w-4" />
                           Add Question
@@ -323,15 +321,15 @@ export default async function ModuleDetailPage({
                         href={`/${organization.slug}/questions/${question.id}`}
                         className="group block"
                       >
-                        <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4 transition-all duration-200 hover:border-sky-300/20 hover:bg-white/[0.04]">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-200 hover:border-sky-300 hover:bg-sky-50/30 hover:shadow-md hover:shadow-sky-100/60">
                           <div className="flex items-start gap-4">
-                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-300/15 bg-sky-400/10 text-xs font-semibold text-sky-300">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50 text-xs font-semibold text-sky-700">
                               {index + 1}
                             </div>
 
                             <div className="min-w-0 flex-1">
                               <div className="flex flex-wrap items-center gap-2">
-                                <h3 className="text-sm font-semibold text-white transition-colors group-hover:text-sky-100">
+                                <h3 className="text-sm font-semibold text-slate-900 transition-colors group-hover:text-sky-700">
                                   {question.title}
                                 </h3>
 
@@ -351,11 +349,11 @@ export default async function ModuleDetailPage({
                                 </Badge>
                               </div>
 
-                              <p className="mt-2 line-clamp-2 text-sm leading-5 text-white/35">
+                              <p className="mt-2 line-clamp-2 text-sm leading-5 text-slate-600">
                                 {question.content}
                               </p>
 
-                              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-white/30">
+                              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-400">
                                 <span>
                                   {getQuestionTypeLabel(
                                     question.question_type,
@@ -382,19 +380,19 @@ export default async function ModuleDetailPage({
 
           {/* SIDEBAR */}
           <div className="space-y-4">
-            <Card className="border-violet-200/10 bg-gradient-to-br from-violet-400/[0.045] via-white/[0.025] to-transparent">
-              <CardContent className="p-5">
+            <Card className="border-violet-200 bg-gradient-to-br from-violet-50 via-white to-white shadow-sm shadow-violet-100/60">
+              <CardContent className="!p-5">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-300/20 bg-violet-400/10">
-                    <BookOpen className="h-4 w-4 text-violet-300" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-200 bg-violet-50">
+                    <BookOpen className="h-4 w-4 text-violet-600" />
                   </div>
 
                   <div>
-                    <p className="text-xs text-white/35">
+                    <p className="text-xs text-slate-500">
                       Module
                     </p>
 
-                    <p className="mt-0.5 text-sm font-medium text-white">
+                    <p className="mt-0.5 text-sm font-medium text-slate-900">
                       {module.title}
                     </p>
                   </div>
@@ -402,19 +400,19 @@ export default async function ModuleDetailPage({
               </CardContent>
             </Card>
 
-            <Card className="border-emerald-200/10 bg-gradient-to-br from-emerald-400/[0.045] via-white/[0.025] to-transparent">
-              <CardContent className="p-5">
+            <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-white shadow-sm shadow-emerald-100/60">
+              <CardContent className="!p-5">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-300/20 bg-emerald-400/10">
-                    <FileQuestion className="h-4 w-4 text-emerald-300" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50">
+                    <FileQuestion className="h-4 w-4 text-emerald-600" />
                   </div>
 
                   <div>
-                    <p className="text-xs text-white/35">
+                    <p className="text-xs text-slate-500">
                       Questions
                     </p>
 
-                    <p className="mt-0.5 text-sm font-medium text-white">
+                    <p className="mt-0.5 text-sm font-medium text-slate-900">
                       {questions.length}
                     </p>
                   </div>
@@ -422,17 +420,17 @@ export default async function ModuleDetailPage({
               </CardContent>
             </Card>
 
-            <Card className="border-amber-200/10 bg-gradient-to-br from-amber-400/[0.045] via-white/[0.025] to-transparent">
-              <CardContent className="space-y-4 p-5">
+            <Card className="border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white shadow-sm shadow-amber-100/60">
+              <CardContent className="!p-5">
                 <div className="flex items-center gap-3">
-                  <Clock3 className="h-4 w-4 text-amber-300/70" />
+                  <Clock3 className="h-4 w-4 text-amber-600" />
 
                   <div>
-                    <p className="text-[11px] text-white/30">
+                    <p className="text-[11px] text-slate-500">
                       Created
                     </p>
 
-                    <p className="mt-0.5 text-xs text-white/65">
+                    <p className="mt-0.5 text-xs text-slate-700">
                       {formatDate(
                         module.created_at,
                       )}
@@ -440,12 +438,12 @@ export default async function ModuleDetailPage({
                   </div>
                 </div>
 
-                <div className="border-t border-white/[0.07] pt-4">
-                  <p className="text-[11px] text-white/30">
+                <div className="mt-4 border-t border-slate-100 pt-4">
+                  <p className="text-[11px] text-slate-500">
                     Last updated
                   </p>
 
-                  <p className="mt-1 text-xs text-white/65">
+                  <p className="mt-1 text-xs text-slate-700">
                     {formatDate(
                       module.updated_at,
                     )}

@@ -130,7 +130,7 @@ export default async function ModuleStudentsPage({
       <div className="mx-auto w-full max-w-6xl px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}/modules/${module.id}`}
-          className="group inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
           Kembali ke Module
@@ -156,23 +156,25 @@ export default async function ModuleStudentsPage({
         />
 
         {module.status !== 'published' && (
-          <Card className="mt-8 overflow-hidden border-amber-300/15 bg-gradient-to-br from-amber-400/[0.07] via-white/[0.025] to-transparent">
-            <CardContent className="flex items-start gap-4 p-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-300/20 bg-amber-400/10">
-                <BookOpen className="h-4 w-4 text-amber-300" />
-              </div>
+          <Card className="mt-8 overflow-hidden border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white shadow-sm shadow-amber-100/60">
+            <CardContent className="!p-5">
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-200 bg-amber-50">
+                  <BookOpen className="h-4 w-4 text-amber-600" />
+                </div>
 
-              <div>
-                <h2 className="text-sm font-semibold text-white">
-                  Module belum dipublish
-                </h2>
+                <div>
+                  <h2 className="text-sm font-semibold text-slate-900">
+                    Module belum dipublish
+                  </h2>
 
-                <p className="mt-1 text-sm leading-6 text-white/40">
-                  Anda dapat menentukan siswa sekarang.
-                  Namun module belum akan muncul di ruang
-                  belajar siswa sampai statusnya
-                  menjadi Published.
-                </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-600">
+                    Anda dapat menentukan siswa sekarang.
+                    Namun module belum akan muncul di ruang
+                    belajar siswa sampai statusnya
+                    menjadi Published.
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -180,16 +182,16 @@ export default async function ModuleStudentsPage({
 
         <section className="mt-8">
           <div className="mb-5 flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10">
-              <Users className="h-4 w-4 text-violet-300" />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-200 bg-violet-50">
+              <Users className="h-4 w-4 text-violet-600" />
             </div>
 
             <div>
-              <h2 className="text-base font-semibold text-white">
+              <h2 className="text-base font-semibold text-slate-900">
                 Daftar Siswa
               </h2>
 
-              <p className="mt-1 text-sm text-white/35">
+              <p className="mt-1 text-sm text-slate-500">
                 {assignedStudentIds.length}{' '}
                 siswa telah diberikan module ini.
               </p>
@@ -215,24 +217,24 @@ export default async function ModuleStudentsPage({
               }
             />
           ) : (
-            <Card className="overflow-hidden border-white/[0.07] bg-white/[0.025]">
-              <CardContent className="flex min-h-[240px] flex-col items-center justify-center p-8 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-300/20 bg-sky-400/10">
-                  <Users className="h-5 w-5 text-sky-300" />
+            <Card className="overflow-hidden border-slate-200 bg-white shadow-sm">
+              <CardContent className="flex min-h-[240px] flex-col items-center justify-center !p-8 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-200 bg-sky-50">
+                  <Users className="h-5 w-5 text-sky-600" />
                 </div>
 
-                <h2 className="mt-4 text-sm font-semibold text-white">
+                <h2 className="mt-4 text-sm font-semibold text-slate-900">
                   Belum ada siswa
                 </h2>
 
-                <p className="mt-2 max-w-md text-sm leading-6 text-white/35">
+                <p className="mt-2 max-w-md text-sm leading-6 text-slate-500">
                   Buat Student Access terlebih dahulu
                   agar siswa dapat menerima module.
                 </p>
 
                 <Link
                   href={`/${organization.slug}/classes/student-access`}
-                  className="mt-5 text-sm font-medium text-sky-300 transition-colors hover:text-sky-200"
+                  className="mt-5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
                 >
                   Kelola Student Access
                 </Link>

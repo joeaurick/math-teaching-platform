@@ -243,7 +243,7 @@ export default async function WorksheetDetailPage({
         <div className="mb-6">
           <Link
             href={`/${organization.slug}/worksheets`}
-            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
           >
             <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
             Kembali ke Worksheets
@@ -295,79 +295,79 @@ export default async function WorksheetDetailPage({
         {/* Summary */}
 
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <Card className="overflow-hidden border-sky-200/10 bg-gradient-to-br from-sky-400/[0.07] via-white/[0.02] to-transparent shadow-[0_14px_40px_rgba(56,189,248,0.04)]">
-            <CardContent className="p-5">
+          <Card className="overflow-hidden border-sky-200 bg-gradient-to-br from-sky-50 via-white to-white shadow-sm shadow-sky-100">
+            <CardContent className="!p-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-xs font-medium text-sky-200/45">
+                  <p className="text-xs font-medium text-sky-700">
                     Questions
                   </p>
 
-                  <p className="mt-1 text-2xl font-semibold tracking-tight text-white">
+                  <p className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">
                     {worksheetQuestions.length}
                   </p>
                 </div>
 
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
-                  <FileQuestion className="h-5 w-5 text-sky-300" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
+                  <FileQuestion className="h-5 w-5 text-sky-600" />
                 </div>
               </div>
 
-              <p className="mt-3 text-xs text-white/25">
+              <p className="mt-3 text-xs text-slate-500">
                 {publishedQuestionCount} published
               </p>
             </CardContent>
           </Card>
 
-          <Card className="overflow-hidden border-violet-200/10 bg-gradient-to-br from-violet-400/[0.07] via-white/[0.02] to-transparent shadow-[0_14px_40px_rgba(139,92,246,0.04)]">
-            <CardContent className="p-5">
+          <Card className="overflow-hidden border-violet-200 bg-gradient-to-br from-violet-50 via-white to-white shadow-sm shadow-violet-100">
+            <CardContent className="!p-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-xs font-medium text-violet-200/45">
+                  <p className="text-xs font-medium text-violet-700">
                     Status
                   </p>
 
-                  <p className="mt-1 text-base font-semibold capitalize text-white">
+                  <p className="mt-1 text-base font-semibold capitalize text-slate-900">
                     {worksheet.status}
                   </p>
                 </div>
 
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10">
-                  <span className="text-sm font-semibold text-violet-300">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-200 bg-violet-50">
+                  <span className="text-sm font-semibold text-violet-600">
                     W
                   </span>
                 </div>
               </div>
 
-              <p className="mt-3 text-xs text-white/25">
+              <p className="mt-3 text-xs text-slate-500">
                 Current worksheet status
               </p>
             </CardContent>
           </Card>
 
-          <Card className="overflow-hidden border-amber-200/10 bg-gradient-to-br from-amber-400/[0.07] via-white/[0.02] to-transparent shadow-[0_14px_40px_rgba(251,191,36,0.04)]">
-            <CardContent className="p-5">
+          <Card className="overflow-hidden border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white shadow-sm shadow-amber-100">
+            <CardContent className="!p-5">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-xs font-medium text-amber-200/45">
+                  <p className="text-xs font-medium text-amber-700">
                     Created
                   </p>
 
-                  <p className="mt-1 text-sm font-semibold text-white">
+                  <p className="mt-1 text-sm font-semibold text-slate-900">
                     {new Date(
                       worksheet.created_at,
                     ).toLocaleDateString('id-ID')}
                   </p>
                 </div>
 
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-amber-300/20 bg-amber-400/10">
-                  <span className="text-sm font-semibold text-amber-300">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-amber-200 bg-amber-50">
+                  <span className="text-sm font-semibold text-amber-600">
                     +
                   </span>
                 </div>
               </div>
 
-              <p className="mt-3 text-xs text-white/25">
+              <p className="mt-3 text-xs text-slate-500">
                 Worksheet creation date
               </p>
             </CardContent>
@@ -378,11 +378,11 @@ export default async function WorksheetDetailPage({
 
         <div className="mt-8">
           <div className="mb-4">
-            <h2 className="text-lg font-semibold text-white">
+            <h2 className="text-lg font-semibold text-slate-900">
               Worksheet Questions
             </h2>
 
-            <p className="mt-1 text-sm text-white/40">
+            <p className="mt-1 text-sm text-slate-500">
               Soal-soal yang akan dimasukkan ke worksheet.
             </p>
           </div>
@@ -418,11 +418,11 @@ export default async function WorksheetDetailPage({
 
         <div className="mt-8">
           <div className="mb-4">
-            <h2 className="text-lg font-semibold text-white">
+            <h2 className="text-lg font-semibold text-slate-900">
               Students
             </h2>
 
-            <p className="mt-1 text-sm text-white/40">
+            <p className="mt-1 text-sm text-slate-500">
               Atur student yang mendapatkan worksheet ini.
             </p>
           </div>

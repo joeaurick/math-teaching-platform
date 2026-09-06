@@ -146,28 +146,28 @@ export function StudentAccessClient({
       {/* Generate Student Link                                  */}
       {/* ====================================================== */}
 
-      <Card className="overflow-hidden border-sky-200/50 bg-gradient-to-br from-sky-50/[0.10] via-white/[0.035] to-transparent shadow-[0_12px_40px_rgba(56,189,248,0.05)]">
-        <CardContent className="p-6">
+      <Card className="overflow-hidden border-sky-200 bg-gradient-to-br from-sky-50 via-white to-white shadow-sm shadow-sky-100/60">
+        <CardContent className="!p-6">
           <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-sky-300/30 bg-sky-400/10">
-              <Link2 className="h-5 w-5 text-sky-300" />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-sky-200 bg-sky-50">
+              <Link2 className="h-5 w-5 text-sky-600" />
             </div>
 
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-base font-semibold text-white">
+                <h2 className="text-base font-semibold text-slate-900">
                   Generate Student Link
                 </h2>
 
                 <Badge
                   variant="info"
-                  className="border-sky-300/20 bg-sky-400/10 text-sky-200"
+                  className="border-sky-200 bg-sky-50 text-sky-700"
                 >
                   Secure Access
                 </Badge>
               </div>
 
-              <p className="mt-1 text-sm leading-6 text-white/45">
+              <p className="mt-1 text-sm leading-6 text-slate-500">
                 Buat link khusus untuk siswa agar dapat
                 mengakses workspace mereka tanpa login.
               </p>
@@ -177,7 +177,7 @@ export function StudentAccessClient({
           <div className="mt-6">
             <label
               htmlFor="student-name"
-              className="mb-2 block text-sm font-medium text-white/65"
+              className="mb-2 block text-sm font-medium text-slate-700"
             >
               Student name
             </label>
@@ -232,17 +232,17 @@ export function StudentAccessClient({
 
       <div className="space-y-3">
         {studentAccesses.length === 0 ? (
-          <Card className="border-amber-200/40 bg-gradient-to-br from-amber-50/[0.08] via-white/[0.025] to-transparent">
-            <CardContent className="flex flex-col items-center justify-center p-10 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-300/30 bg-amber-400/10">
-                <Users className="h-5 w-5 text-amber-300" />
+          <Card className="border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white shadow-sm shadow-amber-100/50">
+            <CardContent className="flex flex-col items-center justify-center !p-10 text-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-200 bg-amber-50">
+                <Users className="h-5 w-5 text-amber-600" />
               </div>
 
-              <h3 className="mt-4 text-sm font-semibold text-white">
+              <h3 className="mt-4 text-sm font-semibold text-slate-900">
                 Belum ada student access
               </h3>
 
-              <p className="mt-2 max-w-md text-sm leading-6 text-white/40">
+              <p className="mt-2 max-w-md text-sm leading-6 text-slate-500">
                 Buat student link di atas untuk memberikan
                 akses ke learning environment siswa.
               </p>
@@ -256,19 +256,19 @@ export function StudentAccessClient({
             return (
               <Card
                 key={access.id}
-                className="overflow-hidden border-white/[0.08] bg-white/[0.025] transition-all duration-200 hover:border-violet-200/30 hover:bg-white/[0.035]"
+                className="overflow-hidden border-slate-200 bg-white shadow-sm shadow-slate-200/50 transition-all duration-200 hover:border-violet-200 hover:shadow-md hover:shadow-violet-100/40"
               >
-                <CardContent className="p-6">
+                <CardContent className="!p-6">
                   <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                     {/* Student information */}
 
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-violet-300/25 bg-violet-400/10">
-                          <Users className="h-4 w-4 text-violet-300" />
+                        <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-violet-200 bg-violet-50">
+                          <Users className="h-4 w-4 text-violet-600" />
                         </div>
 
-                        <h3 className="text-sm font-semibold text-white">
+                        <h3 className="text-sm font-semibold text-slate-900">
                           {access.student_name ||
                             'Unnamed Student'}
                         </h3>
@@ -287,12 +287,12 @@ export function StudentAccessClient({
                         </Badge>
                       </div>
 
-                      <p className="mt-3 break-all rounded-xl border border-white/[0.06] bg-black/10 px-3 py-2 font-mono text-xs text-white/30">
+                      <p className="mt-3 break-all rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs text-slate-500">
                         {access.token}
                       </p>
 
                       {access.expires_at && (
-                        <p className="mt-2 text-xs text-white/30">
+                        <p className="mt-2 text-xs text-slate-500">
                           Expires:{' '}
                           {new Intl.DateTimeFormat(
                             'id-ID',

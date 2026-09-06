@@ -94,37 +94,36 @@ export function ModuleStudentAssignment({
             key={student.id}
             className={
               isAssigned
-                ? 'overflow-hidden border-emerald-300/25 bg-gradient-to-r from-emerald-400/[0.07] via-white/[0.025] to-transparent'
-                : 'overflow-hidden border-white/[0.08] bg-white/[0.025] transition-all hover:border-sky-300/20 hover:bg-white/[0.035]'
+                ? 'overflow-hidden border-emerald-200 bg-gradient-to-r from-emerald-50 via-white to-white shadow-sm shadow-emerald-100/60'
+                : 'overflow-hidden border-slate-200 bg-white shadow-sm transition-all hover:border-sky-200 hover:bg-sky-50/30 hover:shadow-md hover:shadow-sky-100/50'
             }
           >
-            <CardContent className="p-5">
+            <CardContent className="!p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex min-w-0 items-center gap-4">
                   <div
                     className={
                       isAssigned
-                        ? 'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-400/10'
-                        : 'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10'
+                        ? 'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50'
+                        : 'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50'
                     }
                   >
                     {isAssigned ? (
-                      <Check className="h-4 w-4 text-emerald-300" />
+                      <Check className="h-4 w-4 text-emerald-600" />
                     ) : (
-                      <UserRound className="h-4 w-4 text-sky-300" />
+                      <UserRound className="h-4 w-4 text-sky-600" />
                     )}
                   </div>
 
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-sm font-semibold text-white">
+                      <h3 className="text-sm font-semibold text-slate-900">
                         {studentName}
                       </h3>
 
                       {isAssigned && (
                         <Badge
                           variant="success"
-                          className="border-emerald-300/20 bg-emerald-400/10 text-emerald-200"
                         >
                           Diberikan
                         </Badge>
@@ -145,7 +144,7 @@ export function ModuleStudentAssignment({
                         )}
                     </div>
 
-                    <p className="mt-1 text-xs text-white/30">
+                    <p className="mt-1 text-xs text-slate-400">
                       Student Access
                     </p>
                   </div>
@@ -168,8 +167,8 @@ export function ModuleStudentAssignment({
                   }
                   className={
                     isAssigned
-                      ? 'border-emerald-300/20 bg-emerald-400/10 text-emerald-100 hover:border-emerald-300/30 hover:bg-emerald-400/15'
-                      : 'border-sky-300/20 text-sky-100 hover:border-sky-300/30 hover:bg-sky-400/10'
+                      ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100'
+                      : 'border-sky-200 text-sky-700 hover:border-sky-300 hover:bg-sky-50'
                   }
                 >
                   {isPending ? (

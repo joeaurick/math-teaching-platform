@@ -38,12 +38,12 @@ function NavigationSection({
   onNavigate: () => void
 }) {
   return (
-    <section className="mb-6">
-      <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/25">
+    <section className="mb-7">
+      <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
         {title}
       </p>
 
-      <nav className="space-y-1">
+      <nav className="space-y-0.5">
         {items.map((item) => {
           const href = `${basePath}${item.href}`
 
@@ -61,19 +61,24 @@ function NavigationSection({
               href={href}
               onClick={onNavigate}
               className={cn(
-                'group flex min-h-11 items-center gap-3 rounded-xl px-3',
-                'text-sm transition-colors',
+                'group relative flex min-h-11 items-center gap-3 rounded-xl px-3',
+                'text-sm font-medium',
+                'transition-all duration-150',
                 active
-                  ? 'bg-white/[0.08] text-white'
-                  : 'text-white/45 hover:bg-white/[0.045] hover:text-white/80',
+                  ? 'bg-slate-100 text-slate-900'
+                  : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900',
               )}
             >
+              {active && (
+                <span className="absolute left-0 top-1/2 h-5 w-0.5 -translate-y-1/2 rounded-full bg-primary" />
+              )}
+
               <Icon
                 className={cn(
-                  'h-[18px] w-[18px] shrink-0',
+                  'h-[18px] w-[18px] shrink-0 transition-colors',
                   active
-                    ? 'text-white'
-                    : 'text-white/35 group-hover:text-white/60',
+                    ? 'text-primary'
+                    : 'text-slate-400 group-hover:text-slate-600',
                 )}
               />
 
@@ -157,7 +162,7 @@ export function MobileNav({
       onClick={() =>
         setOpen((value) => !value)
       }
-      className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-white/60 transition-colors hover:bg-white/[0.07] hover:text-white lg:hidden"
+      className="flex h-10 w-10 items-center justify-center rounded-full text-slate-500 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900 lg:hidden"
     >
       {open ? (
         <X className="h-5 w-5" />
@@ -177,31 +182,36 @@ export function MobileNav({
               type="button"
               aria-label="Close navigation"
               onClick={closeDrawer}
-              className="fixed inset-0 z-[9998] bg-black/70 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-[9998] bg-slate-900/25 backdrop-blur-[2px] lg:hidden"
             />
 
             {/* Drawer */}
 
-            <aside className="fixed inset-y-0 left-0 z-[9999] flex w-[min(86vw,320px)] flex-col border-r border-white/[0.08] bg-[#090909] shadow-[20px_0_70px_rgba(0,0,0,0.45)] lg:hidden">
-
+            <aside className="fixed inset-y-0 left-0 z-[9999] flex w-[min(86vw,320px)] flex-col bg-white shadow-[12px_0_50px_rgba(15,23,42,0.12)] lg:hidden">
               {/* Header */}
 
-              <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-white/[0.07] px-5">
-                <div>
-                  <p className="text-sm font-semibold text-white">
-                    Math Teaching
-                  </p>
+              <div className="flex h-[72px] shrink-0 items-center justify-between border-b border-slate-100 px-5">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary via-violet-500 to-fuchsia-500 text-white shadow-sm shadow-primary/20">
+                    <FolderKanban className="h-[17px] w-[17px]" />
+                  </div>
 
-                  <p className="text-[11px] text-white/30">
-                    Platform
-                  </p>
+                  <div>
+                    <p className="text-sm font-semibold tracking-tight text-slate-900">
+                      Math Teaching
+                    </p>
+
+                    <p className="text-[11px] text-slate-400">
+                      Platform
+                    </p>
+                  </div>
                 </div>
 
                 <button
                   type="button"
                   aria-label="Close navigation"
                   onClick={closeDrawer}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-white/40 transition-colors hover:bg-white/[0.06] hover:text-white"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-900"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -209,7 +219,7 @@ export function MobileNav({
 
               {/* Navigation */}
 
-              <nav className="min-h-0 flex-1 overflow-y-auto p-4">
+              <nav className="min-h-0 flex-1 overflow-y-auto px-4 py-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <NavigationSection
                   title="Workspace"
                   items={workspaceNavigation}
@@ -237,13 +247,13 @@ export function MobileNav({
 
               {/* Footer */}
 
-              <div className="shrink-0 border-t border-white/[0.07] p-4">
+              <div className="shrink-0 border-t border-slate-100 px-4 py-3">
                 <Link
                   href="/dashboard"
                   onClick={closeDrawer}
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/40 transition-colors hover:bg-white/[0.045] hover:text-white/75"
+                  className="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900"
                 >
-                  <FolderKanban className="h-[17px] w-[17px]" />
+                  <FolderKanban className="h-[17px] w-[17px] text-slate-400 transition-colors group-hover:text-slate-600" />
 
                   <span>
                     All Organizations

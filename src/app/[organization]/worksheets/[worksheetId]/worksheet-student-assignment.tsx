@@ -85,23 +85,23 @@ export function WorksheetStudentAssignment({
   const selectedCount = selectedIds.length
 
   return (
-    <Card className="overflow-hidden border-violet-200/10 bg-gradient-to-br from-violet-400/[0.035] via-white/[0.015] to-transparent">
-      <CardContent className="p-5 sm:p-6">
+    <Card className="overflow-hidden border-violet-200 bg-gradient-to-br from-violet-50 via-white to-white shadow-sm shadow-violet-100">
+      <CardContent className="!p-5 sm:!p-6">
         <div className="flex flex-col gap-5">
           {/* Header */}
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10">
-                <Users className="h-5 w-5 text-violet-300" />
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-violet-200 bg-violet-50">
+                <Users className="h-5 w-5 text-violet-600" />
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold text-white">
+                <h3 className="text-sm font-semibold text-slate-900">
                   Assign Students
                 </h3>
 
-                <p className="mt-1 text-sm leading-5 text-white/40">
+                <p className="mt-1 text-sm leading-5 text-slate-500">
                   Pilih student yang dapat mengakses
                   worksheet ini.
                 </p>
@@ -110,7 +110,7 @@ export function WorksheetStudentAssignment({
 
             <Badge
               variant="info"
-              className="w-fit border-sky-300/20 bg-sky-400/10 text-sky-200"
+              className="w-fit border-sky-200 bg-sky-50 text-sky-700"
             >
               {selectedCount}{' '}
               {selectedCount === 1
@@ -122,28 +122,28 @@ export function WorksheetStudentAssignment({
           {/* Published requirement */}
 
           {worksheetStatus !== 'published' ? (
-            <div className="rounded-xl border border-amber-300/15 bg-gradient-to-r from-amber-400/[0.08] to-transparent px-4 py-3">
-              <p className="text-sm font-medium text-amber-200">
+            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+              <p className="text-sm font-medium text-amber-800">
                 Worksheet belum dipublish
               </p>
 
-              <p className="mt-1 text-xs leading-5 text-amber-200/60">
+              <p className="mt-1 text-xs leading-5 text-amber-700">
                 Publish worksheet terlebih dahulu
                 sebelum memberikan akses kepada
                 student.
               </p>
             </div>
           ) : activeStudents.length === 0 ? (
-            <div className="rounded-2xl border border-sky-200/10 bg-sky-400/[0.025] px-4 py-10 text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-300/15 bg-sky-400/10">
-                <Users className="h-5 w-5 text-sky-300/60" />
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/60 px-4 py-10 text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-200 bg-white">
+                <Users className="h-5 w-5 text-sky-600" />
               </div>
 
-              <p className="mt-4 text-sm font-medium text-white/75">
+              <p className="mt-4 text-sm font-medium text-slate-800">
                 Belum ada Student Access
               </p>
 
-              <p className="mx-auto mt-1 max-w-sm text-xs leading-5 text-white/35">
+              <p className="mx-auto mt-1 max-w-sm text-xs leading-5 text-slate-500">
                 Buat Student Access terlebih dahulu
                 melalui menu Classes.
               </p>
@@ -172,15 +172,15 @@ export function WorksheetStudentAssignment({
                         }
                         className={`group flex w-full items-center gap-3 rounded-xl border p-4 text-left transition-all duration-200 ${
                           isSelected
-                            ? 'border-emerald-300/20 bg-emerald-400/[0.07] shadow-[0_8px_25px_rgba(52,211,153,0.04)]'
-                            : 'border-white/[0.08] bg-white/[0.02] hover:border-sky-300/15 hover:bg-sky-400/[0.035]'
+                            ? 'border-emerald-200 bg-emerald-50 shadow-sm shadow-emerald-100'
+                            : 'border-slate-200 bg-white hover:border-sky-200 hover:bg-sky-50/60'
                         } disabled:pointer-events-none disabled:opacity-50`}
                       >
                         <div
                           className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all duration-200 ${
                             isSelected
-                              ? 'border border-emerald-300/20 bg-emerald-400/15 text-emerald-300'
-                              : 'border border-sky-300/10 bg-sky-400/[0.05] text-sky-300/40 group-hover:bg-sky-400/[0.10] group-hover:text-sky-300/60'
+                              ? 'border border-emerald-200 bg-emerald-50 text-emerald-600'
+                              : 'border border-sky-200 bg-sky-50 text-sky-500 group-hover:bg-sky-100 group-hover:text-sky-600'
                           }`}
                         >
                           {isSelected ? (
@@ -191,12 +191,12 @@ export function WorksheetStudentAssignment({
                         </div>
 
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-medium text-white">
+                          <p className="truncate text-sm font-medium text-slate-900">
                             {student.student_name ||
                               'Student'}
                           </p>
 
-                          <p className="mt-1 text-xs text-white/35">
+                          <p className="mt-1 text-xs text-slate-500">
                             Student Access
                           </p>
                         </div>
@@ -217,8 +217,8 @@ export function WorksheetStudentAssignment({
 
               {/* Save */}
 
-              <div className="flex flex-col gap-3 border-t border-white/[0.08] pt-5 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs text-white/30">
+              <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs text-slate-500">
                   {selectedCount === 0
                     ? 'Belum ada student yang dipilih.'
                     : `${selectedCount} student akan mendapatkan worksheet ini.`}

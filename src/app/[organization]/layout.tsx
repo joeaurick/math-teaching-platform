@@ -25,14 +25,14 @@ export default async function OrganizationLayout({
   } = await getOrganizationContext(slug)
 
   return (
-    <div className="flex min-h-screen bg-[#090909] text-white">
+    <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-900">
       <AppSidebar
         organizationSlug={organization.slug}
         organizationName={organization.name}
         role={membership.role}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <Topbar
           organizationSlug={organization.slug}
           organizationName={organization.name}
@@ -40,7 +40,7 @@ export default async function OrganizationLayout({
           role={membership.role}
         />
 
-        <main className="min-w-0 flex-1">
+        <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">
           {children}
         </main>
       </div>

@@ -63,7 +63,7 @@ export default async function StudentAccessPage({
         <div className="mt-6">
           <Link
             href={`/${organization.slug}/classes`}
-            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
           >
             <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
             Back to Classes
@@ -71,43 +71,45 @@ export default async function StudentAccessPage({
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          <Card className="overflow-hidden border-sky-200/50 bg-gradient-to-br from-sky-50/[0.10] via-white/[0.035] to-transparent">
-            <CardContent className="flex items-center gap-4 p-5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-sky-300/30 bg-sky-400/10">
-                <Link2 className="h-5 w-5 text-sky-300" />
+          {/* ACCESS LINKS */}
+          <Card className="overflow-hidden border-sky-200 bg-gradient-to-br from-sky-50 via-white to-white shadow-sm shadow-sky-100/60">
+            <CardContent className="flex items-center gap-4 !p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-sky-200 bg-sky-50">
+                <Link2 className="h-5 w-5 text-sky-600" />
               </div>
 
               <div className="min-w-0">
-                <p className="text-xs font-medium uppercase tracking-[0.12em] text-sky-200/50">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-sky-600">
                   Access Links
                 </p>
 
-                <p className="mt-1 text-sm text-white/55">
+                <p className="mt-1 text-sm text-slate-500">
                   Secure links untuk lingkungan belajar siswa.
                 </p>
               </div>
 
               <Badge
                 variant="info"
-                className="ml-auto shrink-0 border-sky-300/20 bg-sky-400/10 text-sky-200"
+                className="ml-auto shrink-0 border-sky-200 bg-sky-50 text-sky-700"
               >
                 Secure
               </Badge>
             </CardContent>
           </Card>
 
-          <Card className="overflow-hidden border-violet-200/50 bg-gradient-to-br from-violet-50/[0.10] via-white/[0.035] to-transparent">
-            <CardContent className="flex items-center gap-4 p-5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-violet-300/30 bg-violet-400/10">
-                <Users className="h-5 w-5 text-violet-300" />
+          {/* STUDENTS */}
+          <Card className="overflow-hidden border-violet-200 bg-gradient-to-br from-violet-50 via-white to-white shadow-sm shadow-violet-100/60">
+            <CardContent className="flex items-center gap-4 !p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-violet-200 bg-violet-50">
+                <Users className="h-5 w-5 text-violet-600" />
               </div>
 
               <div className="min-w-0">
-                <p className="text-xs font-medium uppercase tracking-[0.12em] text-violet-200/50">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-violet-600">
                   Students
                 </p>
 
-                <p className="mt-1 text-sm text-white/55">
+                <p className="mt-1 text-sm text-slate-500">
                   {studentAccess?.length ?? 0}{' '}
                   {studentAccess?.length === 1
                     ? 'student access'

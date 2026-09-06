@@ -80,30 +80,30 @@ export function StudentModuleAssignment({
             key={module.id}
             className={
               isAssigned
-                ? 'overflow-hidden border-emerald-300/25 bg-gradient-to-r from-emerald-400/[0.07] via-white/[0.025] to-transparent transition-all duration-200'
-                : 'overflow-hidden border-white/[0.08] bg-white/[0.025] transition-all duration-200 hover:border-sky-300/25 hover:bg-white/[0.035]'
+                ? 'overflow-hidden border-emerald-200 bg-gradient-to-r from-emerald-50 via-white to-white shadow-sm shadow-emerald-100/60 transition-all duration-200 hover:border-emerald-300'
+                : 'overflow-hidden border-slate-200 bg-white shadow-sm shadow-slate-200/50 transition-all duration-200 hover:border-sky-200 hover:shadow-md hover:shadow-sky-100/40'
             }
           >
-            <CardContent className="p-5">
+            <CardContent className="!p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex min-w-0 items-start gap-4">
                   <div
                     className={
                       isAssigned
-                        ? 'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-300/25 bg-emerald-400/10'
-                        : 'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10'
+                        ? 'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50'
+                        : 'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50'
                     }
                   >
                     {isAssigned ? (
-                      <Check className="h-4 w-4 text-emerald-300" />
+                      <Check className="h-4 w-4 text-emerald-600" />
                     ) : (
-                      <BookOpen className="h-4 w-4 text-sky-300" />
+                      <BookOpen className="h-4 w-4 text-sky-600" />
                     )}
                   </div>
 
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-sm font-semibold text-white">
+                      <h3 className="text-sm font-semibold text-slate-900">
                         {module.title}
                       </h3>
 
@@ -121,7 +121,7 @@ export function StudentModuleAssignment({
                       {isAssigned && (
                         <Badge
                           variant="success"
-                          className="border-emerald-300/20 bg-emerald-400/10 text-emerald-200"
+                          className="border-emerald-200 bg-emerald-50 text-emerald-700"
                         >
                           Assigned
                         </Badge>
@@ -129,7 +129,7 @@ export function StudentModuleAssignment({
                     </div>
 
                     {module.description && (
-                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/40">
+                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">
                         {module.description}
                       </p>
                     )}
@@ -152,8 +152,8 @@ export function StudentModuleAssignment({
                   }
                   className={
                     isAssigned
-                      ? 'border-emerald-300/20 bg-emerald-400/10 text-emerald-100 hover:border-emerald-300/30 hover:bg-emerald-400/15'
-                      : 'border-sky-300/20 text-sky-100 hover:border-sky-300/30 hover:bg-sky-400/10'
+                      ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100'
+                      : 'border-sky-200 bg-white text-sky-700 hover:border-sky-300 hover:bg-sky-50'
                   }
                 >
                   {isPending ? (

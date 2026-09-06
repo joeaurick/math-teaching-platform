@@ -21,8 +21,7 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] =
-    useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleLogin(
@@ -51,33 +50,33 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
+    <main className="relative min-h-screen overflow-hidden bg-[#f6f8fc]">
       {/* Background decoration */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-sky-400/[0.08] blur-3xl" />
-        <div className="absolute -bottom-40 -right-32 h-[30rem] w-[30rem] rounded-full bg-violet-400/[0.08] blur-3xl" />
-        <div className="absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-400/[0.035] blur-3xl" />
+        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-sky-400/10 blur-3xl" />
+        <div className="absolute -bottom-40 -right-32 h-[30rem] w-[30rem] rounded-full bg-violet-400/10 blur-3xl" />
+        <div className="absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-400/5 blur-3xl" />
       </div>
 
       <div className="relative mx-auto flex min-h-screen w-full max-w-6xl items-center px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid w-full overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] shadow-2xl shadow-black/20 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="grid w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60 lg:grid-cols-[1.05fr_0.95fr]">
           {/* Brand panel */}
-          <div className="relative hidden overflow-hidden border-r border-white/[0.07] bg-gradient-to-br from-sky-400/[0.09] via-violet-400/[0.05] to-transparent p-10 lg:flex lg:flex-col lg:justify-between xl:p-14">
-            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full border border-sky-300/[0.08]" />
-            <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full border border-violet-300/[0.08]" />
+          <div className="relative hidden overflow-hidden border-r border-slate-200 bg-gradient-to-br from-sky-50 via-violet-50 to-white p-10 lg:flex lg:flex-col lg:justify-between xl:p-14">
+            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full border border-sky-200/70" />
+            <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full border border-violet-200/70" />
 
             <div className="relative">
               {/* Logo */}
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-300 to-violet-400 shadow-lg shadow-sky-950/30">
-                  <BookOpen className="h-5 w-5 text-slate-950" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-violet-500 shadow-lg shadow-sky-200/60">
+                  <BookOpen className="h-5 w-5 text-white" />
                 </div>
 
                 <div>
-                  <p className="text-sm font-semibold text-white">
+                  <p className="text-sm font-semibold text-slate-900">
                     Math Teaching
                   </p>
-                  <p className="text-xs text-white/35">
+                  <p className="text-xs text-slate-500">
                     Teacher Workspace
                   </p>
                 </div>
@@ -85,19 +84,19 @@ export default function LoginPage() {
 
               {/* Hero */}
               <div className="mt-24 max-w-md">
-                <div className="inline-flex items-center gap-2 rounded-full border border-sky-300/15 bg-sky-300/[0.06] px-3 py-1.5 text-xs font-medium text-sky-200/80">
+                <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1.5 text-xs font-medium text-sky-700">
                   <Sparkles className="h-3.5 w-3.5" />
                   Teaching workspace
                 </div>
 
-                <h1 className="mt-6 text-4xl font-semibold leading-tight tracking-tight text-white xl:text-5xl">
+                <h1 className="mt-6 text-4xl font-semibold leading-tight tracking-tight text-slate-900 xl:text-5xl">
                   Buat pembelajaran
-                  <span className="block bg-gradient-to-r from-sky-300 via-violet-300 to-emerald-300 bg-clip-text text-transparent">
+                  <span className="block bg-gradient-to-r from-sky-500 via-violet-500 to-emerald-500 bg-clip-text text-transparent">
                     matematika lebih mudah.
                   </span>
                 </h1>
 
-                <p className="mt-6 text-sm leading-7 text-white/45">
+                <p className="mt-6 text-sm leading-7 text-slate-600">
                   Kelola module, question bank,
                   worksheet, kelas, dan student
                   submissions dalam satu workspace.
@@ -114,9 +113,9 @@ export default function LoginPage() {
               ].map((feature) => (
                 <div
                   key={feature}
-                  className="flex items-center gap-3 text-sm text-white/55"
+                  className="flex items-center gap-3 text-sm text-slate-600"
                 >
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-300" />
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
                   {feature}
                 </div>
               ))}
@@ -124,20 +123,20 @@ export default function LoginPage() {
           </div>
 
           {/* Login panel */}
-          <div className="flex items-center justify-center bg-[#0b0b0b]/80 p-5 sm:p-8 lg:p-10 xl:p-14">
-            <Card className="w-full max-w-md border-white/[0.08] bg-white/[0.025] shadow-xl shadow-black/20">
-              <CardContent className="p-6 sm:p-8">
+          <div className="flex items-center justify-center bg-slate-50/80 p-5 sm:p-8 lg:p-10 xl:p-14">
+            <Card className="w-full max-w-md border-slate-200 bg-white shadow-lg shadow-slate-200/60">
+              <CardContent className="!p-6 sm:!p-8">
                 {/* Mobile brand */}
                 <div className="mb-8 flex items-center gap-3 lg:hidden">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-sky-300 to-violet-400">
-                    <BookOpen className="h-5 w-5 text-slate-950" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 to-violet-500 shadow-sm">
+                    <BookOpen className="h-5 w-5 text-white" />
                   </div>
 
                   <div>
-                    <p className="text-sm font-semibold text-white">
+                    <p className="text-sm font-semibold text-slate-900">
                       Math Teaching
                     </p>
-                    <p className="text-xs text-white/35">
+                    <p className="text-xs text-slate-500">
                       Teacher Workspace
                     </p>
                   </div>
@@ -145,15 +144,15 @@ export default function LoginPage() {
 
                 {/* Heading */}
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-[0.18em] text-sky-300/70">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
                     Welcome back
                   </p>
 
-                  <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">
+                  <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">
                     Login ke workspace
                   </h2>
 
-                  <p className="mt-2 text-sm leading-6 text-white/40">
+                  <p className="mt-2 text-sm leading-6 text-slate-500">
                     Masuk menggunakan akun teacher
                     Anda untuk melanjutkan.
                   </p>
@@ -167,7 +166,7 @@ export default function LoginPage() {
                   <div>
                     <label
                       htmlFor="email"
-                      className="text-sm font-medium text-white"
+                      className="text-sm font-medium text-slate-800"
                     >
                       Email
                     </label>
@@ -191,7 +190,7 @@ export default function LoginPage() {
                     <div className="flex items-center justify-between">
                       <label
                         htmlFor="password"
-                        className="text-sm font-medium text-white"
+                        className="text-sm font-medium text-slate-800"
                       >
                         Password
                       </label>
@@ -204,9 +203,7 @@ export default function LoginPage() {
                       placeholder="Masukkan password"
                       value={password}
                       onChange={(event) =>
-                        setPassword(
-                          event.target.value,
-                        )
+                        setPassword(event.target.value)
                       }
                       disabled={loading}
                       required
@@ -216,8 +213,8 @@ export default function LoginPage() {
 
                   {/* Error */}
                   {errorMessage && (
-                    <div className="rounded-xl border border-rose-400/20 bg-rose-400/[0.06] px-4 py-3">
-                      <p className="text-sm leading-5 text-rose-300">
+                    <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3">
+                      <p className="text-sm leading-5 text-rose-700">
                         {errorMessage}
                       </p>
                     </div>
@@ -242,8 +239,8 @@ export default function LoginPage() {
                   </Button>
                 </form>
 
-                <div className="mt-8 border-t border-white/[0.07] pt-5">
-                  <p className="text-center text-xs leading-5 text-white/30">
+                <div className="mt-8 border-t border-slate-100 pt-5">
+                  <p className="text-center text-xs leading-5 text-slate-400">
                     Gunakan akun teacher yang telah
                     terdaftar untuk mengakses
                     workspace.

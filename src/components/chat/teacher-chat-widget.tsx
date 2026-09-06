@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react'
 import {
+  ArrowLeft,
   ArrowUpRight,
   MessageCircle,
   Minus,
@@ -93,10 +94,6 @@ export function TeacherChatWidget({
   const [unreadCount, setUnreadCount] =
     useState(0)
 
-  /*
-   * Load semua conversation teacher
-   * pada organization aktif.
-   */
   const loadConversations =
     useCallback(async () => {
       const {
@@ -146,9 +143,6 @@ export function TeacherChatWidget({
       teacherProfileId,
     ])
 
-  /*
-   * Load semua message pada conversation.
-   */
   const loadMessages = useCallback(
     async (
       conversationId: string,
@@ -189,19 +183,10 @@ export function TeacherChatWidget({
     [supabase],
   )
 
-  /*
-   * Initial load.
-   */
   useEffect(() => {
     void loadConversations()
   }, [loadConversations])
 
-  /*
-   * Teacher realtime.
-   *
-   * Pesan student maupun teacher akan
-   * diterima di sini.
-   */
   useEffect(() => {
     const channel = supabase
       .channel(
@@ -225,9 +210,6 @@ export function TeacherChatWidget({
             return
           }
 
-          /*
-           * Update waktu conversation.
-           */
           setConversations(
             (current) => {
               const existing =
@@ -237,10 +219,6 @@ export function TeacherChatWidget({
                     incoming.conversation_id,
                 )
 
-              /*
-               * Conversation belum ada
-               * di state.
-               */
               if (!existing) {
                 void loadConversations()
                 return current
@@ -264,10 +242,6 @@ export function TeacherChatWidget({
             },
           )
 
-          /*
-           * Kalau conversation sedang dibuka,
-           * masukkan message.
-           */
           if (
             selectedConversationId ===
             incoming.conversation_id
@@ -292,10 +266,6 @@ export function TeacherChatWidget({
             )
           }
 
-          /*
-           * Hanya message dari student yang
-           * dihitung sebagai unread.
-           */
           if (
             incoming.sender_student_access_id &&
             (!open || minimized)
@@ -343,9 +313,6 @@ export function TeacherChatWidget({
     teacherProfileId,
   ])
 
-  /*
-   * Buka conversation.
-   */
   async function openConversation(
     conversation: ChatConversation,
   ) {
@@ -362,18 +329,12 @@ export function TeacherChatWidget({
     setUnreadCount(0)
   }
 
-  /*
-   * Kembali ke inbox.
-   */
   function backToInbox() {
     setSelectedConversationId(null)
     setMessages([])
     setMessage('')
   }
 
-  /*
-   * Kirim message teacher.
-   */
   async function sendMessage() {
     const trimmedMessage =
       message.trim()
@@ -427,12 +388,6 @@ export function TeacherChatWidget({
         return
       }
 
-      /*
-       * Tambahkan hasil INSERT ke state.
-       *
-       * Jika Realtime masuk lebih dulu,
-       * pengecekan ID mencegah duplicate.
-       */
       if (data) {
         const insertedMessage =
           data as ChatMessage
@@ -491,9 +446,6 @@ export function TeacherChatWidget({
     }
   }
 
-  /*
-   * Ctrl + Enter / Cmd + Enter.
-   */
   function handleKeyDown(
     event: React.KeyboardEvent<HTMLTextAreaElement>,
   ) {
@@ -546,57 +498,52 @@ export function TeacherChatWidget({
         selectedConversationId,
     ) ?? null
 
-  /*
-   * Widget tertutup.
-   */
   if (!open) {
     return (
       <button
-        type="button"
-        onClick={handleOpen}
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/20 via-teal-500/15 to-emerald-500/10 text-white shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-300/30 hover:from-cyan-500/30 hover:to-emerald-500/20 active:scale-95"
-        aria-label="Buka chat"
-      >
-        <MessageCircle className="h-5 w-5" />
+  type="button"
+  onClick={handleOpen}
+  className="fixed bottom-5 right-5 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-violet-600 text-white shadow-lg shadow-violet-200/60 transition-all duration-200 hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-xl hover:shadow-violet-200/70 active:scale-95"
+  aria-label="Buka chat"
+>
+  <Send
+    className="h-5 w-5 -rotate-12 text-white"
+    strokeWidth={2.25}
+  />
 
-        {unreadCount > 0 && (
-          <span className="absolute -right-1 -top-1 flex min-h-5 min-w-5 items-center justify-center rounded-full border border-[#090909] bg-cyan-500 px-1 text-[10px] font-semibold text-white">
-            {unreadCount > 9
-              ? '9+'
-              : unreadCount}
-          </span>
-        )}
-      </button>
+  {unreadCount > 0 && (
+    <span className="absolute -right-0.5 -top-0.5 flex min-h-5 min-w-5 items-center justify-center rounded-full border-2 border-white bg-rose-500 px-1 text-[10px] font-semibold text-white">
+      {unreadCount > 9 ? '9+' : unreadCount}
+    </span>
+  )}
+</button>
     )
   }
 
-  /*
-   * Minimized.
-   */
   if (minimized) {
     return (
       <div className="fixed bottom-5 right-5 z-50">
         <button
           type="button"
           onClick={handleRestore}
-          className="flex items-center gap-3 rounded-2xl border border-white/[0.10] bg-[#111113]/95 px-4 py-3 text-left shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-all hover:border-cyan-400/20 hover:bg-[#151518]"
+          className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-3 text-left shadow-lg shadow-slate-200/60 transition-all hover:bg-slate-50"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500/20 to-emerald-500/10">
-            <MessageCircle className="h-4 w-4 text-cyan-200/80" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600">
+            <MessageCircle className="h-4 w-4" />
           </div>
 
           <div className="min-w-[120px]">
-            <p className="text-xs font-medium text-white/80">
+            <p className="text-xs font-semibold text-slate-800">
               Chat Student
             </p>
 
-            <p className="mt-0.5 text-[10px] text-white/30">
+            <p className="mt-0.5 text-[10px] text-slate-400">
               Klik untuk membuka
             </p>
           </div>
 
           {unreadCount > 0 && (
-            <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-cyan-500 px-1 text-[10px] font-semibold text-white">
+            <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white">
               {unreadCount > 9
                 ? '9+'
                 : unreadCount}
@@ -609,28 +556,28 @@ export function TeacherChatWidget({
 
   return (
     <div className="fixed bottom-4 right-4 z-50 w-[min(440px,calc(100vw-2rem))]">
-      <div className="flex h-[min(680px,calc(100vh-32px))] flex-col overflow-hidden rounded-3xl border border-white/[0.10] bg-[#0d0d0f]/95 shadow-[0_20px_70px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
+      <div className="flex h-[min(680px,calc(100vh-32px))] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-300/40">
         {/* Header */}
 
-        <div className="shrink-0 border-b border-white/[0.07] bg-gradient-to-r from-cyan-500/[0.06] via-transparent to-emerald-500/[0.06] px-4 py-3">
-          <div className="flex items-center gap-3">
+        <div className="flex h-16 shrink-0 items-center border-b border-slate-200 bg-white px-4">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
             {selectedConversationId ? (
               <button
                 type="button"
                 onClick={backToInbox}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] text-white/50 transition-colors hover:text-white"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
                 aria-label="Kembali"
               >
-                ←
+                <ArrowLeft className="h-4 w-4" />
               </button>
             ) : (
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-cyan-400/15 bg-gradient-to-br from-cyan-500/20 to-emerald-500/10">
-                <MessageCircle className="h-4 w-4 text-cyan-200/80" />
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100">
+                <MessageCircle className="h-4 w-4 text-slate-600" />
               </div>
             )}
 
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold text-white/90">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold text-slate-900">
                 {selectedConversation
                   ? selectedConversation
                       .student_access?.[0]
@@ -640,41 +587,39 @@ export function TeacherChatWidget({
               </p>
 
               <div className="mt-0.5 flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/80" />
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
 
-                <span className="text-[10px] text-white/30">
+                <span className="text-[10px] text-slate-400">
                   Percakapan pribadi
                 </span>
               </div>
             </div>
+          </div>
 
-            <div className="flex items-center gap-1">
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={
-                  handleMinimize
-                }
-                className="h-8 w-8 rounded-lg text-white/40 hover:text-white"
-                aria-label="Minimize"
-                title="Minimize"
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
+          <div className="flex items-center gap-0.5">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={handleMinimize}
+              className="h-9 w-9 rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-900"
+              aria-label="Minimize"
+              title="Minimize"
+            >
+              <Minus className="h-4 w-4" />
+            </Button>
 
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={handleClose}
-                className="h-8 w-8 rounded-lg text-white/40 hover:text-white"
-                aria-label="Tutup"
-                title="Tutup"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={handleClose}
+              className="h-9 w-9 rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-900"
+              aria-label="Tutup"
+              title="Tutup"
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
         </div>
 
@@ -682,25 +627,24 @@ export function TeacherChatWidget({
 
         {!selectedConversationId ? (
           <>
-            <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="min-h-0 flex-1 overflow-y-auto bg-white">
               {conversations.length === 0 ? (
                 <div className="flex min-h-[400px] flex-col items-center justify-center px-6 text-center">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[0.08] bg-white/[0.04]">
-                    <MessageCircle className="h-5 w-5 text-white/40" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                    <MessageCircle className="h-5 w-5 text-slate-400" />
                   </div>
 
-                  <p className="mt-4 text-sm font-medium text-white/70">
+                  <p className="mt-4 text-sm font-medium text-slate-800">
                     Belum ada percakapan
                   </p>
 
-                  <p className="mt-1 max-w-xs text-xs leading-5 text-white/30">
-                    Conversation dengan
-                    student akan muncul di
-                    sini.
+                  <p className="mt-1 max-w-xs text-xs leading-5 text-slate-400">
+                    Conversation dengan student
+                    akan muncul di sini.
                   </p>
                 </div>
               ) : (
-                <div className="divide-y divide-white/[0.06]">
+                <div className="divide-y divide-slate-100">
                   {conversations.map(
                     (conversation) => {
                       const studentName =
@@ -720,9 +664,9 @@ export function TeacherChatWidget({
                               conversation,
                             )
                           }
-                          className="flex w-full items-center gap-3 px-4 py-4 text-left transition-colors hover:bg-white/[0.035]"
+                          className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-slate-50"
                         >
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-400/10 bg-gradient-to-br from-cyan-500/[0.12] to-emerald-500/[0.08] text-sm font-medium text-cyan-100/70">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
                             {studentName
                               .charAt(0)
                               .toUpperCase()}
@@ -730,11 +674,11 @@ export function TeacherChatWidget({
 
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between gap-3">
-                              <p className="truncate text-sm font-medium text-white/80">
+                              <p className="truncate text-sm font-medium text-slate-800">
                                 {studentName}
                               </p>
 
-                              <span className="shrink-0 text-[10px] text-white/25">
+                              <span className="shrink-0 text-[10px] text-slate-400">
                                 {new Date(
                                   conversation.updated_at,
                                 ).toLocaleTimeString(
@@ -748,15 +692,13 @@ export function TeacherChatWidget({
                               </span>
                             </div>
 
-                            <p className="mt-1 truncate text-xs text-white/30">
-                              Percakapan
-                              langsung
-                              dengan
-                              student
+                            <p className="mt-1 truncate text-xs text-slate-400">
+                              Percakapan langsung
+                              dengan student
                             </p>
                           </div>
 
-                          <ArrowUpRight className="h-4 w-4 shrink-0 text-white/20" />
+                          <ArrowUpRight className="h-4 w-4 shrink-0 text-slate-300" />
                         </button>
                       )
                     },
@@ -766,10 +708,10 @@ export function TeacherChatWidget({
             </div>
 
             {conversations.length > 0 && (
-              <div className="shrink-0 border-t border-white/[0.07] p-3">
+              <div className="shrink-0 border-t border-slate-200 bg-white p-3">
                 <Link
                   href={`/${organizationSlug}/classes/student-access`}
-                  className="flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.025] px-4 py-2.5 text-xs text-white/45 transition-colors hover:bg-white/[0.05] hover:text-white/70"
+                  className="flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
                 >
                   Lihat Student Access
                   <ArrowUpRight className="h-3.5 w-3.5" />
@@ -781,7 +723,7 @@ export function TeacherChatWidget({
           <>
             {/* Messages */}
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5">
+            <div className="min-h-0 flex-1 overflow-y-auto bg-slate-50/40 px-4 py-5">
               <ChatMessages
                 messages={messages}
                 currentTeacherProfileId={
@@ -793,7 +735,7 @@ export function TeacherChatWidget({
 
             {/* Composer */}
 
-            <div className="shrink-0 border-t border-white/[0.07] bg-[#0b0b0d]/80 p-3">
+            <div className="shrink-0 border-t border-slate-200 bg-white p-3">
               <form
                 onSubmit={(event) => {
                   event.preventDefault()
@@ -801,7 +743,7 @@ export function TeacherChatWidget({
                 }}
                 className="space-y-2"
               >
-                <div className="flex items-end gap-3">
+                <div className="flex items-end gap-2">
                   <textarea
                     value={message}
                     onChange={(event) =>
@@ -816,7 +758,7 @@ export function TeacherChatWidget({
                     rows={2}
                     maxLength={5000}
                     disabled={isSending}
-                    className="min-h-[54px] flex-1 resize-none rounded-2xl border border-white/[0.09] bg-white/[0.035] px-4 py-3 text-sm leading-6 text-white outline-none transition-colors placeholder:text-white/25 focus:border-white/[0.18] focus:bg-white/[0.045] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="min-h-[54px] flex-1 resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-slate-300 focus:bg-white focus:ring-2 focus:ring-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
                   />
 
                   <Button
@@ -835,12 +777,11 @@ export function TeacherChatWidget({
                 </div>
 
                 <div className="flex items-center justify-between px-1">
-                  <p className="text-[10px] text-white/20">
-                    Ctrl + Enter untuk
-                    mengirim
+                  <p className="text-[10px] text-slate-400">
+                    Ctrl + Enter untuk mengirim
                   </p>
 
-                  <p className="text-[10px] text-white/20">
+                  <p className="text-[10px] text-slate-400">
                     {message.length}/5000
                   </p>
                 </div>

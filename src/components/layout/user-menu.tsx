@@ -2,7 +2,12 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { LogOut, Settings, User } from 'lucide-react'
+import {
+  LogOut,
+  Settings,
+  User,
+  ChevronDown,
+} from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import {
@@ -56,69 +61,90 @@ export function UserMenu({
           type="button"
           disabled={loading}
           aria-label="Open user menu"
-          className="flex h-10 items-center gap-2 rounded-xl border border-white/[0.07] bg-white/[0.025] px-1.5 pr-2.5 transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] disabled:pointer-events-none disabled:opacity-50"
+          className="group flex h-10 items-center gap-2 rounded-full px-1.5 py-1 transition-colors duration-200 hover:bg-slate-100 disabled:pointer-events-none disabled:opacity-50"
         >
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white text-xs font-semibold text-black">
+          {/* Avatar */}
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary via-violet-500 to-fuchsia-500 text-xs font-semibold text-white">
             {initial}
           </div>
 
-          <div className="hidden max-w-[150px] text-left sm:block">
-            <p className="truncate text-xs font-medium text-white/75">
+          {/* User info */}
+          <div className="hidden max-w-[150px] min-w-0 text-left sm:block">
+            <p className="truncate text-sm font-medium text-slate-900">
               {displayEmail}
             </p>
 
             {role && (
-              <p className="mt-0.5 text-[10px] capitalize text-white/30">
+              <p className="truncate text-[11px] capitalize text-slate-500">
                 {role}
               </p>
             )}
           </div>
+
+          <ChevronDown className="hidden h-3.5 w-3.5 text-slate-400 transition-transform duration-200 group-data-[state=open]:rotate-180 sm:block" />
         </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
         align="end"
-        sideOffset={8}
-        className="w-56"
+        sideOffset={10}
+        className="w-64 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/70"
       >
-        <div className="px-2.5 py-2">
-          <p className="truncate text-sm font-medium text-white">
-            {displayEmail}
-          </p>
+        {/* User header */}
+        <div className="flex items-center gap-3 rounded-xl px-2.5 py-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary via-violet-500 to-fuchsia-500 text-sm font-semibold text-white">
+            {initial}
+          </div>
 
-          {role && (
-            <p className="mt-1 text-xs capitalize text-white/30">
-              {role}
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold text-slate-900">
+              {displayEmail}
             </p>
-          )}
+
+            {role && (
+              <p className="mt-0.5 truncate text-xs capitalize text-slate-500">
+                {role}
+              </p>
+            )}
+          </div>
         </div>
 
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="my-1.5 bg-slate-100" />
 
-        <DropdownMenuItem asChild>
+        {/* Profile */}
+        <DropdownMenuItem
+          asChild
+          className="h-10 cursor-pointer rounded-xl px-3 text-slate-700 focus:bg-slate-100 focus:text-slate-900"
+        >
           <Link href="/dashboard">
-            <User className="h-4 w-4 text-white/40" />
+            <User className="h-4 w-4 text-slate-500" />
             <span>Profile</span>
           </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuItem asChild>
+        {/* Settings */}
+        <DropdownMenuItem
+          asChild
+          className="h-10 cursor-pointer rounded-xl px-3 text-slate-700 focus:bg-slate-100 focus:text-slate-900"
+        >
           <Link href="/dashboard">
-            <Settings className="h-4 w-4 text-white/40" />
+            <Settings className="h-4 w-4 text-slate-500" />
             <span>Settings</span>
           </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="my-1.5 bg-slate-100" />
 
+        {/* Sign out */}
         <DropdownMenuItem
           onSelect={(event) => {
             event.preventDefault()
             void handleSignOut()
           }}
-          className="text-red-300 focus:bg-red-400/10 focus:text-red-300"
+          className="h-10 cursor-pointer rounded-xl px-3 text-rose-600 focus:bg-rose-50 focus:text-rose-700"
         >
           <LogOut className="h-4 w-4" />
+
           <span>
             {loading ? 'Signing out...' : 'Sign out'}
           </span>

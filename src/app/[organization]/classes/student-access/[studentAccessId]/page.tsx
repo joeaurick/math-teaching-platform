@@ -137,7 +137,7 @@ export default async function StudentAccessDetailPage({
               }
               className={
                 studentAccess.is_active
-                  ? 'border-emerald-300/20 bg-emerald-400/10 text-emerald-200'
+                  ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
                   : ''
               }
             >
@@ -153,7 +153,7 @@ export default async function StudentAccessDetailPage({
         <div className="mt-6">
           <Link
             href={`/${organization.slug}/classes/student-access`}
-            className="group inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
           >
             <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
             Kembali ke Student Access
@@ -162,25 +162,25 @@ export default async function StudentAccessDetailPage({
 
         {/* Student Overview */}
 
-        <Card className="mt-8 overflow-hidden border-violet-300/10 bg-gradient-to-br from-violet-400/[0.07] via-white/[0.025] to-transparent shadow-[0_12px_40px_rgba(139,92,246,0.05)]">
-          <CardContent className="p-6">
+        <Card className="mt-8 overflow-hidden border-violet-200 bg-gradient-to-br from-violet-50 via-white to-white shadow-sm shadow-violet-100/60">
+          <CardContent className="!p-6">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex min-w-0 items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-violet-300/20 bg-violet-400/10">
-                  <BookOpen className="h-5 w-5 text-violet-300" />
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-violet-200 bg-violet-50">
+                  <BookOpen className="h-5 w-5 text-violet-600" />
                 </div>
 
                 <div className="min-w-0">
-                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-violet-200/50">
+                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-violet-600">
                     Siswa
                   </p>
 
-                  <p className="mt-1 truncate text-sm font-semibold text-white">
+                  <p className="mt-1 truncate text-sm font-semibold text-slate-900">
                     {studentAccess.student_name ||
                       'Siswa tanpa nama'}
                   </p>
 
-                  <p className="mt-1 text-xs text-white/35">
+                  <p className="mt-1 text-xs text-slate-500">
                     {assignedModuleIds.length}{' '}
                     {assignedModuleIds.length === 1
                       ? 'module'
@@ -196,7 +196,7 @@ export default async function StudentAccessDetailPage({
                 <Button
                   variant="secondary"
                   size="sm"
-                  className="border-violet-300/20 bg-violet-400/10 text-violet-100 hover:border-violet-300/30 hover:bg-violet-400/15"
+                  className="border-violet-200 bg-violet-50 text-violet-700 hover:border-violet-300 hover:bg-violet-100"
                 >
                   <MessageCircle className="h-4 w-4" />
                   Chat
@@ -210,16 +210,16 @@ export default async function StudentAccessDetailPage({
 
         <div className="mt-8">
           <div className="mb-4 flex items-start gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
-              <Sparkles className="h-4 w-4 text-sky-300" />
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
+              <Sparkles className="h-4 w-4 text-sky-600" />
             </div>
 
             <div>
-              <h2 className="text-base font-semibold text-white">
+              <h2 className="text-base font-semibold text-slate-900">
                 Module yang Tersedia
               </h2>
 
-              <p className="mt-1 text-sm text-white/40">
+              <p className="mt-1 text-sm text-slate-500">
                 Pilih module yang boleh diakses
                 oleh siswa ini.
               </p>
@@ -227,17 +227,17 @@ export default async function StudentAccessDetailPage({
           </div>
 
           {modules.length === 0 ? (
-            <Card className="overflow-hidden border-amber-300/10 bg-gradient-to-br from-amber-400/[0.07] via-white/[0.025] to-transparent">
-              <CardContent className="flex min-h-[240px] flex-col items-center justify-center p-8 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-300/20 bg-amber-400/10">
-                  <BookOpen className="h-5 w-5 text-amber-300" />
+            <Card className="overflow-hidden border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white shadow-sm shadow-amber-100/50">
+              <CardContent className="flex min-h-[240px] flex-col items-center justify-center !p-8 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-200 bg-amber-50">
+                  <BookOpen className="h-5 w-5 text-amber-600" />
                 </div>
 
-                <p className="mt-4 text-sm font-medium text-white/70">
+                <p className="mt-4 text-sm font-medium text-slate-800">
                   Belum ada module
                 </p>
 
-                <p className="mt-1 max-w-md text-xs leading-5 text-white/30">
+                <p className="mt-1 max-w-md text-xs leading-5 text-slate-500">
                   Buat module terlebih dahulu
                   sebelum menugaskannya kepada
                   siswa.

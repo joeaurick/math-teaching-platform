@@ -14,7 +14,9 @@ export default function CreateOrganizationPage() {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ) {
     event.preventDefault()
 
     setLoading(true)
@@ -35,31 +37,31 @@ export default function CreateOrganizationPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black px-4 py-8 text-white sm:px-6">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md"
-      >
+    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10 sm:px-6">
+      <div className="w-full max-w-md">
         <div className="mb-8">
-          <div className="mb-4 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-white/50">
+          <p className="text-sm font-semibold tracking-tight text-primary">
             Math Teaching Platform
-          </div>
+          </p>
 
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
             Create your workspace
           </h1>
 
-          <p className="mt-3 text-sm leading-6 text-white/45">
+          <p className="mt-3 text-sm leading-6 text-slate-500">
             Buat organization pertama Anda untuk mulai
             menggunakan Math Teaching Platform.
           </p>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/2,5 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.25)] sm:p-6">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6"
+        >
           <div>
             <label
               htmlFor="organization-name"
-              className="mb-2 block text-sm font-medium text-white/80"
+              className="mb-2 block text-sm font-medium text-slate-900"
             >
               Organization name
             </label>
@@ -68,16 +70,19 @@ export default function CreateOrganizationPage() {
               id="organization-name"
               type="text"
               value={name}
-              onChange={(event) => setName(event.target.value)}
+              onChange={(event) =>
+                setName(event.target.value)
+              }
               placeholder="Contoh: Math Academy"
               autoComplete="organization"
               disabled={loading}
               required
+              className="h-11"
             />
           </div>
 
           {errorMessage && (
-            <div className="mt-4 rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm leading-5 text-red-300">
+            <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-5 text-rose-700">
               {errorMessage}
             </div>
           )}
@@ -88,15 +93,17 @@ export default function CreateOrganizationPage() {
             disabled={loading}
             className="mt-6 w-full"
           >
-            {loading ? 'Creating workspace...' : 'Create workspace'}
+            {loading
+              ? 'Creating workspace...'
+              : 'Create workspace'}
           </Button>
-        </div>
+        </form>
 
-        <p className="mt-5 text-center text-xs text-white/30">
+        <p className="mt-5 text-center text-xs leading-5 text-slate-400">
           Anda dapat mengatur organization dan anggota
           setelah workspace dibuat.
         </p>
-      </form>
+      </div>
     </main>
   )
 }

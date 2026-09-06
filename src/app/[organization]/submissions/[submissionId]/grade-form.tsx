@@ -101,12 +101,12 @@ export function GradeForm({
         <div className="mb-2 flex items-center gap-2">
           <label
             htmlFor="score"
-            className="text-sm font-medium text-white"
+            className="text-sm font-medium text-slate-900"
           >
             Nilai
           </label>
 
-          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-300/50" />
+          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
         </div>
 
         <div className="relative">
@@ -122,15 +122,15 @@ export function GradeForm({
               setScore(event.target.value)
             }
             placeholder="Masukkan nilai..."
-            className="h-11 rounded-xl border-emerald-200/[0.10] bg-white/[0.03] px-4 pr-14 text-white placeholder:text-white/25 focus:border-emerald-300/30 focus:bg-emerald-400/[0.025]"
+            className="h-11 rounded-xl border-emerald-200 bg-white px-4 pr-14 text-slate-900 placeholder:text-slate-400 focus:border-emerald-400 focus:bg-emerald-50/40"
           />
 
-          <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-white/30">
+          <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-400">
             / 100
           </span>
         </div>
 
-        <p className="mt-2 text-xs text-white/25">
+        <p className="mt-2 text-xs text-slate-500">
           Masukkan nilai antara 0 sampai 100.
         </p>
       </div>
@@ -140,12 +140,12 @@ export function GradeForm({
         <div className="mb-2 flex items-center gap-2">
           <label
             htmlFor="feedback"
-            className="text-sm font-medium text-white"
+            className="text-sm font-medium text-slate-900"
           >
             Feedback
           </label>
 
-          <FileText className="h-3.5 w-3.5 text-violet-300/50" />
+          <FileText className="h-3.5 w-3.5 text-violet-600" />
         </div>
 
         <Textarea
@@ -157,10 +157,10 @@ export function GradeForm({
           }
           placeholder="Tulis feedback untuk siswa..."
           rows={5}
-          className="resize-y rounded-xl border-violet-200/[0.10] bg-white/[0.03] leading-6 text-white placeholder:text-white/25 focus:border-violet-300/30 focus:bg-violet-400/[0.025]"
+          className="resize-y rounded-xl border-violet-200 bg-white leading-6 text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:bg-violet-50/40"
         />
 
-        <p className="mt-2 text-xs text-white/25">
+        <p className="mt-2 text-xs text-slate-500">
           Berikan komentar yang membantu siswa memahami
           hasil pekerjaannya.
         </p>
@@ -168,17 +168,17 @@ export function GradeForm({
 
       {/* ERROR */}
       {error && (
-        <div className="flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/[0.07] px-4 py-3">
-          <Info className="mt-0.5 h-4 w-4 shrink-0 text-red-300" />
+        <div className="flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" />
 
-          <p className="text-sm leading-5 text-red-300">
+          <p className="text-sm leading-5 text-rose-700">
             {error}
           </p>
         </div>
       )}
 
       {/* ACTION */}
-      <div className="flex justify-end border-t border-white/[0.07] pt-5">
+      <div className="flex justify-end border-t border-slate-100 pt-5">
         <Button
           type="submit"
           disabled={isPending}

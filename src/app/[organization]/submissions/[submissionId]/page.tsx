@@ -314,7 +314,7 @@ export default async function SubmissionDetailPage({
       <div>
         <Link
           href={`/${organization.slug}/submissions`}
-          className="mb-6 inline-flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white"
+          className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
         >
           <ArrowLeft className="h-4 w-4" />
           Kembali ke Pengumpulan Siswa
@@ -333,17 +333,17 @@ export default async function SubmissionDetailPage({
 
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
-          <CardContent className="flex items-center gap-4 p-5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
-              <UserRound className="h-5 w-5 text-white/60" />
+          <CardContent className="flex items-center gap-4 !p-5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
+              <UserRound className="h-5 w-5 text-sky-600" />
             </div>
 
             <div>
-              <p className="text-xs text-white/40">
+              <p className="text-xs text-slate-500">
                 Siswa
               </p>
 
-              <p className="mt-1 text-sm font-medium">
+              <p className="mt-1 text-sm font-medium text-slate-900">
                 {submission.student_name}
               </p>
             </div>
@@ -351,35 +351,46 @@ export default async function SubmissionDetailPage({
         </Card>
 
         <Card>
-          <CardContent className="flex items-center gap-4 p-5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
-              <FileText className="h-5 w-5 text-white/60" />
+          <CardContent className="flex items-center gap-4 !p-5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-200 bg-violet-50">
+              <FileText className="h-5 w-5 text-violet-600" />
             </div>
 
             <div>
-              <p className="text-xs text-white/40">
+              <p className="text-xs text-slate-500">
                 Status
               </p>
 
               <div className="mt-1">
-                <Badge>{status}</Badge>
+                <Badge
+                  variant={
+                    submission.status === 'graded'
+                      ? 'success'
+                      : submission.status ===
+                          'submitted'
+                        ? 'warning'
+                        : 'muted'
+                  }
+                >
+                  {status}
+                </Badge>
               </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="flex items-center gap-4 p-5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
-              <CheckCircle2 className="h-5 w-5 text-white/60" />
+          <CardContent className="flex items-center gap-4 !p-5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50">
+              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
             </div>
 
             <div>
-              <p className="text-xs text-white/40">
+              <p className="text-xs text-slate-500">
                 Nilai
               </p>
 
-              <p className="mt-1 text-sm font-medium">
+              <p className="mt-1 text-sm font-medium text-slate-900">
                 {submission.score !== null
                   ? submission.score
                   : 'Belum dinilai'}
@@ -394,21 +405,23 @@ export default async function SubmissionDetailPage({
       {/* ------------------------------------------------------ */}
 
       <Card>
-        <CardContent className="p-6 sm:p-8">
+        <CardContent className="!p-6 sm:!p-8">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge>{questionType}</Badge>
+            <Badge variant="info">
+              {questionType}
+            </Badge>
 
-            <span className="text-xs text-white/40">
+            <span className="text-xs text-slate-500">
               {question.module_title}
             </span>
           </div>
 
-          <h2 className="mt-5 text-lg font-semibold">
+          <h2 className="mt-5 text-lg font-semibold text-slate-900">
             {question.title}
           </h2>
 
-          <div className="mt-4 rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5">
-            <p className="whitespace-pre-wrap text-sm leading-7 text-white/75">
+          <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <p className="whitespace-pre-wrap text-sm leading-7 text-slate-700">
               {question.content}
             </p>
           </div>
@@ -420,13 +433,13 @@ export default async function SubmissionDetailPage({
       {/* ------------------------------------------------------ */}
 
       <Card>
-        <CardContent className="p-6 sm:p-8">
+        <CardContent className="!p-6 sm:!p-8">
           <div>
-            <h2 className="text-base font-semibold">
+            <h2 className="text-base font-semibold text-slate-900">
               Jawaban Siswa
             </h2>
 
-            <p className="mt-1 text-sm text-white/40">
+            <p className="mt-1 text-sm text-slate-500">
               Jawaban yang dikirim oleh{' '}
               {submission.student_name}.
             </p>
@@ -438,30 +451,30 @@ export default async function SubmissionDetailPage({
             question.question_type ===
               'true_false' ? (
               selectedOption ? (
-                <div className="rounded-2xl border border-white/[0.10] bg-white/[0.03] p-5">
-                  <p className="text-xs text-white/40">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-xs font-medium text-slate-500">
                     Pilihan yang dipilih
                   </p>
 
-                  <p className="mt-2 text-sm font-medium text-white">
+                  <p className="mt-2 text-sm font-medium text-slate-900">
                     {selectedOption.option_text}
                   </p>
                 </div>
               ) : (
-                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5">
-                  <p className="text-sm text-white/40">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-sm text-slate-500">
                     Siswa tidak memilih jawaban.
                   </p>
                 </div>
               )
             ) : question.question_type ===
               'numeric' ? (
-              <div className="rounded-2xl border border-white/[0.10] bg-white/[0.03] p-5">
-                <p className="text-xs text-white/40">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <p className="text-xs font-medium text-slate-500">
                   Jawaban angka
                 </p>
 
-                <p className="mt-2 text-xl font-semibold">
+                <p className="mt-2 text-xl font-semibold text-slate-900">
                   {submission.answer_numeric !==
                   null
                     ? submission.answer_numeric
@@ -469,8 +482,8 @@ export default async function SubmissionDetailPage({
                 </p>
               </div>
             ) : (
-              <div className="rounded-2xl border border-white/[0.10] bg-white/[0.03] p-5">
-                <p className="whitespace-pre-wrap text-sm leading-7 text-white/75">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <p className="whitespace-pre-wrap text-sm leading-7 text-slate-700">
                   {submission.answer_text || '-'}
                 </p>
               </div>
@@ -482,19 +495,19 @@ export default async function SubmissionDetailPage({
           {/* -------------------------------------------------- */}
 
           {submissionImageUrl && (
-            <div className="mt-6 border-t border-white/[0.07] pt-6">
+            <div className="mt-6 border-t border-slate-100 pt-6">
               <div>
-                <h3 className="text-sm font-semibold">
+                <h3 className="text-sm font-semibold text-slate-900">
                   Foto Jawaban
                 </h3>
 
-                <p className="mt-1 text-xs text-white/40">
+                <p className="mt-1 text-xs text-slate-500">
                   Foto pekerjaan yang dikirim oleh
                   siswa.
                 </p>
               </div>
 
-              <div className="mt-5 overflow-hidden rounded-2xl border border-white/[0.08] bg-black/20">
+              <div className="mt-5 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
                 <img
                   src={submissionImageUrl}
                   alt={`Foto jawaban ${submission.student_name}`}
@@ -504,15 +517,17 @@ export default async function SubmissionDetailPage({
             </div>
           )}
 
-          <div className="mt-6 flex items-center justify-between border-t border-white/[0.07] pt-5">
-            <p className="text-xs text-white/35">
+          <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-5">
+            <p className="text-xs text-slate-400">
               Dikirim{' '}
               {formatDate(
                 submission.submitted_at,
               )}
             </p>
 
-            <Badge>{questionType}</Badge>
+            <Badge variant="info">
+              {questionType}
+            </Badge>
           </div>
         </CardContent>
       </Card>
@@ -522,13 +537,13 @@ export default async function SubmissionDetailPage({
       {/* ------------------------------------------------------ */}
 
       <Card>
-        <CardContent className="p-6 sm:p-8">
+        <CardContent className="!p-6 sm:!p-8">
           <div className="mb-6">
-            <h2 className="text-base font-semibold">
+            <h2 className="text-base font-semibold text-slate-900">
               Penilaian
             </h2>
 
-            <p className="mt-1 text-sm text-white/40">
+            <p className="mt-1 text-sm text-slate-500">
               Berikan nilai dan feedback untuk siswa.
             </p>
           </div>

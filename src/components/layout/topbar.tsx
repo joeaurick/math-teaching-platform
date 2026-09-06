@@ -19,8 +19,8 @@ export function Topbar({
   role,
 }: TopbarProps) {
   return (
-    <header className="sticky top-0 z-30 flex h-[72px] shrink-0 items-center border-b border-slate-200 bg-white/90 px-4 shadow-sm backdrop-blur-xl sm:px-6 lg:px-8">
-      <div className="flex min-w-0 flex-1 items-center gap-2">
+    <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center border-b border-slate-200/80 bg-white/95 px-3 backdrop-blur-xl sm:px-5 lg:px-6">
+      <div className="flex min-w-0 flex-1 items-center gap-1.5">
         <MobileNav
           organizationSlug={organizationSlug}
         />
@@ -31,12 +31,12 @@ export function Topbar({
         />
       </div>
 
-      <div className="flex shrink-0 items-center gap-2">
+      <div className="flex shrink-0 items-center gap-1">
         <Button
           variant="ghost"
           size="icon"
           aria-label="Notifications"
-          className="hidden text-slate-500 hover:bg-slate-100 hover:text-slate-900 sm:inline-flex"
+          className="hidden h-9 w-9 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900 sm:inline-flex"
         >
           <Bell className="h-[18px] w-[18px]" />
         </Button>

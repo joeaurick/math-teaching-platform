@@ -149,17 +149,17 @@ export function ChatMessages({
   if (messages.length === 0) {
     return (
       <div className="flex min-h-[320px] flex-col items-center justify-center px-6 text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[0.08] bg-gradient-to-br from-violet-500/[0.12] to-cyan-500/[0.08]">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-cyan-50">
           <span className="text-lg">
             💬
           </span>
         </div>
 
-        <p className="mt-4 text-sm font-medium text-white/70">
+        <p className="mt-4 text-sm font-medium text-slate-800">
           Belum ada pesan
         </p>
 
-        <p className="mt-1 max-w-xs text-xs leading-5 text-white/30">
+        <p className="mt-1 max-w-xs text-xs leading-5 text-slate-400">
           {emptyMessage}
         </p>
       </div>
@@ -195,15 +195,15 @@ export function ChatMessages({
             <div key={message.id}>
               {isNewDay && (
                 <div className="mb-5 flex items-center gap-3">
-                  <div className="h-px flex-1 bg-white/[0.06]" />
+                  <div className="h-px flex-1 bg-slate-200" />
 
-                  <span className="shrink-0 rounded-full border border-white/[0.06] bg-white/[0.025] px-3 py-1 text-[10px] font-medium tracking-wide text-white/30">
+                  <span className="shrink-0 rounded-full border border-slate-200 bg-white px-3 py-1 text-[10px] font-medium tracking-wide text-slate-400 shadow-sm">
                     {formatChatDayLabel(
                       message.created_at,
                     )}
                   </span>
 
-                  <div className="h-px flex-1 bg-white/[0.06]" />
+                  <div className="h-px flex-1 bg-slate-200" />
                 </div>
               )}
 
@@ -226,37 +226,37 @@ export function ChatMessages({
                       isStudentMessage
                         ? [
                             'rounded-2xl rounded-br-md',
-                            'border border-violet-400/20',
+                            'border border-violet-200',
                             'bg-gradient-to-br',
-                            'from-violet-500/[0.22]',
-                            'via-indigo-500/[0.16]',
-                            'to-fuchsia-500/[0.10]',
+                            'from-violet-50',
+                            'via-indigo-50',
+                            'to-fuchsia-50',
                             'px-4 py-3',
-                            'text-white',
-                            'shadow-[0_8px_30px_rgba(0,0,0,0.14)]',
+                            'text-slate-800',
+                            'shadow-sm shadow-violet-100',
                           ].join(' ')
                         : [
                             'rounded-2xl rounded-bl-md',
-                            'border border-cyan-400/15',
+                            'border border-cyan-200',
                             'bg-gradient-to-br',
-                            'from-cyan-500/[0.13]',
-                            'via-teal-500/[0.10]',
-                            'to-emerald-500/[0.07]',
+                            'from-cyan-50',
+                            'via-teal-50',
+                            'to-emerald-50',
                             'px-4 py-3',
-                            'text-white',
-                            'shadow-[0_8px_30px_rgba(0,0,0,0.14)]',
+                            'text-slate-800',
+                            'shadow-sm shadow-cyan-100',
                           ].join(' ')
                     }
                   >
-                    <p className="whitespace-pre-wrap break-words text-sm leading-6 text-white/90">
+                    <p className="whitespace-pre-wrap break-words text-sm leading-6 text-slate-800">
                       {message.message}
                     </p>
 
                     <div
                       className={
                         isStudentMessage
-                          ? 'mt-2 flex justify-end text-[10px] leading-none text-violet-100/45'
-                          : 'mt-2 flex justify-end text-[10px] leading-none text-cyan-100/40'
+                          ? 'mt-2 flex justify-end text-[10px] leading-none text-violet-500'
+                          : 'mt-2 flex justify-end text-[10px] leading-none text-cyan-600'
                       }
                     >
                       {formatChatMetadata(
@@ -267,13 +267,13 @@ export function ChatMessages({
 
                   {isTeacherMessage &&
                     !isStudentMessage && (
-                      <span className="mt-1 px-1 text-[9px] uppercase tracking-[0.12em] text-cyan-300/25">
+                      <span className="mt-1 px-1 text-[9px] uppercase tracking-[0.12em] text-cyan-600">
                         Guru
                       </span>
                     )}
 
                   {isStudentMessage && (
-                    <span className="mt-1 px-1 text-[9px] uppercase tracking-[0.12em] text-violet-300/25">
+                    <span className="mt-1 px-1 text-[9px] uppercase tracking-[0.12em] text-violet-600">
                       Anda
                     </span>
                   )}
