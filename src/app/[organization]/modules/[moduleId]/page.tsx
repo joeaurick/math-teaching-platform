@@ -6,13 +6,22 @@ import {
   FileQuestion,
   Plus,
 } from 'lucide-react'
-import { notFound, redirect } from 'next/navigation'
+import {
+  notFound,
+  redirect,
+} from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/empty-state'
 import { PageHeader } from '@/components/ui/page-header'
 import { createClient } from '@/lib/supabase/server'
+
+import { ModuleActions } from '../module-actions'
 
 type ModuleDetailPageProps = {
   params: Promise<{
@@ -22,11 +31,14 @@ type ModuleDetailPageProps = {
 }
 
 function formatDate(value: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date(value))
+  return new Intl.DateTimeFormat(
+    'en-US',
+    {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    },
+  ).format(new Date(value))
 }
 
 export default async function ModuleDetailPage({
@@ -47,12 +59,14 @@ export default async function ModuleDetailPage({
     redirect('/login')
   }
 
-  const { data: organization, error: organizationError } =
-    await supabase
-      .from('organizations')
-      .select('id, name, slug')
-      .eq('slug', slug)
-      .maybeSingle()
+  const {
+    data: organization,
+    error: organizationError,
+  } = await supabase
+    .from('organizations')
+    .select('id, name, slug')
+    .eq('slug', slug)
+    .maybeSingle()
 
   if (organizationError) {
     throw new Error(
@@ -64,13 +78,18 @@ export default async function ModuleDetailPage({
     notFound()
   }
 
-  const { data: membership, error: membershipError } =
-    await supabase
-      .from('organization_members')
-      .select('id, role')
-      .eq('organization_id', organization.id)
-      .eq('user_id', user.id)
-      .maybeSingle()
+  const {
+    data: membership,
+    error: membershipError,
+  } = await supabase
+    .from('organization_members')
+    .select('id, role')
+    .eq(
+      'organization_id',
+      organization.id,
+    )
+    .eq('user_id', user.id)
+    .maybeSingle()
 
   if (membershipError) {
     throw new Error(
@@ -82,22 +101,27 @@ export default async function ModuleDetailPage({
     notFound()
   }
 
-  const { data: module, error: moduleError } =
-    await supabase
-      .from('modules')
-      .select(`
-        id,
-        organization_id,
-        title,
-        description,
-        status,
-        created_by,
-        created_at,
-        updated_at
-      `)
-      .eq('id', moduleId)
-      .eq('organization_id', organization.id)
-      .maybeSingle()
+  const {
+    data: module,
+    error: moduleError,
+  } = await supabase
+    .from('modules')
+    .select(`
+      id,
+      organization_id,
+      title,
+      description,
+      status,
+      created_by,
+      created_at,
+      updated_at
+    `)
+    .eq('id', moduleId)
+    .eq(
+      'organization_id',
+      organization.id,
+    )
+    .maybeSingle()
 
   if (moduleError) {
     throw new Error(
@@ -128,18 +152,31 @@ export default async function ModuleDetailPage({
             'No description added for this module yet.'
           }
           actions={
-            <Badge
-              variant={
-                module.status === 'published'
-                  ? 'success'
-                  : module.status === 'archived'
-                    ? 'muted'
-                    : 'warning'
-              }
-              className="capitalize"
-            >
-              {module.status}
-            </Badge>
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <Badge
+                variant={
+                  module.status ===
+                  'published'
+                    ? 'success'
+                    : module.status ===
+                        'archived'
+                      ? 'muted'
+                      : 'warning'
+                }
+                className="capitalize"
+              >
+                {module.status}
+              </Badge>
+
+              <ModuleActions
+                organizationSlug={
+                  organization.slug
+                }
+                moduleId={module.id}
+                moduleTitle={module.title}
+                status={module.status}
+              />
+            </div>
           }
         />
 
@@ -172,10 +209,16 @@ export default async function ModuleDetailPage({
                   action={
                     <Link
                       href={`/${organization.slug}/questions`}
-                      className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-black shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:bg-white/90"
                     >
-                      <Plus className="h-4 w-4" />
-                      Add Question
+                      <Button
+                        type="button"
+                        variant="primary"
+                        size="md"
+                        className="border-white/10 bg-white text-black hover:bg-white/90"
+                      >
+                        <Plus className="h-4 w-4" />
+                        Add Question
+                      </Button>
                     </Link>
                   }
                 />
@@ -215,7 +258,9 @@ export default async function ModuleDetailPage({
                     </p>
 
                     <p className="mt-0.5 text-xs text-white/65">
-                      {formatDate(module.created_at)}
+                      {formatDate(
+                        module.created_at,
+                      )}
                     </p>
                   </div>
                 </div>
@@ -226,7 +271,9 @@ export default async function ModuleDetailPage({
                   </p>
 
                   <p className="mt-1 text-xs text-white/65">
-                    {formatDate(module.updated_at)}
+                    {formatDate(
+                      module.updated_at,
+                    )}
                   </p>
                 </div>
               </CardContent>

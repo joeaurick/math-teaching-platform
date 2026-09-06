@@ -44,7 +44,7 @@ export const workspaceNavigation: NavigationItem[] = [
   },
   {
     label: 'Math Symbols',
-    href: '/symbols',
+    href: '/math-symbols',
     icon: Sparkles,
   },
   {

@@ -12,11 +12,17 @@ import {
 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
 import { EmptyState } from '@/components/ui/empty-state'
 import { PageHeader } from '@/components/ui/page-header'
 import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 import { getModules } from '@/lib/modules/get-modules'
+
+import { ModuleActions } from './module-actions'
 
 type ModulesPageProps = {
   params: Promise<{
@@ -25,17 +31,21 @@ type ModulesPageProps = {
 }
 
 function formatDate(value: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date(value))
+  return new Intl.DateTimeFormat(
+    'en-US',
+    {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    },
+  ).format(new Date(value))
 }
 
 const quickLinks = [
   {
     title: 'Question Builder',
-    description: 'Create mathematics questions.',
+    description:
+      'Create mathematics questions.',
     href: 'questions',
     icon: PenLine,
     iconClass:
@@ -43,7 +53,8 @@ const quickLinks = [
   },
   {
     title: 'Geometry',
-    description: 'Build interactive geometry content.',
+    description:
+      'Build interactive geometry content.',
     href: 'geometry',
     icon: Shapes,
     iconClass:
@@ -51,7 +62,8 @@ const quickLinks = [
   },
   {
     title: 'Question Bank',
-    description: 'Browse reusable questions.',
+    description:
+      'Browse reusable questions.',
     href: 'question-bank',
     icon: FileQuestion,
     iconClass:
@@ -59,7 +71,8 @@ const quickLinks = [
   },
   {
     title: 'Classes',
-    description: 'Manage classes and students.',
+    description:
+      'Manage classes and students.',
     href: 'classes',
     icon: Users,
     iconClass:
@@ -67,7 +80,8 @@ const quickLinks = [
   },
   {
     title: 'Live Classroom',
-    description: 'Start an interactive session.',
+    description:
+      'Start an interactive session.',
     href: 'live-classroom',
     icon: Video,
     iconClass:
@@ -75,7 +89,8 @@ const quickLinks = [
   },
   {
     title: 'Photo / Scan',
-    description: 'Capture mathematics work.',
+    description:
+      'Capture mathematics work.',
     href: 'photo-scan',
     icon: Camera,
     iconClass:
@@ -86,12 +101,14 @@ const quickLinks = [
 export default async function ModulesPage({
   params,
 }: ModulesPageProps) {
-  const { organization: slug } = await params
+  const { organization: slug } =
+    await params
 
   const { organization } =
     await getOrganizationContext(slug)
 
-  const modules = await getModules(organization.id)
+  const modules =
+    await getModules(organization.id)
 
   return (
     <div className="min-h-full">
@@ -99,14 +116,20 @@ export default async function ModulesPage({
         <PageHeader
           eyebrow="Teaching"
           title="My Modules"
-          description="Create and organize your mathematics teaching modules."
+          description="Create, publish, and share your mathematics teaching modules with students."
           actions={
             <Link
               href={`/${organization.slug}/modules/new`}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-black shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:bg-white/90"
             >
-              <Plus className="h-4 w-4" />
-              New Module
+              <Button
+                type="button"
+                variant="primary"
+                size="md"
+                className="border-white/10 bg-white text-black hover:bg-white/90"
+              >
+                <Plus className="h-4 w-4" />
+                New Module
+              </Button>
             </Link>
           }
         />
@@ -123,10 +146,16 @@ export default async function ModulesPage({
                 action={
                   <Link
                     href={`/${organization.slug}/modules/new`}
-                    className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-black shadow-[0_1px_2px_rgba(0,0,0,0.2)] transition-all duration-200 hover:bg-white/90"
                   >
-                    <Plus className="h-4 w-4" />
-                    Create your first module
+                    <Button
+                      type="button"
+                      variant="primary"
+                      size="md"
+                      className="border-white/10 bg-white text-black hover:bg-white/90"
+                    >
+                      <Plus className="h-4 w-4" />
+                      Create your first module
+                    </Button>
                   </Link>
                 }
               />
@@ -187,38 +216,51 @@ export default async function ModulesPage({
 
               <p className="mt-1 text-xs text-white/35">
                 {modules.length} module
-                {modules.length === 1 ? '' : 's'} in this workspace.
+                {modules.length === 1
+                  ? ''
+                  : 's'}{' '}
+                in this workspace.
               </p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {modules.map((module) => (
-                <Link
+                <Card
                   key={module.id}
-                  href={`/${organization.slug}/modules/${module.id}`}
-                  className="group"
+                  className="h-full overflow-hidden border-white/[0.07] bg-white/[0.025] transition-all duration-200 hover:border-white/[0.14] hover:bg-white/[0.04]"
                 >
-                  <Card className="h-full border-white/[0.07] bg-white/[0.025] transition-all duration-200 hover:-translate-y-0.5 hover:border-white/[0.14] hover:bg-white/[0.04]">
-                    <CardContent className="p-5">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-300/15 bg-sky-400/10">
+                  <CardContent className="p-5">
+                    <div className="flex items-start justify-between gap-4">
+                      <Link
+                        href={`/${organization.slug}/modules/${module.id}`}
+                        className="group"
+                        aria-label={`Open ${module.title}`}
+                      >
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-300/15 bg-sky-400/10 transition-colors group-hover:border-sky-300/30 group-hover:bg-sky-400/15">
                           <BookOpen className="h-[18px] w-[18px] text-sky-300" />
                         </div>
+                      </Link>
 
-                        <Badge
-                          variant={
-                            module.status === 'published'
-                              ? 'success'
-                              : module.status === 'archived'
-                                ? 'muted'
-                                : 'warning'
-                          }
-                          className="capitalize"
-                        >
-                          {module.status}
-                        </Badge>
-                      </div>
+                      <Badge
+                        variant={
+                          module.status ===
+                          'published'
+                            ? 'success'
+                            : module.status ===
+                                'archived'
+                              ? 'muted'
+                              : 'warning'
+                        }
+                        className="capitalize"
+                      >
+                        {module.status}
+                      </Badge>
+                    </div>
 
+                    <Link
+                      href={`/${organization.slug}/modules/${module.id}`}
+                      className="group block"
+                    >
                       <h2 className="mt-5 line-clamp-2 text-base font-semibold tracking-tight text-white transition-colors group-hover:text-sky-100">
                         {module.title}
                       </h2>
@@ -232,12 +274,28 @@ export default async function ModulesPage({
                         <Clock3 className="h-3.5 w-3.5 text-sky-300/50" />
 
                         <span>
-                          Updated {formatDate(module.updated_at)}
+                          Updated{' '}
+                          {formatDate(
+                            module.updated_at,
+                          )}
                         </span>
                       </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                    </Link>
+
+                    <div className="mt-4 border-t border-white/[0.07] pt-4">
+                      <ModuleActions
+                        organizationSlug={
+                          organization.slug
+                        }
+                        moduleId={module.id}
+                        moduleTitle={
+                          module.title
+                        }
+                        status={module.status}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </section>
