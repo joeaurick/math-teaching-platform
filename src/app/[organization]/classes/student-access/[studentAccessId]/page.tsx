@@ -5,10 +5,14 @@ import {
   MessageCircle,
   Sparkles,
 } from 'lucide-react'
+import { notFound } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
 import { PageHeader } from '@/components/ui/page-header'
 import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 
@@ -82,8 +86,6 @@ export default async function StudentAccessDetailPage({
   }
 
   if (!studentAccess) {
-    const { notFound } = await import('next/navigation')
-
     notFound()
   }
 
@@ -117,13 +119,15 @@ export default async function StudentAccessDetailPage({
   return (
     <div className="min-h-full">
       <div className="mx-auto w-full max-w-7xl px-4 py-7 sm:px-6 lg:px-8 lg:py-10">
+        {/* Header */}
+
         <PageHeader
-          eyebrow="Classes / Student Access"
+          eyebrow="Kelas / Student Access"
           title={
             studentAccess.student_name ||
             'Student Access'
           }
-          description="Manage the modules assigned to this student."
+          description="Kelola module yang dapat diakses oleh siswa ini."
           actions={
             <Badge
               variant={
@@ -138,11 +142,13 @@ export default async function StudentAccessDetailPage({
               }
             >
               {studentAccess.is_active
-                ? 'Active'
-                : 'Inactive'}
+                ? 'Aktif'
+                : 'Tidak Aktif'}
             </Badge>
           }
         />
+
+        {/* Back */}
 
         <div className="mt-6">
           <Link
@@ -150,36 +156,36 @@ export default async function StudentAccessDetailPage({
             className="group inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
           >
             <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-            Back to Student Access
+            Kembali ke Student Access
           </Link>
         </div>
 
         {/* Student Overview */}
 
-        <Card className="mt-8 overflow-hidden border-violet-200/50 bg-gradient-to-br from-violet-50/[0.10] via-white/[0.035] to-transparent shadow-[0_12px_40px_rgba(139,92,246,0.05)]">
+        <Card className="mt-8 overflow-hidden border-violet-300/10 bg-gradient-to-br from-violet-400/[0.07] via-white/[0.025] to-transparent shadow-[0_12px_40px_rgba(139,92,246,0.05)]">
           <CardContent className="p-6">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex min-w-0 items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-violet-300/30 bg-violet-400/10">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-violet-300/20 bg-violet-400/10">
                   <BookOpen className="h-5 w-5 text-violet-300" />
                 </div>
 
                 <div className="min-w-0">
                   <p className="text-xs font-medium uppercase tracking-[0.14em] text-violet-200/50">
-                    Student
+                    Siswa
                   </p>
 
                   <p className="mt-1 truncate text-sm font-semibold text-white">
                     {studentAccess.student_name ||
-                      'Unnamed Student'}
+                      'Siswa tanpa nama'}
                   </p>
 
                   <p className="mt-1 text-xs text-white/35">
                     {assignedModuleIds.length}{' '}
                     {assignedModuleIds.length === 1
                       ? 'module'
-                      : 'modules'}{' '}
-                    assigned
+                      : 'module'}{' '}
+                    ditugaskan
                   </p>
                 </div>
               </div>
@@ -204,46 +210,51 @@ export default async function StudentAccessDetailPage({
 
         <div className="mt-8">
           <div className="mb-4 flex items-start gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-300/25 bg-sky-400/10">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
               <Sparkles className="h-4 w-4 text-sky-300" />
             </div>
 
             <div>
               <h2 className="text-base font-semibold text-white">
-                Available Modules
+                Module yang Tersedia
               </h2>
 
               <p className="mt-1 text-sm text-white/40">
-                Select the modules this student should be
-                able to access.
+                Pilih module yang boleh diakses
+                oleh siswa ini.
               </p>
             </div>
           </div>
 
           {modules.length === 0 ? (
-            <Card className="overflow-hidden border-amber-200/40 bg-gradient-to-br from-amber-50/[0.08] via-white/[0.025] to-transparent">
+            <Card className="overflow-hidden border-amber-300/10 bg-gradient-to-br from-amber-400/[0.07] via-white/[0.025] to-transparent">
               <CardContent className="flex min-h-[240px] flex-col items-center justify-center p-8 text-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-300/30 bg-amber-400/10">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-amber-300/20 bg-amber-400/10">
                   <BookOpen className="h-5 w-5 text-amber-300" />
                 </div>
 
                 <p className="mt-4 text-sm font-medium text-white/70">
-                  No modules available.
+                  Belum ada module
                 </p>
 
                 <p className="mt-1 max-w-md text-xs leading-5 text-white/30">
-                  Create a module first before assigning it
-                  to a student.
+                  Buat module terlebih dahulu
+                  sebelum menugaskannya kepada
+                  siswa.
                 </p>
               </CardContent>
             </Card>
           ) : (
             <StudentModuleAssignment
-              organizationSlug={organization.slug}
+              organizationSlug={
+                organization.slug
+              }
               organizationId={organization.id}
               studentAccessId={studentAccess.id}
               modules={modules}
-              assignedModuleIds={assignedModuleIds}
+              assignedModuleIds={
+                assignedModuleIds
+              }
             />
           )}
         </div>
