@@ -26,7 +26,7 @@ export default function CreateOrganizationPage() {
 
     if (!result.success) {
       setErrorMessage(
-        result.error ?? 'Gagal membuat organization.',
+        result.error ?? 'Gagal membuat organisasi.',
       )
       setLoading(false)
       return
@@ -45,11 +45,11 @@ export default function CreateOrganizationPage() {
           </p>
 
           <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
-            Create your workspace
+            Buat Workspace Anda
           </h1>
 
           <p className="mt-3 text-sm leading-6 text-slate-500">
-            Buat organization pertama Anda untuk mulai
+            Buat organisasi pertama Anda untuk mulai
             menggunakan Math Teaching Platform.
           </p>
         </div>
@@ -63,7 +63,7 @@ export default function CreateOrganizationPage() {
               htmlFor="organization-name"
               className="mb-2 block text-sm font-medium text-slate-900"
             >
-              Organization name
+              Nama Organisasi
             </label>
 
             <Input
@@ -94,13 +94,13 @@ export default function CreateOrganizationPage() {
             className="mt-6 w-full"
           >
             {loading
-              ? 'Creating workspace...'
-              : 'Create workspace'}
+              ? 'Membuat workspace...'
+              : 'Buat Workspace'}
           </Button>
         </form>
 
         <p className="mt-5 text-center text-xs leading-5 text-slate-400">
-          Anda dapat mengatur organization dan anggota
+          Anda dapat mengatur organisasi dan anggota
           setelah workspace dibuat.
         </p>
       </div>

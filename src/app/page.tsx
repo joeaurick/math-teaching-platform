@@ -13,9 +13,11 @@ import {
   Video,
 } from 'lucide-react'
 
+import { Button } from '@/components/ui/button'
+
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-900">
+    <main className="min-h-screen bg-white text-slate-900">
       {/* ====================================================== */}
       {/* Navigation                                             */}
       {/* ====================================================== */}
@@ -27,7 +29,7 @@ export default function HomePage() {
             className="group flex items-center gap-2.5"
           >
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-violet-600 text-white shadow-sm shadow-violet-200 transition-transform duration-200 group-hover:scale-105">
-              <GraduationCap className="h-4.5 w-4.5" />
+              <GraduationCap className="h-4 w-4" />
             </div>
 
             <span className="text-sm font-semibold tracking-tight text-slate-900">
@@ -35,21 +37,21 @@ export default function HomePage() {
             </span>
           </Link>
 
-          <div className="flex items-center gap-1.5">
+          <nav className="flex items-center gap-1">
             <Link
               href="/login"
-              className="inline-flex h-9 items-center justify-center rounded-xl px-3 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+              className="inline-flex h-9 items-center justify-center rounded-lg px-3 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
             >
               Masuk
             </Link>
 
             <Link
-              href="/register"
-              className="inline-flex h-9 items-center justify-center rounded-xl bg-violet-600 px-4 text-sm font-semibold text-white shadow-sm shadow-violet-200 transition-all duration-200 hover:bg-violet-700 hover:shadow-md hover:shadow-violet-200"
-            >
-              Mulai Mengajar
-            </Link>
-          </div>
+  href="/register"
+  className="inline-flex h-9 items-center justify-center rounded-lg bg-slate-900 px-4 text-sm font-medium !text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-md"
+>
+  Mulai Mengajar
+</Link>
+          </nav>
         </div>
       </header>
 
@@ -57,54 +59,59 @@ export default function HomePage() {
       {/* Hero                                                   */}
       {/* ====================================================== */}
 
-      <section className="relative overflow-hidden bg-white">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-white">
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-[-180px] h-[520px] w-[720px] -translate-x-1/2 rounded-full bg-violet-100 blur-3xl" />
+          <div className="absolute left-1/2 top-[-260px] h-[620px] w-[820px] -translate-x-1/2 rounded-full bg-violet-100/70 blur-3xl" />
 
-          <div className="absolute -left-32 top-40 h-72 w-72 rounded-full bg-sky-100 blur-3xl" />
+          <div className="absolute -left-48 top-72 h-80 w-80 rounded-full bg-sky-100/60 blur-3xl" />
 
-          <div className="absolute -right-32 top-72 h-72 w-72 rounded-full bg-emerald-100 blur-3xl" />
+          <div className="absolute -right-48 top-96 h-80 w-80 rounded-full bg-emerald-100/50 blur-3xl" />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-20 sm:px-6 sm:pb-24 sm:pt-28 lg:px-8 lg:pb-28">
+        <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-20 sm:px-6 sm:pb-24 sm:pt-28 lg:px-8 lg:pb-28 lg:pt-32">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3.5 py-1.5 text-xs font-medium text-violet-700">
-              <Sparkles className="h-3.5 w-3.5" />
-              Ruang Mengajar Matematika Modern
+            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+              <Sparkles className="h-3.5 w-3.5 text-violet-600" />
+              Workspace untuk guru matematika
             </div>
 
-            <h1 className="text-4xl font-semibold tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-semibold tracking-[-0.035em] text-slate-950 sm:text-6xl lg:text-[4.5rem] lg:leading-[1.05]">
               Mengajar matematika
               <br />
-              <span className="bg-gradient-to-r from-violet-600 via-blue-600 to-emerald-500 bg-clip-text text-transparent">
-                jadi lebih sederhana.
+              <span className="bg-gradient-to-r from-violet-600 via-indigo-600 to-sky-600 bg-clip-text text-transparent">
+                lebih terstruktur.
               </span>
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
-              Buat materi, susun soal, bagikan pembelajaran
-              kepada siswa, dan pantau hasil belajar dalam
-              satu workspace yang rapi.
+            <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
+              Buat materi, kelola bank soal, bagikan worksheet
+              kepada siswa, dan pantau hasil belajar dari satu
+              workspace yang rapi.
             </p>
 
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/register"
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition-all duration-200 hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-xl hover:shadow-violet-200 sm:w-auto"
+                className="w-full sm:w-auto"
               >
-                Buat Workspace
-                <ArrowRight className="h-4 w-4" />
+                <Button
+                  size="lg"
+                  className="h-12 w-full px-6 shadow-lg shadow-violet-200/70 sm:w-auto"
+                >
+                  Mulai Mengajar
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
               </Link>
 
               <Link
                 href="/login"
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 text-sm font-medium text-slate-600 shadow-sm transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 sm:w-auto"
+                className="inline-flex h-12 w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-6 text-sm font-medium text-slate-600 shadow-sm transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 sm:w-auto"
               >
                 Sudah punya akun?
               </Link>
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-slate-400">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-xs text-slate-400">
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
                 Modul pembelajaran
@@ -123,37 +130,42 @@ export default function HomePage() {
           </div>
 
           {/* ================================================== */}
-          {/* Dashboard Preview                                  */}
+          {/* Product Preview                                    */}
           {/* ================================================== */}
 
-          <div className="mx-auto mt-16 max-w-5xl">
+          <div className="mx-auto mt-16 max-w-5xl sm:mt-20">
             <div className="relative">
-              <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-r from-sky-100 via-violet-100 to-emerald-100 blur-2xl" />
+              <div className="absolute -inset-5 rounded-[2rem] bg-gradient-to-r from-sky-100/70 via-violet-100 to-emerald-100/70 blur-2xl" />
 
-              <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-300/40">
+              <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_30px_80px_rgba(15,23,42,0.14)]">
                 {/* Browser Header */}
 
-                <div className="flex h-10 items-center gap-1.5 border-b border-slate-100 px-4">
+                <div className="flex h-11 items-center gap-1.5 border-b border-slate-200 bg-slate-50/80 px-4">
                   <div className="h-2.5 w-2.5 rounded-full bg-rose-300" />
                   <div className="h-2.5 w-2.5 rounded-full bg-amber-300" />
                   <div className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
 
-                  <div className="ml-4 h-5 flex-1 rounded-md bg-slate-100" />
+                  <div className="ml-5 flex h-6 flex-1 items-center rounded-md border border-slate-200 bg-white px-3">
+                    <div className="h-1.5 w-32 rounded-full bg-slate-100" />
+                  </div>
                 </div>
 
-                <div className="grid min-h-[360px] grid-cols-[180px_1fr]">
+                <div className="grid min-h-[390px] grid-cols-[190px_1fr]">
                   {/* Sidebar */}
 
-                  <div className="hidden border-r border-slate-100 bg-slate-50/70 p-4 sm:block">
-                    <div className="mb-6 flex items-center gap-2">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-md bg-violet-600">
-                        <GraduationCap className="h-3 w-3 text-white" />
+                  <div className="hidden border-r border-slate-200 bg-slate-50/70 p-4 sm:block">
+                    <div className="mb-7 flex items-center gap-2.5">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-violet-600">
+                        <GraduationCap className="h-3.5 w-3.5 text-white" />
                       </div>
 
-                      <div className="h-2 w-20 rounded bg-slate-200" />
+                      <div>
+                        <div className="h-1.5 w-20 rounded-full bg-slate-300" />
+                        <div className="mt-1.5 h-1.5 w-12 rounded-full bg-slate-200" />
+                      </div>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       {[
                         'Dashboard',
                         'Module Saya',
@@ -164,7 +176,7 @@ export default function HomePage() {
                       ].map((item, index) => (
                         <div
                           key={item}
-                          className={`flex h-8 items-center rounded-lg px-2 text-[10px] ${
+                          className={`flex h-9 items-center rounded-lg px-2.5 text-[10px] ${
                             index === 0
                               ? 'bg-violet-100 font-medium text-violet-700'
                               : 'text-slate-400'
@@ -176,60 +188,80 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Content */}
+                  {/* Dashboard */}
 
                   <div className="bg-white p-5 sm:p-7">
-                    <div className="h-3 w-28 rounded bg-slate-200" />
-                    <div className="mt-2 h-2 w-48 rounded bg-slate-100" />
-
-                    <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                      {[
-                        'sky',
-                        'violet',
-                        'emerald',
-                      ].map((item) => (
-                        <div
-                          key={item}
-                          className={`rounded-xl border p-4 ${
-                            item === 'sky'
-                              ? 'border-sky-100 bg-sky-50'
-                              : item === 'violet'
-                                ? 'border-violet-100 bg-violet-50'
-                                : 'border-emerald-100 bg-emerald-50'
-                          }`}
-                        >
-                          <div
-                            className={`h-7 w-7 rounded-lg ${
-                              item === 'sky'
-                                ? 'bg-sky-100'
-                                : item === 'violet'
-                                  ? 'bg-violet-100'
-                                  : 'bg-emerald-100'
-                            }`}
-                          />
-
-                          <div className="mt-4 h-2 w-20 rounded bg-slate-200" />
-                          <div className="mt-2 h-2 w-12 rounded bg-slate-100" />
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-4 rounded-xl border border-slate-100 bg-slate-50/60 p-4">
-                      <div className="mb-4 flex items-center justify-between">
-                        <div>
-                          <div className="h-2 w-28 rounded bg-slate-200" />
-                          <div className="mt-2 h-2 w-40 rounded bg-slate-100" />
-                        </div>
-
-                        <div className="h-8 w-24 rounded-lg bg-violet-100" />
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <div className="h-3 w-28 rounded-full bg-slate-300" />
+                        <div className="mt-2 h-2 w-48 rounded-full bg-slate-100" />
                       </div>
 
-                      <div className="space-y-2">
-                        {[1, 2, 3, 4].map((item) => (
+                      <div className="hidden h-8 w-24 rounded-lg bg-slate-900 sm:block" />
+                    </div>
+
+                    <div className="mt-7 grid gap-3 sm:grid-cols-3">
+                      <PreviewStat
+                        icon={BookOpen}
+                        title="Modules"
+                        value="12"
+                        tone="sky"
+                      />
+
+                      <PreviewStat
+                        icon={FileText}
+                        title="Questions"
+                        value="248"
+                        tone="violet"
+                      />
+
+                      <PreviewStat
+                        icon={Users}
+                        title="Students"
+                        value="36"
+                        tone="emerald"
+                      />
+                    </div>
+
+                    <div className="mt-4 overflow-hidden rounded-xl border border-slate-200">
+                      <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/70 px-4 py-3">
+                        <div>
+                          <div className="h-2 w-28 rounded-full bg-slate-300" />
+                          <div className="mt-2 h-1.5 w-40 rounded-full bg-slate-100" />
+                        </div>
+
+                        <div className="h-7 w-20 rounded-md bg-violet-100" />
+                      </div>
+
+                      <div className="divide-y divide-slate-100">
+                        {[
+                          'Module Matematika Kelas 8',
+                          'Latihan Lingkaran',
+                          'Persamaan Linear',
+                          'Persiapan Ujian',
+                        ].map((item, index) => (
                           <div
                             key={item}
-                            className="h-10 rounded-lg bg-white"
-                          />
+                            className="flex h-11 items-center justify-between px-4"
+                          >
+                            <div className="flex min-w-0 items-center gap-3">
+                              <div
+                                className={`h-6 w-6 shrink-0 rounded-md ${
+                                  index === 0
+                                    ? 'bg-sky-100'
+                                    : index === 1
+                                      ? 'bg-violet-100'
+                                      : index === 2
+                                        ? 'bg-emerald-100'
+                                        : 'bg-amber-100'
+                                }`}
+                              />
+
+                              <div className="h-1.5 w-28 rounded-full bg-slate-100 sm:w-40" />
+                            </div>
+
+                            <div className="h-1.5 w-12 rounded-full bg-slate-100" />
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -245,27 +277,27 @@ export default function HomePage() {
       {/* Features                                               */}
       {/* ====================================================== */}
 
-      <section className="border-t border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <section className="border-b border-slate-200 bg-slate-50/70">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-violet-600">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500">
               Fitur utama
             </div>
 
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900">
+            <h2 className="mt-5 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
               Semua kebutuhan mengajar
               <br className="hidden sm:block" />
-              ada dalam satu tempat.
+              dalam satu workspace.
             </h2>
 
-            <p className="mt-4 text-sm leading-6 text-slate-500">
-              Tidak perlu berpindah-pindah aplikasi untuk
-              membuat materi, mengelola soal, dan berinteraksi
-              dengan siswa.
+            <p className="mt-4 max-w-xl text-sm leading-6 text-slate-500">
+              Dari menyusun materi sampai melihat pekerjaan siswa,
+              semuanya dirancang agar alur mengajar terasa lebih
+              sederhana.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-slate-200 bg-slate-200 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm md:grid-cols-2 lg:grid-cols-3">
             <FeatureCard
               icon={BookOpen}
               iconClassName="text-sky-600"
@@ -321,28 +353,28 @@ export default function HomePage() {
       {/* Workflow                                               */}
       {/* ====================================================== */}
 
-      <section className="border-t border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <section className="border-b border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+          <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-emerald-600">
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-emerald-700">
                 Cara kerja
               </div>
 
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900">
+              <h2 className="mt-5 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
                 Dari membuat soal
                 <br />
                 sampai mengajar.
               </h2>
 
               <p className="mt-4 max-w-xl text-sm leading-6 text-slate-500">
-                Buat materi sekali, bagikan kepada siswa, lalu
-                pantau proses belajar mereka dari workspace yang
-                sama.
+                Buat materi sekali, susun soal dari bank soal,
+                bagikan kepada siswa, lalu pantau proses belajar
+                mereka dari workspace yang sama.
               </p>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <WorkflowStep
                 number="01"
                 color="sky"
@@ -379,18 +411,18 @@ export default function HomePage() {
       {/* Benefits                                               */}
       {/* ====================================================== */}
 
-      <section className="border-t border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 via-white to-sky-50 p-8 sm:p-12">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-violet-200/60" />
+      <section className="border-b border-slate-200 bg-slate-50/70">
+        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+          <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm sm:p-12">
+            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-violet-100/70 blur-3xl" />
 
-            <div className="relative grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div className="relative grid gap-12 lg:grid-cols-2 lg:items-center">
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-violet-600">
+                <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-violet-700">
                   Dibuat untuk guru
                 </div>
 
-                <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900">
+                <h2 className="mt-5 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
                   Lebih sedikit waktu
                   <br />
                   untuk mengurus tools.
@@ -403,10 +435,15 @@ export default function HomePage() {
 
                 <Link
                   href="/register"
-                  className="mt-7 inline-flex h-11 items-center gap-2 rounded-xl bg-violet-600 px-5 text-sm font-semibold text-white shadow-md shadow-violet-200 transition-all duration-200 hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-lg"
+                  className="mt-8 inline-flex"
                 >
-                  Buat Workspace
-                  <ArrowRight className="h-4 w-4" />
+                  <Button
+                    size="md"
+                    className="shadow-md shadow-violet-200/60"
+                  >
+                    Buat Workspace
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
                 </Link>
               </div>
 
@@ -435,7 +472,7 @@ export default function HomePage() {
                 ].map((item) => (
                   <div
                     key={item.text}
-                    className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white/80 px-4 py-3"
+                    className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-3.5"
                   >
                     <CheckCircle2
                       className={`h-4 w-4 shrink-0 ${item.color}`}
@@ -456,19 +493,19 @@ export default function HomePage() {
       {/* CTA                                                    */}
       {/* ====================================================== */}
 
-      <section className="border-t border-slate-200 bg-white">
+      <section className="bg-white">
         <div className="relative mx-auto max-w-4xl overflow-hidden px-4 py-24 text-center sm:px-6 lg:px-8">
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-100 blur-3xl" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-100/70 blur-3xl" />
 
           <div className="relative">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-600 text-white shadow-lg shadow-violet-200">
               <Play className="ml-0.5 h-5 w-5" />
             </div>
 
-            <h2 className="mt-6 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+            <h2 className="mt-6 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
               Siap mengajar matematika
               <br className="hidden sm:block" />
-              dengan cara yang lebih baik?
+              dengan cara yang lebih terstruktur?
             </h2>
 
             <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-500">
@@ -478,10 +515,15 @@ export default function HomePage() {
 
             <Link
               href="/register"
-              className="mt-7 inline-flex h-12 items-center gap-2 rounded-xl bg-violet-600 px-6 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition-all duration-200 hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-xl"
+              className="mt-8 inline-flex"
             >
-              Mulai Sekarang
-              <ArrowRight className="h-4 w-4" />
+              <Button
+                size="lg"
+                className="h-12 px-6 shadow-lg shadow-violet-200/70"
+              >
+                Mulai Sekarang
+                <ArrowRight className="h-4 w-4" />
+              </Button>
             </Link>
           </div>
         </div>
@@ -491,14 +533,14 @@ export default function HomePage() {
       {/* Footer                                                 */}
       {/* ====================================================== */}
 
-      <footer className="border-t border-slate-200 bg-white">
+      <footer className="border-t border-slate-200 bg-slate-50/70">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-violet-600">
               <GraduationCap className="h-3.5 w-3.5 text-white" />
             </div>
 
-            <span className="text-sm text-slate-500">
+            <span className="text-sm font-medium text-slate-500">
               Math Teaching Platform
             </span>
           </div>
@@ -524,8 +566,72 @@ export default function HomePage() {
   )
 }
 
+type PreviewStatProps = {
+  icon: React.ComponentType<{
+    className?: string
+  }>
+  title: string
+  value: string
+  tone: 'sky' | 'violet' | 'emerald'
+}
+
+function PreviewStat({
+  icon: Icon,
+  title,
+  value,
+  tone,
+}: PreviewStatProps) {
+  const toneClasses = {
+    sky: {
+      card: 'border-sky-100 bg-sky-50/70',
+      icon: 'bg-sky-100 text-sky-600',
+      label: 'text-sky-700',
+    },
+    violet: {
+      card: 'border-violet-100 bg-violet-50/70',
+      icon: 'bg-violet-100 text-violet-600',
+      label: 'text-violet-700',
+    },
+    emerald: {
+      card: 'border-emerald-100 bg-emerald-50/70',
+      icon: 'bg-emerald-100 text-emerald-600',
+      label: 'text-emerald-700',
+    },
+  }
+
+  const styles = toneClasses[tone]
+
+  return (
+    <div
+      className={`rounded-xl border p-4 ${styles.card}`}
+    >
+      <div className="flex items-center justify-between">
+        <div>
+          <p
+            className={`text-[10px] font-medium ${styles.label}`}
+          >
+            {title}
+          </p>
+
+          <p className="mt-1 text-xl font-semibold text-slate-900">
+            {value}
+          </p>
+        </div>
+
+        <div
+          className={`flex h-8 w-8 items-center justify-center rounded-lg ${styles.icon}`}
+        >
+          <Icon className="h-3.5 w-3.5" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 type FeatureCardProps = {
-  icon: React.ComponentType<{ className?: string }>
+  icon: React.ComponentType<{
+    className?: string
+  }>
   iconClassName: string
   iconBackground: string
   title: string
@@ -540,11 +646,13 @@ function FeatureCard({
   description,
 }: FeatureCardProps) {
   return (
-    <div className="bg-white p-5 transition-colors duration-200 hover:bg-slate-50 sm:p-6">
+    <div className="border-b border-slate-200 p-6 transition-colors duration-200 hover:bg-slate-50 md:nth-[2n]:border-b-0 lg:border-b-0 lg:[&:nth-child(-n+3)]:border-b-0">
       <div
         className={`flex h-10 w-10 items-center justify-center rounded-xl ${iconBackground}`}
       >
-        <Icon className={`h-5 w-5 ${iconClassName}`} />
+        <Icon
+          className={`h-5 w-5 ${iconClassName}`}
+        />
       </div>
 
       <h3 className="mt-5 text-sm font-semibold text-slate-900">
@@ -572,20 +680,29 @@ function WorkflowStep({
   description,
 }: WorkflowStepProps) {
   const colorClasses = {
-    sky: 'border-sky-100 bg-sky-50 text-sky-600',
+    sky: 'border-sky-100 bg-sky-50/60',
     violet:
-      'border-violet-100 bg-violet-50 text-violet-600',
+      'border-violet-100 bg-violet-50/60',
     emerald:
-      'border-emerald-100 bg-emerald-50 text-emerald-600',
+      'border-emerald-100 bg-emerald-50/60',
     amber:
-      'border-amber-100 bg-amber-50 text-amber-600',
+      'border-amber-100 bg-amber-50/60',
+  }
+
+  const numberClasses = {
+    sky: 'text-sky-600',
+    violet: 'text-violet-600',
+    emerald: 'text-emerald-600',
+    amber: 'text-amber-600',
   }
 
   return (
     <div
-      className={`flex gap-4 rounded-2xl border p-5 ${colorClasses[color]}`}
+      className={`flex gap-4 rounded-2xl border p-5 transition-shadow duration-200 hover:shadow-sm ${colorClasses[color]}`}
     >
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-xs font-semibold shadow-sm">
+      <div
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-xs font-semibold shadow-sm ${numberClasses[color]}`}
+      >
         {number}
       </div>
 

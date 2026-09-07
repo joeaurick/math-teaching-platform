@@ -56,7 +56,7 @@ export function OrganizationSwitcher({
       >
         <div className="rounded-xl bg-gradient-to-r from-sky-50 via-blue-50 to-violet-50 px-3 py-3">
           <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-primary">
-            Current workspace
+            Workspace Saat Ini
           </p>
 
           <p className="mt-1 truncate text-sm font-semibold text-slate-900">
@@ -76,7 +76,7 @@ export function OrganizationSwitcher({
         >
           <Link href={`/${organizationSlug}`}>
             <FolderKanban className="h-4 w-4 text-sky-600" />
-            <span>Open workspace</span>
+            <span>Buka Workspace</span>
           </Link>
         </DropdownMenuItem>
 
@@ -88,7 +88,7 @@ export function OrganizationSwitcher({
         >
           <Link href="/dashboard">
             <FolderKanban className="h-4 w-4 text-violet-600" />
-            <span>All organizations</span>
+            <span>Semua Organisasi</span>
           </Link>
         </DropdownMenuItem>
 
@@ -98,7 +98,7 @@ export function OrganizationSwitcher({
         >
           <Link href="/create-organization">
             <Plus className="h-4 w-4 text-emerald-600" />
-            <span>New organization</span>
+            <span>Buat Organisasi Baru</span>
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>

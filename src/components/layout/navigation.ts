@@ -23,32 +23,32 @@ export type NavigationItem = {
 
 export const workspaceNavigation: NavigationItem[] = [
   {
-    label: 'Dashboard',
+    label: 'Dasbor',
     href: '',
     icon: LayoutDashboard,
   },
   {
-    label: 'My Modules',
+    label: 'Modul Saya',
     href: '/modules',
     icon: BookOpen,
   },
   {
-    label: 'Question Builder',
+    label: 'Pembuat Soal',
     href: '/questions',
     icon: PenLine,
   },
   {
-    label: 'Geometry',
+    label: 'Geometri',
     href: '/geometry',
     icon: Shapes,
   },
   {
-    label: 'Math Symbols',
+    label: 'Simbol Matematika',
     href: '/math-symbols',
     icon: Sparkles,
   },
   {
-    label: 'Photo / Scan',
+    label: 'Foto / Pindai',
     href: '/photo-scan',
     icon: Camera,
   },
@@ -56,32 +56,32 @@ export const workspaceNavigation: NavigationItem[] = [
 
 export const teachingNavigation: NavigationItem[] = [
   {
-    label: 'Question Bank',
+    label: 'Bank Soal',
     href: '/question-bank',
     icon: Library,
   },
   {
-    label: 'Worksheets',
+    label: 'Lembar Kerja',
     href: '/worksheets',
     icon: ClipboardList,
   },
   {
-    label: 'Teaching Mode',
+    label: 'Mode Mengajar',
     href: '/teaching-mode',
     icon: GraduationCap,
   },
   {
-    label: 'Classes',
+    label: 'Kelas',
     href: '/classes',
     icon: Users,
   },
   {
-    label: 'Live Classroom',
+    label: 'Kelas Langsung',
     href: '/live-classroom',
     icon: Video,
   },
   {
-    label: 'Student Submissions',
+    label: 'Pengumpulan Siswa',
     href: '/submissions',
     icon: FileQuestion,
   },
@@ -89,7 +89,7 @@ export const teachingNavigation: NavigationItem[] = [
 
 export const systemNavigation: NavigationItem[] = [
   {
-    label: 'Settings',
+    label: 'Pengaturan',
     href: '/settings',
     icon: Settings,
   },
