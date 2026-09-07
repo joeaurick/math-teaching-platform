@@ -5,8 +5,9 @@ import {
   Check,
   Copy,
   Link2,
-  Plus,
   Loader2,
+  Plus,
+  Trash2,
   Users,
 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -17,9 +18,24 @@ import {
   Card,
   CardContent,
 } from '@/components/ui/card'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Input } from '@/components/ui/input'
 
-import { generateStudentLink } from './actions'
+import {
+  deleteStudentAccess,
+  generateStudentLink,
+  toggleStudentAccess,
+} from './actions'
 
 type StudentAccess = {
   id: string
@@ -43,6 +59,10 @@ export function StudentAccessClient({
   const [studentName, setStudentName] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
+  const [updatingId, setUpdatingId] = useState<string | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [deleteTarget, setDeleteTarget] =
+    useState<StudentAccess | null>(null)
 
   async function handleGenerate() {
     if (!studentName.trim()) {
@@ -66,7 +86,9 @@ export function StudentAccessClient({
       }
 
       if (!result.token) {
-        toast.error('Student link tidak berhasil dibuat.')
+        toast.error(
+          'Student link tidak berhasil dibuat.',
+        )
         return
       }
 
@@ -116,9 +138,12 @@ export function StudentAccessClient({
 
       setCopiedId(access.id)
 
-      toast.success('Link berhasil disalin.', {
-        description: studentUrl,
-      })
+      toast.success(
+        'Link berhasil disalin.',
+        {
+          description: studentUrl,
+        },
+      )
 
       window.setTimeout(() => {
         setCopiedId((current) =>
@@ -133,10 +158,113 @@ export function StudentAccessClient({
         error,
       )
 
-      toast.error('Link gagal disalin.', {
-        description:
-          'Silakan salin link secara manual.',
-      })
+      toast.error(
+        'Link gagal disalin.',
+        {
+          description:
+            'Silakan salin link secara manual.',
+        },
+      )
+    }
+  }
+
+  async function handleToggleStatus(
+    access: StudentAccess,
+  ) {
+    if (updatingId || deletingId) {
+      return
+    }
+
+    const nextStatus = !access.is_active
+
+    setUpdatingId(access.id)
+
+    try {
+      const result =
+        await toggleStudentAccess(
+          organizationId,
+          access.id,
+          nextStatus,
+        )
+
+      if (!result.success) {
+        toast.error(
+          result.error ??
+            'Gagal mengubah status student.',
+        )
+        return
+      }
+
+      toast.success(
+        nextStatus
+          ? 'Student berhasil diaktifkan.'
+          : 'Student berhasil dinonaktifkan.',
+      )
+
+      window.location.reload()
+    } catch (error) {
+      console.error(
+        'Toggle student status error:',
+        error,
+      )
+
+      toast.error(
+        'Gagal mengubah status student.',
+      )
+    } finally {
+      setUpdatingId(null)
+    }
+  }
+
+  async function handleDelete(
+    access: StudentAccess,
+  ) {
+    if (access.is_active) {
+      toast.error(
+        'Student aktif tidak dapat dihapus.',
+      )
+      return
+    }
+
+    if (deletingId || updatingId) {
+      return
+    }
+
+    setDeletingId(access.id)
+
+    try {
+      const result =
+        await deleteStudentAccess(
+          organizationId,
+          access.id,
+        )
+
+      if (!result.success) {
+        toast.error(
+          result.error ??
+            'Gagal menghapus student access.',
+        )
+        return
+      }
+
+      toast.success(
+        'Student access berhasil dihapus.',
+      )
+
+      setDeleteTarget(null)
+
+      window.location.reload()
+    } catch (error) {
+      console.error(
+        'Delete student access error:',
+        error,
+      )
+
+      toast.error(
+        'Gagal menghapus student access.',
+      )
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -194,7 +322,8 @@ export function StudentAccessClient({
                   event.key === 'Enter' &&
                   !isGenerating
                 ) {
-                  handleGenerate()
+                  event.preventDefault()
+                  void handleGenerate()
                 }
               }}
               placeholder="e.g. Ahmad"
@@ -204,7 +333,9 @@ export function StudentAccessClient({
 
           <div className="mt-4">
             <Button
-              onClick={handleGenerate}
+              onClick={() =>
+                void handleGenerate()
+              }
               disabled={
                 isGenerating ||
                 !studentName.trim()
@@ -253,67 +384,127 @@ export function StudentAccessClient({
             const isCopied =
               copiedId === access.id
 
+            const isUpdating =
+              updatingId === access.id
+
+            const isDeleting =
+              deletingId === access.id
+
             return (
               <Card
                 key={access.id}
-                className="overflow-hidden border-slate-200 bg-white shadow-sm shadow-slate-200/50 transition-all duration-200 hover:border-violet-200 hover:shadow-md hover:shadow-violet-100/40"
+                className={
+                  access.is_active
+                    ? 'overflow-hidden border-slate-200 bg-white shadow-sm shadow-slate-200/50 transition-all duration-200 hover:border-violet-200 hover:shadow-md hover:shadow-violet-100/40'
+                    : 'overflow-hidden border-slate-200 bg-slate-50/70 shadow-sm shadow-slate-200/40 transition-all duration-200 hover:border-slate-300'
+                }
               >
                 <CardContent className="!p-6">
-                  <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex flex-col gap-5">
                     {/* Student information */}
 
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-violet-200 bg-violet-50">
-                          <Users className="h-4 w-4 text-violet-600" />
-                        </div>
-
-                        <h3 className="text-sm font-semibold text-slate-900">
-                          {access.student_name ||
-                            'Unnamed Student'}
-                        </h3>
-
-                        <Badge
-                          variant={
-                            access.is_active
-                              ? 'success'
-                              : 'muted'
-                          }
-                          className="capitalize"
-                        >
-                          {access.is_active
-                            ? 'Active'
-                            : 'Inactive'}
-                        </Badge>
+                    <div className="flex min-w-0 items-start gap-4">
+                      <div
+                        className={
+                          access.is_active
+                            ? 'flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-50 text-violet-600'
+                            : 'flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-200 text-slate-500'
+                        }
+                      >
+                        <Users className="h-4 w-4" />
                       </div>
 
-                      <p className="mt-3 break-all rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs text-slate-500">
-                        {access.token}
-                      </p>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-sm font-semibold text-slate-900">
+                            {access.student_name ||
+                              'Unnamed Student'}
+                          </h3>
 
-                      {access.expires_at && (
-                        <p className="mt-2 text-xs text-slate-500">
-                          Expires:{' '}
-                          {new Intl.DateTimeFormat(
-                            'id-ID',
-                            {
-                              dateStyle: 'medium',
-                              timeStyle: 'short',
-                            },
-                          ).format(
-                            new Date(
-                              access.expires_at,
-                            ),
-                          )}
+                          <Badge
+                            variant={
+                              access.is_active
+                                ? 'success'
+                                : 'muted'
+                            }
+                            className="capitalize"
+                          >
+                            {access.is_active
+                              ? 'Active'
+                              : 'Inactive'}
+                          </Badge>
+                        </div>
+
+                        <p className="mt-3 break-all rounded-xl border border-slate-200 bg-white px-3 py-2 font-mono text-xs text-slate-500">
+                          {access.token}
                         </p>
-                      )}
+
+                        {access.expires_at && (
+                          <p className="mt-2 text-xs text-slate-500">
+                            Expires:{' '}
+                            {new Intl.DateTimeFormat(
+                              'id-ID',
+                              {
+                                dateStyle: 'medium',
+                                timeStyle: 'short',
+                              },
+                            ).format(
+                              new Date(
+                                access.expires_at,
+                              ),
+                            )}
+                          </p>
+                        )}
+                      </div>
                     </div>
 
                     {/* Actions */}
 
-                    <div className="flex flex-col gap-2 sm:flex-row lg:shrink-0">
+                    <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4">
+                      <Button
+                        variant={
+                          access.is_active
+                            ? 'secondary'
+                            : 'outline'
+                        }
+                        size="sm"
+                        disabled={
+                          isUpdating ||
+                          isDeleting
+                        }
+                        onClick={() =>
+                          void handleToggleStatus(
+                            access,
+                          )
+                        }
+                        className={
+                          access.is_active
+                            ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100'
+                            : 'border-slate-200 bg-white text-slate-600 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700'
+                        }
+                      >
+                        {isUpdating ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Saving...
+                          </>
+                        ) : access.is_active ? (
+                          <>
+                            <Check className="h-4 w-4" />
+                            Active
+                          </>
+                        ) : (
+                          'Inactive'
+                        )}
+                      </Button>
+
                       <Button
                         variant="outline"
+                        size="sm"
+                        disabled={
+                          isUpdating ||
+                          isDeleting
+                        }
                         onClick={() => {
                           window.location.href =
                             `/${organizationSlug}/classes/student-access/${access.id}`
@@ -328,8 +519,15 @@ export function StudentAccessClient({
                             ? 'secondary'
                             : 'outline'
                         }
+                        size="sm"
+                        disabled={
+                          isUpdating ||
+                          isDeleting
+                        }
                         onClick={() =>
-                          handleCopy(access)
+                          void handleCopy(
+                            access,
+                          )
                         }
                       >
                         {isCopied ? (
@@ -344,6 +542,98 @@ export function StudentAccessClient({
                           </>
                         )}
                       </Button>
+
+                      {!access.is_active && (
+                        <AlertDialog
+                          open={
+                            deleteTarget?.id ===
+                            access.id
+                          }
+                          onOpenChange={(open) => {
+                            if (!open) {
+                              setDeleteTarget(null)
+                            }
+                          }}
+                        >
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="danger"
+                              size="sm"
+                              disabled={
+                                isDeleting ||
+                                isUpdating
+                              }
+                              onClick={() =>
+                                setDeleteTarget(access)
+                              }
+                            >
+                              {isDeleting ? (
+                                <>
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                  Deleting...
+                                </>
+                              ) : (
+                                <>
+                                  <Trash2 className="h-4 w-4" />
+                                  Delete
+                                </>
+                              )}
+                            </Button>
+                          </AlertDialogTrigger>
+
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Hapus Student Access?
+                              </AlertDialogTitle>
+
+                              <AlertDialogDescription>
+                                Student{' '}
+                                <span className="font-medium text-white/80">
+                                  "
+                                  {access.student_name ||
+                                    'Unnamed Student'}
+                                  "
+                                </span>{' '}
+                                akan dihapus secara permanen.
+                                Student access yang sudah
+                                dihapus tidak dapat
+                                dikembalikan.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+
+                            <AlertDialogFooter>
+  <AlertDialogCancel
+    disabled={isDeleting}
+    className="inline-flex h-9 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+  >
+    Batal
+  </AlertDialogCancel>
+
+  <AlertDialogAction
+    disabled={isDeleting}
+    onClick={(event) => {
+      event.preventDefault()
+      void handleDelete(access)
+    }}
+    className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-red-600 px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+  >
+    {isDeleting ? (
+      <>
+        <Loader2 className="h-4 w-4 animate-spin" />
+        Menghapus...
+      </>
+    ) : (
+      <>
+        <Trash2 className="h-4 w-4" />
+        Hapus Permanen
+      </>
+    )}
+  </AlertDialogAction>
+</AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      )}
                     </div>
                   </div>
                 </CardContent>

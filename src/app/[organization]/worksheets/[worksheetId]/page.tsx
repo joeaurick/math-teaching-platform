@@ -46,6 +46,7 @@ type WorksheetQuestion = {
         question_type: string
         content: string
         status: string
+        deleted_at: string | null
       }
     | {
         id: string
@@ -53,6 +54,7 @@ type WorksheetQuestion = {
         question_type: string
         content: string
         status: string
+        deleted_at: string | null
       }[]
     | null
 }
@@ -160,7 +162,8 @@ export default async function WorksheetDetailPage({
           title,
           question_type,
           content,
-          status
+          status,
+          deleted_at
         )
       `)
       .eq('worksheet_id', worksheet.id)
@@ -189,21 +192,40 @@ export default async function WorksheetDetailPage({
     (worksheetQuestionData ?? []) as WorksheetQuestion[]
 
   // ------------------------------------------------------------
+  // Only show active questions.
+  //
+  // Soft-deleted questions remain in worksheet_questions so
+  // existing database history is not destroyed, but they are
+  // hidden from the active worksheet UI.
+  // ------------------------------------------------------------
+
+  const activeWorksheetQuestions =
+    worksheetQuestions.filter((item) => {
+      const question = Array.isArray(item.questions)
+        ? item.questions[0] ?? null
+        : item.questions
+
+      return question?.deleted_at === null
+    })
+
+  // ------------------------------------------------------------
   // Format Questions
   // ------------------------------------------------------------
 
-  const questionList = worksheetQuestions.map((item) => {
-    const question = Array.isArray(item.questions)
-      ? item.questions[0] ?? null
-      : item.questions
+  const questionList = activeWorksheetQuestions.map(
+    (item) => {
+      const question = Array.isArray(item.questions)
+        ? item.questions[0] ?? null
+        : item.questions
 
-    return {
-      id: item.id,
-      question_id: item.question_id,
-      sort_order: item.sort_order,
-      question,
-    }
-  })
+      return {
+        id: item.id,
+        question_id: item.question_id,
+        sort_order: item.sort_order,
+        question,
+      }
+    },
+  )
 
   const {
     data: worksheetAssignments,
@@ -223,7 +245,7 @@ export default async function WorksheetDetailPage({
     )
 
   const publishedQuestionCount =
-    worksheetQuestions.filter(
+    activeWorksheetQuestions.filter(
       (item) => {
         const question = Array.isArray(
           item.questions,
@@ -304,7 +326,7 @@ export default async function WorksheetDetailPage({
                   </p>
 
                   <p className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">
-                    {worksheetQuestions.length}
+                    {activeWorksheetQuestions.length}
                   </p>
                 </div>
 
@@ -387,7 +409,7 @@ export default async function WorksheetDetailPage({
             </p>
           </div>
 
-          {worksheetQuestions.length === 0 ? (
+          {activeWorksheetQuestions.length === 0 ? (
             <EmptyState
               icon={
                 <FileQuestion className="h-5 w-5" />

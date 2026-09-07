@@ -92,12 +92,14 @@ export async function updateQuestion(
     }
   }
 
-  const { data: organization, error: organizationError } =
-    await supabase
-      .from('organizations')
-      .select('id, slug')
-      .eq('slug', organizationSlug)
-      .maybeSingle()
+  const {
+    data: organization,
+    error: organizationError,
+  } = await supabase
+    .from('organizations')
+    .select('id, slug')
+    .eq('slug', organizationSlug)
+    .maybeSingle()
 
   if (organizationError) {
     return {
@@ -113,13 +115,15 @@ export async function updateQuestion(
     }
   }
 
-  const { data: membership, error: membershipError } =
-    await supabase
-      .from('organization_members')
-      .select('id')
-      .eq('organization_id', organization.id)
-      .eq('user_id', user.id)
-      .maybeSingle()
+  const {
+    data: membership,
+    error: membershipError,
+  } = await supabase
+    .from('organization_members')
+    .select('id')
+    .eq('organization_id', organization.id)
+    .eq('user_id', user.id)
+    .maybeSingle()
 
   if (membershipError) {
     return {
@@ -135,13 +139,15 @@ export async function updateQuestion(
     }
   }
 
-  const { data: module, error: moduleError } =
-    await supabase
-      .from('modules')
-      .select('id')
-      .eq('id', moduleId)
-      .eq('organization_id', organization.id)
-      .maybeSingle()
+  const {
+    data: module,
+    error: moduleError,
+  } = await supabase
+    .from('modules')
+    .select('id')
+    .eq('id', moduleId)
+    .eq('organization_id', organization.id)
+    .maybeSingle()
 
   if (moduleError) {
     return {
@@ -157,13 +163,15 @@ export async function updateQuestion(
     }
   }
 
-  const { data: question, error: questionError } =
-    await supabase
-      .from('questions')
-      .select('id, created_by')
-      .eq('id', questionId)
-      .eq('organization_id', organization.id)
-      .maybeSingle()
+  const {
+    data: question,
+    error: questionError,
+  } = await supabase
+    .from('questions')
+    .select('id, created_by')
+    .eq('id', questionId)
+    .eq('organization_id', organization.id)
+    .maybeSingle()
 
   if (questionError) {
     return {
@@ -182,7 +190,8 @@ export async function updateQuestion(
   if (question.created_by !== user.id) {
     return {
       success: false,
-      error: 'Anda tidak memiliki akses untuk mengubah question ini.',
+      error:
+        'Anda tidak memiliki akses untuk mengubah question ini.',
     }
   }
 
@@ -252,7 +261,9 @@ export async function updateQuestion(
     }
   }
 
-  const { error: deleteOptionsError } = await supabase
+  const {
+    error: deleteOptionsError,
+  } = await supabase
     .from('question_options')
     .delete()
     .eq('question_id', question.id)
@@ -287,4 +298,310 @@ export async function updateQuestion(
   redirect(
     `/${organization.slug}/questions/${question.id}`,
   )
+}
+
+/**
+ * Delete question secara permanen.
+ *
+ * Question hanya boleh dihapus jika:
+ * - belum digunakan pada worksheet
+ * - belum pernah memiliki student submission
+ */
+export async function deleteQuestion(
+  organizationSlug: string,
+  questionId: string,
+) {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect('/login')
+  }
+
+  const {
+    data: organization,
+    error: organizationError,
+  } = await supabase
+    .from('organizations')
+    .select('id, slug')
+    .eq('slug', organizationSlug)
+    .maybeSingle()
+
+  if (organizationError) {
+    return {
+      success: false,
+      error: organizationError.message,
+    }
+  }
+
+  if (!organization) {
+    return {
+      success: false,
+      error: 'Organization tidak ditemukan.',
+    }
+  }
+
+  const {
+    data: membership,
+    error: membershipError,
+  } = await supabase
+    .from('organization_members')
+    .select('id')
+    .eq('organization_id', organization.id)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (membershipError) {
+    return {
+      success: false,
+      error: membershipError.message,
+    }
+  }
+
+  if (!membership) {
+    return {
+      success: false,
+      error: 'Anda bukan member organization ini.',
+    }
+  }
+
+  const {
+    data: question,
+    error: questionError,
+  } = await supabase
+    .from('questions')
+    .select(
+      'id, title, created_by, status',
+    )
+    .eq('id', questionId)
+    .eq('organization_id', organization.id)
+    .maybeSingle()
+
+  if (questionError) {
+    return {
+      success: false,
+      error: questionError.message,
+    }
+  }
+
+  if (!question) {
+    return {
+      success: false,
+      error: 'Question tidak ditemukan.',
+    }
+  }
+
+  if (question.created_by !== user.id) {
+    return {
+      success: false,
+      error:
+        'Anda tidak memiliki akses untuk menghapus question ini.',
+    }
+  }
+
+  if (question.status === 'archived') {
+    return {
+      success: false,
+      error:
+        'Question yang sudah archived tidak dapat dihapus.',
+    }
+  }
+
+  const {
+    data: worksheetQuestions,
+    error: worksheetError,
+  } = await supabase
+    .from('worksheet_questions')
+    .select('question_id')
+    .eq('question_id', question.id)
+    .limit(1)
+
+  if (worksheetError) {
+    return {
+      success: false,
+      error:
+        `Gagal memeriksa penggunaan worksheet: ${worksheetError.message}`,
+    }
+  }
+
+  const {
+    data: submissions,
+    error: submissionsError,
+  } = await supabase
+    .from('student_submissions')
+    .select('question_id')
+    .eq('question_id', question.id)
+    .limit(1)
+
+  if (submissionsError) {
+    return {
+      success: false,
+      error:
+        `Gagal memeriksa student submission: ${submissionsError.message}`,
+    }
+  }
+
+  const isUsed =
+    (worksheetQuestions?.length ?? 0) > 0 ||
+    (submissions?.length ?? 0) > 0
+
+  if (isUsed) {
+    return {
+      success: false,
+      error:
+        'Question sudah digunakan. Question harus di-archive, bukan dihapus.',
+    }
+  }
+
+  const {
+    error: deleteError,
+  } = await supabase
+    .from('questions')
+    .delete()
+    .eq('id', question.id)
+    .eq('organization_id', organization.id)
+
+  if (deleteError) {
+    return {
+      success: false,
+      error:
+        `Gagal menghapus question: ${deleteError.message}`,
+    }
+  }
+
+  return {
+    success: true,
+  }
+}
+
+/**
+ * Archive question yang sudah digunakan.
+ */
+export async function archiveQuestion(
+  organizationSlug: string,
+  questionId: string,
+) {
+  const supabase = await createClient()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    redirect('/login')
+  }
+
+  const {
+    data: organization,
+    error: organizationError,
+  } = await supabase
+    .from('organizations')
+    .select('id, slug')
+    .eq('slug', organizationSlug)
+    .maybeSingle()
+
+  if (organizationError) {
+    return {
+      success: false,
+      error: organizationError.message,
+    }
+  }
+
+  if (!organization) {
+    return {
+      success: false,
+      error: 'Organization tidak ditemukan.',
+    }
+  }
+
+  const {
+    data: membership,
+    error: membershipError,
+  } = await supabase
+    .from('organization_members')
+    .select('id')
+    .eq('organization_id', organization.id)
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (membershipError) {
+    return {
+      success: false,
+      error: membershipError.message,
+    }
+  }
+
+  if (!membership) {
+    return {
+      success: false,
+      error: 'Anda bukan member organization ini.',
+    }
+  }
+
+  const {
+    data: question,
+    error: questionError,
+  } = await supabase
+    .from('questions')
+    .select(
+      'id, title, created_by, status',
+    )
+    .eq('id', questionId)
+    .eq('organization_id', organization.id)
+    .maybeSingle()
+
+  if (questionError) {
+    return {
+      success: false,
+      error: questionError.message,
+    }
+  }
+
+  if (!question) {
+    return {
+      success: false,
+      error: 'Question tidak ditemukan.',
+    }
+  }
+
+  if (question.created_by !== user.id) {
+    return {
+      success: false,
+      error:
+        'Anda tidak memiliki akses untuk mengarsipkan question ini.',
+    }
+  }
+
+  if (question.status === 'archived') {
+    return {
+      success: false,
+      error: 'Question sudah archived.',
+    }
+  }
+
+  const {
+    error: updateError,
+  } = await supabase
+    .from('questions')
+    .update({
+      status: 'archived',
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', question.id)
+    .eq('organization_id', organization.id)
+
+  if (updateError) {
+    return {
+      success: false,
+      error:
+        `Gagal mengarsipkan question: ${updateError.message}`,
+    }
+  }
+
+  return {
+    success: true,
+  }
 }

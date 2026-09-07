@@ -20,15 +20,19 @@ export const AlertDialogPortal =
   AlertDialogPrimitive.Portal
 
 export const AlertDialogOverlay = React.forwardRef<
-  React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
+  React.ElementRef<
+    typeof AlertDialogPrimitive.Overlay
+  >,
+  React.ComponentPropsWithoutRef<
+    typeof AlertDialogPrimitive.Overlay
+  >
 >(({ className, ...props }, ref) => {
   return (
     <AlertDialogPrimitive.Overlay
       ref={ref}
       className={cn(
         'fixed inset-0 z-50',
-        'bg-black/70 backdrop-blur-sm',
+        'bg-slate-950/45 backdrop-blur-[2px]',
         'data-[state=open]:animate-in',
         'data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0',
@@ -44,8 +48,12 @@ AlertDialogOverlay.displayName =
   AlertDialogPrimitive.Overlay.displayName
 
 export const AlertDialogContent = React.forwardRef<
-  React.ElementRef<typeof AlertDialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
+  React.ElementRef<
+    typeof AlertDialogPrimitive.Content
+  >,
+  React.ComponentPropsWithoutRef<
+    typeof AlertDialogPrimitive.Content
+  >
 >(({ className, children, ...props }, ref) => {
   return (
     <AlertDialogPortal>
@@ -58,10 +66,10 @@ export const AlertDialogContent = React.forwardRef<
           'w-[calc(100%-2rem)] max-w-md',
           '-translate-x-1/2 -translate-y-1/2',
           'rounded-2xl',
-          'border border-white/10',
-          'bg-[#111111]',
-          'p-5',
-          'shadow-[0_24px_80px_rgba(0,0,0,0.45)]',
+          'border border-slate-200',
+          'bg-white',
+          'p-6',
+          'shadow-[0_24px_70px_rgba(15,23,42,0.18)]',
           'outline-none',
           'data-[state=open]:animate-in',
           'data-[state=closed]:animate-out',
@@ -69,7 +77,7 @@ export const AlertDialogContent = React.forwardRef<
           'data-[state=open]:fade-in-0',
           'data-[state=closed]:zoom-out-95',
           'data-[state=open]:zoom-in-95',
-          'sm:p-6',
+          'sm:p-7',
           className,
         )}
         {...props}
@@ -107,7 +115,9 @@ export function AlertDialogTitle({
   return (
     <AlertDialogPrimitive.Title
       className={cn(
-        'text-lg font-semibold tracking-tight text-white',
+        'text-lg font-semibold',
+        'tracking-tight',
+        'text-slate-900',
         className,
       )}
       {...props}
@@ -124,7 +134,8 @@ export function AlertDialogDescription({
   return (
     <AlertDialogPrimitive.Description
       className={cn(
-        'text-sm leading-6 text-white/45',
+        'text-sm leading-6',
+        'text-slate-500',
         className,
       )}
       {...props}
@@ -139,7 +150,8 @@ export function AlertDialogFooter({
   return (
     <div
       className={cn(
-        'mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
+        'mt-7 flex flex-col-reverse gap-2',
+        'sm:flex-row sm:justify-end',
         className,
       )}
       {...props}

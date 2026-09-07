@@ -105,6 +105,7 @@ export default async function WorksheetQuestionsPage({
         )
       `)
       .eq('organization_id', organization.id)
+      .is('deleted_at', null)
       .order('created_at', {
         ascending: false,
       }),

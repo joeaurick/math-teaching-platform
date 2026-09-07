@@ -5,20 +5,22 @@ import { Toaster as Sonner } from 'sonner'
 export function Toaster() {
   return (
     <Sonner
-      theme="dark"
+      theme="light"
       position="bottom-right"
       toastOptions={{
         classNames: {
           toast:
-            'border-white/10 bg-[#151515] text-white shadow-[0_16px_50px_rgba(0,0,0,0.4)]',
-          title: 'text-sm font-medium text-white',
-          description: 'text-xs text-white/45',
+            'border border-slate-200 bg-white text-slate-900 shadow-[0_16px_50px_rgba(15,23,42,0.12)]',
+          title:
+            'text-sm font-medium text-slate-900',
+          description:
+            'text-xs leading-5 text-slate-500',
           actionButton:
-            'rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-black',
+            'rounded-md bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800',
           cancelButton:
-            'rounded-lg bg-white/8 px-3 py-1.5 text-xs text-white/60',
+            'rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50',
           closeButton:
-            'border-white/10 bg-white/5 text-white/50 hover:bg-white/10 hover:text-white',
+            'border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700',
         },
       }}
     />

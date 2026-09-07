@@ -14,6 +14,8 @@ import { EmptyState } from '@/components/ui/empty-state'
 import { PageHeader } from '@/components/ui/page-header'
 import { getOrganizationContext } from '@/lib/organization/get-organization-context'
 
+import { QuestionActions } from './question-actions'
+
 type QuestionsPageProps = {
   params: Promise<{
     organization: string
@@ -44,18 +46,72 @@ export default async function QuestionsPage({
       status,
       created_at,
       updated_at,
+      deleted_at,
       modules (
         id,
         title
       )
     `)
     .eq('organization_id', organization.id)
-    .order('created_at', { ascending: false })
+    .is('deleted_at', null)
+    .order('created_at', {
+      ascending: false,
+    })
 
   if (questionsError) {
     throw new Error(
       `Gagal mengambil questions: ${questionsError.message}`,
     )
+  }
+
+  const questionIds = questions.map(
+    (question) => question.id,
+  )
+
+  let usedQuestionIds = new Set<string>()
+
+  if (questionIds.length > 0) {
+    const [
+      {
+        data: worksheetQuestions,
+        error: worksheetError,
+      },
+      {
+        data: submissions,
+        error: submissionsError,
+      },
+    ] = await Promise.all([
+      supabase
+        .from('worksheet_questions')
+        .select('question_id')
+        .in('question_id', questionIds),
+
+      supabase
+        .from('student_submissions')
+        .select('question_id')
+        .in('question_id', questionIds),
+    ])
+
+    if (worksheetError) {
+      throw new Error(
+        `Gagal memeriksa worksheet questions: ${worksheetError.message}`,
+      )
+    }
+
+    if (submissionsError) {
+      throw new Error(
+        `Gagal memeriksa student submissions: ${submissionsError.message}`,
+      )
+    }
+
+    usedQuestionIds = new Set([
+      ...(worksheetQuestions ?? []).map(
+        (item) => item.question_id,
+      ),
+      ...(submissions ?? []).map(
+        (item) => item.question_id,
+      ),
+    ])
   }
 
   return (
@@ -114,35 +170,39 @@ export default async function QuestionsPage({
                 ? question.modules[0]
                 : question.modules
 
-              return (
-                <Link
-                  key={question.id}
-                  href={`/${organization.slug}/questions/${question.id}`}
-                  className="group"
-                >
-                  <Card className="h-full border-slate-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md hover:shadow-slate-200/60">
-                    <CardContent className="!p-5">
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
-                          <FileQuestion className="h-[18px] w-[18px] text-sky-600" />
-                        </div>
+              const isUsed =
+                usedQuestionIds.has(
+                  question.id,
+                )
 
-                        <Badge
-                          variant={
-                            question.status ===
-                            'published'
-                              ? 'success'
-                              : question.status ===
-                                  'archived'
-                                ? 'muted'
-                                : 'warning'
-                          }
-                          className="capitalize"
-                        >
-                          {question.status}
-                        </Badge>
+              return (
+                <Card
+                  key={question.id}
+                  className="h-full border-slate-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md hover:shadow-slate-200/60"
+                >
+                  <CardContent className="!p-5">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
+                        <FileQuestion className="h-[18px] w-[18px] text-sky-600" />
                       </div>
 
+                      <Badge
+                        variant={
+                          question.status ===
+                          'published'
+                            ? 'success'
+                            : 'warning'
+                        }
+                        className="capitalize"
+                      >
+                        {question.status}
+                      </Badge>
+                    </div>
+
+                    <Link
+                      href={`/${organization.slug}/questions/${question.id}`}
+                      className="group"
+                    >
                       <h2 className="mt-5 line-clamp-2 text-base font-semibold text-slate-900 transition-colors group-hover:text-primary">
                         {question.title}
                       </h2>
@@ -150,20 +210,36 @@ export default async function QuestionsPage({
                       <p className="mt-2 line-clamp-3 text-sm leading-5 text-slate-600">
                         {question.content}
                       </p>
+                    </Link>
 
-                      <div className="mt-5 border-t border-slate-100 pt-4">
-                        <p className="text-xs text-slate-400">
-                          Module
-                        </p>
+                    <div className="mt-5 border-t border-slate-100 pt-4">
+                      <p className="text-xs text-slate-400">
+                        Module
+                      </p>
 
-                        <p className="mt-1 truncate text-sm font-medium text-slate-600">
-                          {module?.title ||
-                            'Unknown module'}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+                      <p className="mt-1 truncate text-sm font-medium text-slate-600">
+                        {module?.title ||
+                          'Unknown module'}
+                      </p>
+                    </div>
+
+                    <div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                      <Link
+                        href={`/${organization.slug}/questions/${question.id}`}
+                        className="text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                      >
+                        Open Question
+                      </Link>
+
+                      <QuestionActions
+  organizationSlug={organization.slug}
+  questionId={question.id}
+  questionTitle={question.title}
+  isUsed={isUsed}
+/>
+                    </div>
+                  </CardContent>
+                </Card>
               )
             })}
           </div>

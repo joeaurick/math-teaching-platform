@@ -29,6 +29,7 @@ type Question = {
   status: string
   created_at: string
   updated_at: string
+  deleted_at: string | null
   modules:
     | {
         id: string
@@ -73,12 +74,14 @@ export default async function QuestionBankPage({
       status,
       created_at,
       updated_at,
+      deleted_at,
       modules (
         id,
         title
       )
     `)
     .eq('organization_id', organization.id)
+    .is('deleted_at', null)
     .order('created_at', { ascending: false })
 
   if (questionsError) {
@@ -249,10 +252,7 @@ export default async function QuestionBankPage({
                                   question.status ===
                                   'published'
                                     ? 'success'
-                                    : question.status ===
-                                        'archived'
-                                      ? 'muted'
-                                      : 'warning'
+                                    : 'warning'
                                 }
                                 className="capitalize"
                               >

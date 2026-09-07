@@ -139,6 +139,7 @@ export async function addQuestionsToWorksheet(
       .from('questions')
       .select('id')
       .eq('organization_id', organization.id)
+      .is('deleted_at', null)
       .in('id', questionIds)
 
     if (questionsError) {
