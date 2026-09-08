@@ -32,10 +32,10 @@ type ModuleDetailPageProps = {
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat(
-    'en-US',
+    'id-ID',
     {
-      month: 'short',
       day: 'numeric',
+      month: 'short',
       year: 'numeric',
     },
   ).format(new Date(value))
@@ -46,22 +46,38 @@ function getQuestionTypeLabel(
 ) {
   switch (type) {
     case 'multiple_choice':
-      return 'Multiple Choice'
+      return 'Pilihan Ganda'
 
     case 'true_false':
-      return 'True / False'
+      return 'Benar / Salah'
 
     case 'short_answer':
-      return 'Short Answer'
+      return 'Jawaban Singkat'
 
     case 'numeric':
-      return 'Numeric'
+      return 'Numerik'
 
     case 'essay':
-      return 'Essay'
+      return 'Esai'
 
     default:
       return type
+  }
+}
+
+function getStatusLabel(status: string) {
+  switch (status) {
+    case 'published':
+      return 'Diterbitkan'
+
+    case 'archived':
+      return 'Diarsipkan'
+
+    case 'draft':
+      return 'Draf'
+
+    default:
+      return status
   }
 }
 
@@ -159,10 +175,6 @@ export default async function ModuleDetailPage({
     notFound()
   }
 
-  /*
-   * Questions yang module_id-nya menunjuk
-   * ke module ini adalah isi dari module.
-   */
   const {
     data: questions,
     error: questionsError,
@@ -174,6 +186,7 @@ export default async function ModuleDetailPage({
       question_type,
       content,
       status,
+      deleted_at,
       created_at,
       updated_at
     `)
@@ -182,6 +195,7 @@ export default async function ModuleDetailPage({
       organization.id,
     )
     .eq('module_id', module.id)
+    .is('deleted_at', null)
     .order(
       'created_at',
       {
@@ -196,25 +210,25 @@ export default async function ModuleDetailPage({
   }
 
   return (
-    <div className="min-h-full">
-      <div className="mx-auto w-full max-w-[1200px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <div className="min-h-full bg-slate-50/40">
+      <div className="mx-auto w-full max-w-[1200px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}/modules`}
-          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+          className="group mb-5 inline-flex items-center gap-2 text-sm font-medium text-violet-600 transition-colors hover:text-violet-700 sm:mb-6"
         >
           <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-          Back to Modules
+          Kembali ke Modul
         </Link>
 
         <PageHeader
-          eyebrow="Teaching / Module"
+          eyebrow="Pembelajaran / Modul"
           title={module.title}
           description={
             module.description ||
-            'No description added for this module yet.'
+            'Belum ada deskripsi untuk modul ini.'
           }
           actions={
-            <div className="flex flex-wrap items-center justify-end gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Badge
                 variant={
                   module.status ===
@@ -225,9 +239,10 @@ export default async function ModuleDetailPage({
                       ? 'muted'
                       : 'warning'
                 }
-                className="capitalize"
               >
-                {module.status}
+                {getStatusLabel(
+                  module.status,
+                )}
               </Badge>
 
               <ModuleActions
@@ -244,41 +259,43 @@ export default async function ModuleDetailPage({
           }
         />
 
-        <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_300px]">
-          {/* QUESTIONS */}
-          <Card className="border-sky-200 bg-gradient-to-br from-sky-50 via-white to-white shadow-sm shadow-sky-100/70">
-            <CardContent className="!p-6">
+        <div className="mt-6 grid gap-4 sm:mt-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+          {/* SOAL */}
+          <Card className="overflow-hidden border-sky-200 bg-gradient-to-br from-sky-50 via-white to-white shadow-sm shadow-sky-100/70">
+            <CardContent className="!p-5 sm:!p-6">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50">
                     <FileQuestion className="h-[18px] w-[18px] text-sky-600" />
                   </div>
 
-                  <div>
-                    <h2 className="text-sm font-semibold text-slate-900">
-                      Questions
+                  <div className="min-w-0">
+                    <h2 className="text-sm font-semibold text-slate-900 sm:text-base">
+                      Soal
                     </h2>
 
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-xs leading-5 text-slate-500">
                       {questions.length}{' '}
                       {questions.length === 1
-                        ? 'question'
-                        : 'questions'}{' '}
-                      in this module.
+                        ? 'soal'
+                        : 'soal'}{' '}
+                      dalam modul ini.
                     </p>
                   </div>
                 </div>
 
                 <Link
                   href={`/${organization.slug}/questions/new?module=${module.id}`}
+                  className="w-full sm:w-auto"
                 >
                   <Button
                     type="button"
                     variant="primary"
                     size="sm"
+                    className="w-full sm:w-auto"
                   >
                     <Plus className="h-4 w-4" />
-                    Add Question
+                    Tambah Soal
                   </Button>
                 </Link>
               </div>
@@ -289,19 +306,21 @@ export default async function ModuleDetailPage({
                     icon={
                       <FileQuestion className="h-5 w-5 text-sky-600" />
                     }
-                    title="No questions yet"
-                    description="Add your first mathematics question to this module."
+                    title="Belum ada soal"
+                    description="Tambahkan soal matematika pertama ke modul ini."
                     action={
                       <Link
                         href={`/${organization.slug}/questions/new?module=${module.id}`}
+                        className="w-full sm:w-auto"
                       >
                         <Button
                           type="button"
                           variant="primary"
                           size="md"
+                          className="w-full sm:w-auto"
                         >
                           <Plus className="h-4 w-4" />
-                          Add Question
+                          Tambah Soal
                         </Button>
                       </Link>
                     }
@@ -321,8 +340,8 @@ export default async function ModuleDetailPage({
                         href={`/${organization.slug}/questions/${question.id}`}
                         className="group block"
                       >
-                        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-200 hover:border-sky-300 hover:bg-sky-50/30 hover:shadow-md hover:shadow-sky-100/60">
-                          <div className="flex items-start gap-4">
+                        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-all duration-200 hover:border-sky-300 hover:bg-sky-50/30 hover:shadow-md hover:shadow-sky-100/60 sm:p-5">
+                          <div className="flex items-start gap-3 sm:gap-4">
                             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-50 text-xs font-semibold text-sky-700">
                               {index + 1}
                             </div>
@@ -343,9 +362,10 @@ export default async function ModuleDetailPage({
                                         ? 'muted'
                                         : 'warning'
                                   }
-                                  className="capitalize"
                                 >
-                                  {question.status}
+                                  {getStatusLabel(
+                                    question.status,
+                                  )}
                                 </Badge>
                               </div>
 
@@ -361,7 +381,7 @@ export default async function ModuleDetailPage({
                                 </span>
 
                                 <span>
-                                  Updated{' '}
+                                  Diperbarui{' '}
                                   {formatDate(
                                     question.updated_at,
                                   )}
@@ -383,16 +403,16 @@ export default async function ModuleDetailPage({
             <Card className="border-violet-200 bg-gradient-to-br from-violet-50 via-white to-white shadow-sm shadow-violet-100/60">
               <CardContent className="!p-5">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-200 bg-violet-50">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-violet-200 bg-violet-50">
                     <BookOpen className="h-4 w-4 text-violet-600" />
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-xs text-slate-500">
-                      Module
+                      Modul
                     </p>
 
-                    <p className="mt-0.5 text-sm font-medium text-slate-900">
+                    <p className="mt-0.5 truncate text-sm font-medium text-slate-900">
                       {module.title}
                     </p>
                   </div>
@@ -403,13 +423,13 @@ export default async function ModuleDetailPage({
             <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-white shadow-sm shadow-emerald-100/60">
               <CardContent className="!p-5">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50">
                     <FileQuestion className="h-4 w-4 text-emerald-600" />
                   </div>
 
                   <div>
                     <p className="text-xs text-slate-500">
-                      Questions
+                      Jumlah Soal
                     </p>
 
                     <p className="mt-0.5 text-sm font-medium text-slate-900">
@@ -423,11 +443,11 @@ export default async function ModuleDetailPage({
             <Card className="border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white shadow-sm shadow-amber-100/60">
               <CardContent className="!p-5">
                 <div className="flex items-center gap-3">
-                  <Clock3 className="h-4 w-4 text-amber-600" />
+                  <Clock3 className="h-4 w-4 shrink-0 text-amber-600" />
 
                   <div>
                     <p className="text-[11px] text-slate-500">
-                      Created
+                      Dibuat
                     </p>
 
                     <p className="mt-0.5 text-xs text-slate-700">
@@ -440,7 +460,7 @@ export default async function ModuleDetailPage({
 
                 <div className="mt-4 border-t border-slate-100 pt-4">
                   <p className="text-[11px] text-slate-500">
-                    Last updated
+                    Terakhir diperbarui
                   </p>
 
                   <p className="mt-1 text-xs text-slate-700">

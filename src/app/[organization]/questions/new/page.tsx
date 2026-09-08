@@ -1,12 +1,11 @@
 import Link from 'next/link'
-import {
-  ArrowLeft,
-} from 'lucide-react'
+import { ArrowLeft, FileQuestion } from 'lucide-react'
 import {
   notFound,
   redirect,
 } from 'next/navigation'
 
+import { Badge } from '@/components/ui/badge'
 import { PageHeader } from '@/components/ui/page-header'
 import { createClient } from '@/lib/supabase/server'
 
@@ -133,23 +132,29 @@ export default async function NewQuestionPage({
   }
 
   return (
-    <div className="min-h-full">
-      <div className="mx-auto w-full max-w-[1000px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <div className="min-h-full bg-slate-50/40">
+      <div className="mx-auto w-full max-w-[1000px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}/modules`}
-          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+          className="group mb-5 inline-flex items-center gap-2 text-sm font-medium text-violet-600 transition-colors hover:text-violet-700 sm:mb-6"
         >
           <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-          Back to Modules
+          Kembali ke Modul
         </Link>
 
         <PageHeader
-          eyebrow="Teaching / Question Builder"
-          title="New Question"
-          description="Create a mathematics question and assign it to a module."
+          eyebrow="Pembelajaran / Pembuat Soal"
+          title="Soal Baru"
+          description="Buat soal matematika baru dan masukkan ke dalam modul pembelajaran."
+          actions={
+            <Badge variant="info">
+              <FileQuestion className="mr-1.5 h-3.5 w-3.5" />
+              Pembuat Soal
+            </Badge>
+          }
         />
 
-        <div className="mt-8">
+        <div className="mt-6 sm:mt-8">
           <QuestionForm
             organizationSlug={
               organization.slug

@@ -95,15 +95,15 @@ export function QuestionForm({
 
   return (
     <form action={formAction}>
-      <Card className="overflow-hidden border-sky-200/10 bg-gradient-to-br from-sky-400/[0.035] via-white/[0.02] to-transparent shadow-[0_16px_50px_rgba(56,189,248,0.04)]">
-        <CardContent className="space-y-7 p-5 sm:p-6 lg:p-7">
+      <Card className="overflow-hidden border-slate-200 bg-white shadow-[0_18px_55px_rgba(15,23,42,0.06)]">
+        <CardContent className="space-y-7 !p-5 sm:space-y-8 sm:!p-6 lg:!p-7">
           {/* MODULE */}
           <div>
             <label
               htmlFor="module_id"
-              className="mb-2 block text-sm font-medium text-white"
+              className="mb-2 block text-sm font-medium text-slate-800"
             >
-              Module
+              Modul
             </label>
 
             <select
@@ -114,13 +114,13 @@ export function QuestionForm({
               defaultValue={
                 selectedModuleId
               }
-              className="h-11 w-full rounded-xl border border-sky-200/[0.10] bg-[#111111] px-3 text-sm text-white outline-none transition-colors focus:border-sky-300/30 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-800 outline-none transition-colors focus:border-violet-400 focus:ring-2 focus:ring-violet-100 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:opacity-60"
             >
               <option
                 value=""
                 disabled
               >
-                Select a module
+                Pilih modul
               </option>
 
               {modules.map(
@@ -141,10 +141,9 @@ export function QuestionForm({
 
             {modules.length ===
               0 && (
-              <p className="mt-2 text-xs text-amber-300/70">
-                Belum ada module. Buat
-                module terlebih dahulu
-                sebelum membuat question.
+              <p className="mt-2 text-xs leading-5 text-amber-600">
+                Belum ada modul. Buat modul terlebih
+                dahulu sebelum membuat soal.
               </p>
             )}
           </div>
@@ -153,9 +152,9 @@ export function QuestionForm({
           <div>
             <label
               htmlFor="title"
-              className="mb-2 block text-sm font-medium text-white"
+              className="mb-2 block text-sm font-medium text-slate-800"
             >
-              Question title
+              Judul soal
             </label>
 
             <Input
@@ -164,8 +163,8 @@ export function QuestionForm({
               type="text"
               required
               disabled={isPending}
-              placeholder="e.g. Solve a linear equation"
-              className="h-11 rounded-xl border-white/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-sky-300/30 focus:bg-white/[0.06]"
+              placeholder="Contoh: Menyelesaikan persamaan linear"
+              className="h-11 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:ring-violet-100"
             />
           </div>
 
@@ -173,9 +172,9 @@ export function QuestionForm({
           <div>
             <label
               htmlFor="question_type"
-              className="mb-2 block text-sm font-medium text-white"
+              className="mb-2 block text-sm font-medium text-slate-800"
             >
-              Question type
+              Jenis soal
             </label>
 
             <select
@@ -195,26 +194,26 @@ export function QuestionForm({
               disabled={
                 isPending
               }
-              className="h-11 w-full rounded-xl border border-violet-200/[0.10] bg-[#111111] px-3 text-sm text-white outline-none transition-colors focus:border-violet-300/30 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-800 outline-none transition-colors focus:border-violet-400 focus:ring-2 focus:ring-violet-100 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:opacity-60"
             >
               <option value="multiple_choice">
-                Multiple Choice
+                Pilihan Ganda
               </option>
 
               <option value="true_false">
-                True / False
+                Benar / Salah
               </option>
 
               <option value="short_answer">
-                Short Answer
+                Jawaban Singkat
               </option>
 
               <option value="numeric">
-                Numeric
+                Numerik
               </option>
 
               <option value="essay">
-                Essay
+                Esai
               </option>
             </select>
           </div>
@@ -224,12 +223,12 @@ export function QuestionForm({
             <div className="mb-2 flex items-center gap-2">
               <label
                 htmlFor="content"
-                className="block text-sm font-medium text-white"
+                className="block text-sm font-medium text-slate-800"
               >
-                Question
+                Pertanyaan
               </label>
 
-              <CircleHelp className="h-3.5 w-3.5 text-sky-300/40" />
+              <CircleHelp className="h-3.5 w-3.5 text-slate-400" />
             </div>
 
             <Textarea
@@ -238,38 +237,38 @@ export function QuestionForm({
               required
               rows={7}
               disabled={isPending}
-              placeholder="Write your mathematics question here..."
-              className="resize-none rounded-xl border-sky-200/[0.10] bg-white/[0.04] leading-6 text-white placeholder:text-white/25 focus:border-sky-300/30 focus:bg-white/[0.06]"
+              placeholder="Tulis pertanyaan matematika di sini..."
+              className="resize-none rounded-xl border-slate-200 bg-white leading-6 text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:ring-violet-100"
             />
 
-            <p className="mt-2 text-xs text-white/25">
-              Tulis pertanyaan dengan jelas
-              agar mudah dipahami siswa.
+            <p className="mt-2 text-xs leading-5 text-slate-400">
+              Tulis pertanyaan dengan jelas agar mudah
+              dipahami siswa.
             </p>
           </div>
 
           {/* MULTIPLE CHOICE */}
           {questionType ===
             'multiple_choice' && (
-            <div className="rounded-2xl border border-violet-300/15 bg-gradient-to-br from-violet-400/[0.07] via-white/[0.02] to-transparent p-5">
+            <div className="rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 via-white to-indigo-50/40 p-4 sm:p-5">
               <div className="mb-5 flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10">
-                  <ListChecks className="h-5 w-5 text-violet-300" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-200 bg-violet-100">
+                  <ListChecks className="h-5 w-5 text-violet-600" />
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
-                    Answer Options
+                  <h3 className="text-sm font-semibold text-slate-900">
+                    Pilihan Jawaban
                   </h3>
 
-                  <p className="mt-1 text-xs leading-5 text-white/35">
-                    Enter four options and
-                    select the correct answer.
+                  <p className="mt-1 text-xs leading-5 text-slate-500">
+                    Masukkan empat pilihan dan tentukan
+                    jawaban yang benar.
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {optionLabels.map(
                   (
                     label,
@@ -277,9 +276,9 @@ export function QuestionForm({
                   ) => (
                     <div
                       key={label}
-                      className="flex items-center gap-3"
+                      className="flex flex-wrap items-center gap-2.5 sm:flex-nowrap sm:gap-3"
                     >
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10 text-sm font-semibold text-violet-200">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-200 bg-violet-50 text-sm font-semibold text-violet-700">
                         {label}
                       </div>
 
@@ -290,11 +289,11 @@ export function QuestionForm({
                         disabled={
                           isPending
                         }
-                        placeholder={`Option ${label}`}
-                        className="h-11 min-w-0 flex-1 rounded-xl border-white/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-violet-300/25 focus:bg-white/[0.06]"
+                        placeholder={`Pilihan ${label}`}
+                        className="h-11 min-w-0 flex-1 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:ring-violet-100"
                       />
 
-                      <label className="flex shrink-0 cursor-pointer items-center gap-2 text-xs text-white/45">
+                      <label className="flex min-h-10 shrink-0 cursor-pointer items-center gap-2 rounded-lg px-2 text-xs text-slate-500 transition-colors hover:bg-violet-50 hover:text-violet-700">
                         <input
                           type="radio"
                           name="correct_option"
@@ -303,11 +302,11 @@ export function QuestionForm({
                           disabled={
                             isPending
                           }
-                          className="h-4 w-4 accent-violet-400"
+                          className="h-4 w-4 accent-violet-600"
                         />
 
-                        <span className="hidden sm:inline">
-                          Correct
+                        <span>
+                          Benar
                         </span>
                       </label>
                     </div>
@@ -320,26 +319,26 @@ export function QuestionForm({
           {/* TRUE / FALSE */}
           {questionType ===
             'true_false' && (
-            <div className="rounded-2xl border border-emerald-300/15 bg-gradient-to-br from-emerald-400/[0.07] via-white/[0.02] to-transparent p-5">
+            <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-emerald-50/40 p-4 sm:p-5">
               <div className="mb-5 flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-400/10">
-                  <ToggleLeft className="h-5 w-5 text-emerald-300" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-200 bg-emerald-100">
+                  <ToggleLeft className="h-5 w-5 text-emerald-600" />
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
-                    Correct Answer
+                  <h3 className="text-sm font-semibold text-slate-900">
+                    Jawaban Benar
                   </h3>
 
-                  <p className="mt-1 text-xs leading-5 text-white/35">
-                    Select whether the statement
-                    is true or false.
+                  <p className="mt-1 text-xs leading-5 text-slate-500">
+                    Tentukan apakah pernyataan benar atau
+                    salah.
                   </p>
                 </div>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2">
-                <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 transition-all duration-200 hover:border-emerald-300/20 hover:bg-emerald-400/[0.05]">
+                <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-all duration-200 hover:border-emerald-300 hover:bg-emerald-50/50">
                   <input
                     type="radio"
                     name="true_false_answer"
@@ -348,19 +347,19 @@ export function QuestionForm({
                     disabled={
                       isPending
                     }
-                    className="h-4 w-4 accent-emerald-400"
+                    className="h-4 w-4 accent-emerald-600"
                   />
 
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-300/15 bg-emerald-400/10">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-300" />
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-200 bg-emerald-50">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                   </span>
 
-                  <span className="text-sm font-medium text-white/75">
-                    True
+                  <span className="text-sm font-medium text-slate-700">
+                    Benar
                   </span>
                 </label>
 
-                <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 transition-all duration-200 hover:border-rose-300/20 hover:bg-rose-400/[0.05]">
+                <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 transition-all duration-200 hover:border-rose-300 hover:bg-rose-50/50">
                   <input
                     type="radio"
                     name="true_false_answer"
@@ -369,17 +368,17 @@ export function QuestionForm({
                     disabled={
                       isPending
                     }
-                    className="h-4 w-4 accent-rose-400"
+                    className="h-4 w-4 accent-rose-600"
                   />
 
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-rose-300/15 bg-rose-400/10">
-                    <span className="text-sm font-semibold text-rose-300">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-rose-200 bg-rose-50">
+                    <span className="text-sm font-semibold text-rose-600">
                       ×
                     </span>
                   </span>
 
-                  <span className="text-sm font-medium text-white/75">
-                    False
+                  <span className="text-sm font-medium text-slate-700">
+                    Salah
                   </span>
                 </label>
               </div>
@@ -389,20 +388,20 @@ export function QuestionForm({
           {/* SHORT ANSWER */}
           {questionType ===
             'short_answer' && (
-            <div className="rounded-2xl border border-sky-300/15 bg-gradient-to-br from-sky-400/[0.07] via-white/[0.02] to-transparent p-5">
+            <div className="rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-50 via-white to-sky-50/40 p-4 sm:p-5">
               <div className="mb-5 flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
-                  <PenLine className="h-5 w-5 text-sky-300" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-200 bg-sky-100">
+                  <PenLine className="h-5 w-5 text-sky-600" />
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
-                    Expected Answer
+                  <h3 className="text-sm font-semibold text-slate-900">
+                    Jawaban yang Diharapkan
                   </h3>
 
-                  <p className="mt-1 text-xs leading-5 text-white/35">
-                    Enter the answer expected
-                    from the student.
+                  <p className="mt-1 text-xs leading-5 text-slate-500">
+                    Masukkan jawaban yang diharapkan dari
+                    siswa.
                   </p>
                 </div>
               </div>
@@ -414,8 +413,8 @@ export function QuestionForm({
                 disabled={
                   isPending
                 }
-                placeholder="e.g. x = 5"
-                className="h-11 rounded-xl border-sky-200/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-sky-300/30 focus:bg-white/[0.06]"
+                placeholder="Contoh: x = 5"
+                className="h-11 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-sky-400 focus:ring-sky-100"
               />
             </div>
           )}
@@ -423,20 +422,19 @@ export function QuestionForm({
           {/* NUMERIC */}
           {questionType ===
             'numeric' && (
-            <div className="rounded-2xl border border-amber-300/15 bg-gradient-to-br from-amber-400/[0.07] via-white/[0.02] to-transparent p-5">
+            <div className="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 via-white to-amber-50/40 p-4 sm:p-5">
               <div className="mb-5 flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-300/20 bg-amber-400/10">
-                  <Hash className="h-5 w-5 text-amber-300" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-200 bg-amber-100">
+                  <Hash className="h-5 w-5 text-amber-600" />
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
-                    Correct Numeric Answer
+                  <h3 className="text-sm font-semibold text-slate-900">
+                    Jawaban Numerik
                   </h3>
 
-                  <p className="mt-1 text-xs leading-5 text-white/35">
-                    Enter the exact numeric
-                    answer.
+                  <p className="mt-1 text-xs leading-5 text-slate-500">
+                    Masukkan jawaban numerik yang tepat.
                   </p>
                 </div>
               </div>
@@ -449,8 +447,8 @@ export function QuestionForm({
                   isPending
                 }
                 step="any"
-                placeholder="e.g. 42"
-                className="h-11 rounded-xl border-amber-200/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-amber-300/30 focus:bg-white/[0.06]"
+                placeholder="Contoh: 42"
+                className="h-11 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-amber-400 focus:ring-amber-100"
               />
             </div>
           )}
@@ -458,22 +456,21 @@ export function QuestionForm({
           {/* ESSAY */}
           {questionType ===
             'essay' && (
-            <div className="rounded-2xl border border-rose-300/15 bg-gradient-to-br from-rose-400/[0.07] via-white/[0.02] to-transparent p-5">
+            <div className="rounded-2xl border border-rose-200 bg-gradient-to-br from-rose-50 via-white to-rose-50/40 p-4 sm:p-5">
               <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-rose-300/20 bg-rose-400/10">
-                  <FileText className="h-5 w-5 text-rose-300" />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-rose-200 bg-rose-100">
+                  <FileText className="h-5 w-5 text-rose-600" />
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
-                    Manual Grading
+                  <h3 className="text-sm font-semibold text-slate-900">
+                    Penilaian Manual
                   </h3>
 
-                  <p className="mt-1 text-xs leading-5 text-white/35">
-                    Essay questions do not require
-                    an automatic answer. The teacher
-                    will review and grade the student's
-                    response manually.
+                  <p className="mt-1 text-xs leading-6 text-slate-500">
+                    Soal esai tidak memerlukan jawaban
+                    otomatis. Guru akan memeriksa dan
+                    memberikan nilai secara manual.
                   </p>
                 </div>
               </div>
@@ -485,13 +482,13 @@ export function QuestionForm({
             <div className="mb-2 flex items-center gap-2">
               <label
                 htmlFor="explanation"
-                className="block text-sm font-medium text-white"
+                className="block text-sm font-medium text-slate-800"
               >
-                Explanation
+                Penjelasan
               </label>
 
-              <span className="text-xs font-normal text-white/30">
-                Optional
+              <span className="text-xs font-normal text-slate-400">
+                Opsional
               </span>
             </div>
 
@@ -502,45 +499,43 @@ export function QuestionForm({
               disabled={
                 isPending
               }
-              placeholder="Explain the solution or reasoning..."
-              className="resize-none rounded-xl border-emerald-200/[0.10] bg-white/[0.04] leading-6 text-white placeholder:text-white/25 focus:border-emerald-300/25 focus:bg-white/[0.06]"
+              placeholder="Jelaskan solusi atau langkah penyelesaiannya..."
+              className="resize-none rounded-xl border-slate-200 bg-white leading-6 text-slate-900 placeholder:text-slate-400 focus:border-emerald-400 focus:ring-emerald-100"
             />
 
-            <p className="mt-2 text-xs text-white/25">
-              Explanation dapat digunakan untuk
-              membantu siswa memahami langkah
-              penyelesaian.
+            <p className="mt-2 text-xs leading-5 text-slate-400">
+              Penjelasan dapat digunakan untuk membantu
+              siswa memahami langkah penyelesaian.
             </p>
           </div>
 
           {/* ERROR */}
           {state.error && (
-            <div className="flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/[0.08] px-4 py-3">
-              <Info className="mt-0.5 h-4 w-4 shrink-0 text-red-300" />
+            <div className="flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3">
+              <Info className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" />
 
-              <p className="text-sm leading-5 text-red-300">
+              <p className="text-sm leading-5 text-rose-700">
                 {state.error}
               </p>
             </div>
           )}
 
           {/* ACTIONS */}
-          <div className="flex flex-col-reverse gap-3 border-t border-white/[0.07] pt-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-2 text-xs text-white/25">
-              <Sparkles className="h-3.5 w-3.5 text-sky-300/50" />
+          <div className="flex flex-col gap-4 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-2 text-xs leading-5 text-slate-400">
+              <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-violet-500" />
 
               <span>
-                Question akan tersimpan di
-                Question Bank.
+                Soal akan tersimpan di Bank Soal.
               </span>
             </div>
 
-            <div className="flex items-center justify-end gap-3">
+            <div className="flex w-full flex-col-reverse gap-2.5 sm:w-auto sm:flex-row sm:items-center">
               <Link
                 href={`/${organizationSlug}/questions`}
-                className="inline-flex h-10 items-center justify-center rounded-xl px-4 text-sm font-medium text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+                className="inline-flex h-11 w-full items-center justify-center rounded-xl px-4 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-800 sm:w-auto"
               >
-                Cancel
+                Batal
               </Link>
 
               <Button
@@ -549,13 +544,14 @@ export function QuestionForm({
                   isPending ||
                   modules.length === 0
                 }
+                className="h-11 w-full bg-gradient-to-r from-violet-600 to-indigo-600 shadow-md shadow-violet-200/60 hover:from-violet-700 hover:to-indigo-700 sm:w-auto"
               >
                 {isPending ? (
-                  'Creating...'
+                  'Membuat soal...'
                 ) : (
                   <>
                     <Send className="h-4 w-4" />
-                    Create Question
+                    Buat Soal
                   </>
                 )}
               </Button>

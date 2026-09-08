@@ -32,10 +32,10 @@ type ModulesPageProps = {
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat(
-    'en-US',
+    'id-ID',
     {
-      month: 'short',
       day: 'numeric',
+      month: 'short',
       year: 'numeric',
     },
   ).format(new Date(value))
@@ -43,54 +43,52 @@ function formatDate(value: string) {
 
 const quickLinks = [
   {
-    title: 'Question Builder',
-    description:
-      'Create mathematics questions.',
+    title: 'Pembuat Soal',
+    description: 'Buat soal matematika.',
     href: 'questions',
     icon: PenLine,
     iconClass:
       'border-sky-200 bg-sky-50 text-sky-600',
   },
   {
-    title: 'Geometry',
+    title: 'Geometri',
     description:
-      'Build interactive geometry content.',
+      'Buat konten geometri interaktif.',
     href: 'geometry',
     icon: Shapes,
     iconClass:
       'border-violet-200 bg-violet-50 text-violet-600',
   },
   {
-    title: 'Question Bank',
+    title: 'Bank Soal',
     description:
-      'Browse reusable questions.',
+      'Jelajahi soal yang dapat digunakan kembali.',
     href: 'question-bank',
     icon: FileQuestion,
     iconClass:
       'border-amber-200 bg-amber-50 text-amber-600',
   },
   {
-    title: 'Classes',
-    description:
-      'Manage classes and students.',
+    title: 'Kelas',
+    description: 'Kelola kelas dan siswa.',
     href: 'classes',
     icon: Users,
     iconClass:
       'border-emerald-200 bg-emerald-50 text-emerald-600',
   },
   {
-    title: 'Live Classroom',
+    title: 'Kelas Langsung',
     description:
-      'Start an interactive session.',
+      'Mulai sesi pembelajaran interaktif.',
     href: 'live-classroom',
     icon: Video,
     iconClass:
       'border-rose-200 bg-rose-50 text-rose-600',
   },
   {
-    title: 'Photo / Scan',
+    title: 'Foto / Scan',
     description:
-      'Capture mathematics work.',
+      'Ambil foto pekerjaan matematika.',
     href: 'photo-scan',
     icon: Camera,
     iconClass:
@@ -111,23 +109,25 @@ export default async function ModulesPage({
     await getModules(organization.id)
 
   return (
-    <div className="min-h-full">
-      <div className="mx-auto w-full max-w-[1440px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <div className="min-h-full bg-slate-50/40">
+      <div className="mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <PageHeader
-          eyebrow="Teaching"
-          title="My Modules"
-          description="Create, publish, and share your mathematics teaching modules with students."
+          eyebrow="Pembelajaran"
+          title="Modul Saya"
+          description="Buat, terbitkan, dan bagikan modul pembelajaran matematika kepada siswa."
           actions={
             <Link
               href={`/${organization.slug}/modules/new`}
+              className="w-full sm:w-auto"
             >
               <Button
                 type="button"
                 variant="primary"
                 size="md"
+                className="w-full sm:w-auto"
               >
                 <Plus className="h-4 w-4" />
-                New Module
+                Modul Baru
               </Button>
             </Link>
           }
@@ -135,38 +135,41 @@ export default async function ModulesPage({
 
         {modules.length === 0 ? (
           <>
-            <div className="mt-8">
+            <div className="mt-6 sm:mt-8">
               <EmptyState
                 icon={
                   <BookOpen className="h-5 w-5 text-sky-600" />
                 }
-                title="No modules yet"
-                description="Create your first teaching module to start organizing your mathematics content."
+                title="Belum ada modul"
+                description="Buat modul pembelajaran pertama Anda untuk mulai mengatur materi matematika."
                 action={
                   <Link
                     href={`/${organization.slug}/modules/new`}
+                    className="w-full sm:w-auto"
                   >
                     <Button
                       type="button"
                       variant="primary"
                       size="md"
+                      className="w-full sm:w-auto"
                     >
                       <Plus className="h-4 w-4" />
-                      Create your first module
+                      Buat Modul Pertama
                     </Button>
                   </Link>
                 }
               />
             </div>
 
-            <section className="mt-8">
-              <div className="mb-5">
+            <section className="mt-8 sm:mt-10">
+              <div className="mb-4 sm:mb-5">
                 <h2 className="text-sm font-semibold text-slate-900">
-                  Other teaching tools
+                  Alat Pembelajaran Lainnya
                 </h2>
 
-                <p className="mt-1 text-xs text-slate-600">
-                  Continue building your teaching workspace.
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  Lanjutkan membangun ruang kerja
+                  pembelajaran Anda.
                 </p>
               </div>
 
@@ -181,7 +184,7 @@ export default async function ModulesPage({
                       className="group"
                     >
                       <Card className="h-full border-slate-200 bg-white transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md">
-                        <CardContent className="flex items-center gap-4 p-4">
+                        <CardContent className="flex items-center gap-4 !p-4 sm:!p-5">
                           <div
                             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${item.iconClass}`}
                           >
@@ -206,18 +209,15 @@ export default async function ModulesPage({
             </section>
           </>
         ) : (
-          <section className="mt-8">
-            <div className="mb-5">
+          <section className="mt-6 sm:mt-8">
+            <div className="mb-4 sm:mb-5">
               <h2 className="text-sm font-semibold text-slate-900">
-                Your modules
+                Modul Anda
               </h2>
 
-              <p className="mt-1 text-xs text-slate-600">
-                {modules.length} module
-                {modules.length === 1
-                  ? ''
-                  : 's'}{' '}
-                in this workspace.
+              <p className="mt-1 text-xs leading-5 text-slate-500">
+                {modules.length} modul tersedia di ruang
+                kerja ini.
               </p>
             </div>
 
@@ -227,12 +227,12 @@ export default async function ModulesPage({
                   key={module.id}
                   className="h-full overflow-hidden border-slate-200 bg-white transition-all duration-200 hover:border-slate-300 hover:shadow-md"
                 >
-                  <CardContent className="p-5 sm:p-6">
+                  <CardContent className="!p-5 sm:!p-6">
                     <div className="flex items-start justify-between gap-4">
                       <Link
                         href={`/${organization.slug}/modules/${module.id}`}
                         className="group"
-                        aria-label={`Open ${module.title}`}
+                        aria-label={`Buka ${module.title}`}
                       >
                         <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-sky-200 bg-sky-50 transition-colors group-hover:border-sky-300 group-hover:bg-sky-100">
                           <BookOpen className="h-[18px] w-[18px] text-sky-600" />
@@ -249,9 +249,14 @@ export default async function ModulesPage({
                               ? 'muted'
                               : 'warning'
                         }
-                        className="capitalize"
                       >
-                        {module.status}
+                        {module.status ===
+                        'published'
+                          ? 'Diterbitkan'
+                          : module.status ===
+                              'archived'
+                            ? 'Diarsipkan'
+                            : 'Draf'}
                       </Badge>
                     </div>
 
@@ -259,20 +264,20 @@ export default async function ModulesPage({
                       href={`/${organization.slug}/modules/${module.id}`}
                       className="group block"
                     >
-                      <h2 className="mt-5 line-clamp-2 text-base font-semibold tracking-tight text-slate-900 transition-colors group-hover:text-primary">
+                      <h2 className="mt-5 line-clamp-2 text-base font-semibold tracking-tight text-slate-900 transition-colors group-hover:text-violet-600">
                         {module.title}
                       </h2>
 
                       <p className="mt-2 line-clamp-3 min-h-[60px] text-sm leading-5 text-slate-600">
                         {module.description ||
-                          'No description added yet.'}
+                          'Belum ada deskripsi untuk modul ini.'}
                       </p>
 
                       <div className="mt-5 flex items-center gap-2 border-t border-slate-100 pt-4 text-xs text-slate-500">
                         <Clock3 className="h-3.5 w-3.5 text-sky-500" />
 
                         <span>
-                          Updated{' '}
+                          Diperbarui{' '}
                           {formatDate(
                             module.updated_at,
                           )}

@@ -1,4 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
+import { BookOpen, Sparkles } from 'lucide-react'
 
 import { PageHeader } from '@/components/ui/page-header'
 import { createClient } from '@/lib/supabase/server'
@@ -61,15 +62,35 @@ export default async function NewModulePage({
   }
 
   return (
-    <div className="min-h-full">
-      <div className="mx-auto w-full max-w-[900px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <div className="min-h-full bg-slate-50/40">
+      <div className="mx-auto w-full max-w-[900px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <PageHeader
-          eyebrow="Teaching"
-          title="New Module"
-          description="Create a new mathematics teaching module."
+          eyebrow="Pembelajaran"
+          title="Modul Baru"
+          description="Buat modul pembelajaran matematika baru untuk ruang kerja Anda."
         />
 
-        <div className="mt-8">
+        <div className="mt-6 sm:mt-8">
+          <div className="mb-4 flex items-center gap-3 rounded-2xl border border-violet-200 bg-gradient-to-r from-violet-50 via-white to-indigo-50 px-4 py-3.5 sm:px-5">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-100">
+              <BookOpen className="h-4 w-4 text-violet-600" />
+            </div>
+
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-medium text-slate-800">
+                  Ruang belajar baru
+                </p>
+
+                <Sparkles className="hidden h-3.5 w-3.5 text-violet-500 sm:block" />
+              </div>
+
+              <p className="mt-0.5 text-xs leading-5 text-slate-500">
+                Isi informasi dasar modul sebelum mulai menambahkan materi.
+              </p>
+            </div>
+          </div>
+
           <ModuleForm organizationSlug={organization.slug} />
         </div>
       </div>

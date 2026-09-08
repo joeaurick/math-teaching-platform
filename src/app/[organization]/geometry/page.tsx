@@ -175,56 +175,56 @@ export default async function GeometryPage({
     await getOrganizationContext(organizationSlug)
 
   return (
-    <div className="min-h-full">
-      <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+    <div className="min-h-full bg-slate-50/40">
+      <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}`}
-          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-sky-600 transition-colors hover:text-sky-700"
+          className="group mb-5 inline-flex items-center gap-2 text-sm font-medium text-violet-600 transition-colors hover:text-violet-700 sm:mb-6"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
           Kembali ke Dashboard
         </Link>
 
         <PageHeader
-          eyebrow="Math Tools"
-          title="Geometry"
+          eyebrow="Alat Matematika"
+          title="Geometri"
           description="Eksplorasi bentuk, garis, sudut, dan konsep geometri secara visual."
           actions={
             <Badge variant="info">
               <Shapes className="mr-1.5 h-3.5 w-3.5" />
-              Geometry
+              Geometri
             </Badge>
           }
         />
 
         {/* Hero */}
 
-        <Card className="mt-8 overflow-hidden border-sky-200 bg-gradient-to-br from-sky-50 via-violet-50/60 to-white">
-          <CardContent className="relative !p-6 sm:!p-8">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-sky-200/70" />
+        <Card className="mt-6 overflow-hidden border-violet-200 bg-gradient-to-br from-violet-50 via-indigo-50/60 to-white shadow-sm shadow-violet-100/50 sm:mt-8">
+          <CardContent className="relative !p-5 sm:!p-8">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-violet-200/70" />
 
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-2xl">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-sky-200 bg-sky-100">
-                  <Shapes className="h-5 w-5 text-sky-600" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-violet-200 bg-violet-100">
+                  <Shapes className="h-5 w-5 text-violet-600" />
                 </div>
 
-                <h2 className="mt-5 text-xl font-semibold text-slate-900">
+                <h2 className="mt-5 text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl">
                   Visualisasikan matematika dengan lebih mudah.
                 </h2>
 
                 <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Gunakan Geometry untuk membantu menjelaskan
+                  Gunakan Geometri untuk membantu menjelaskan
                   konsep matematika melalui bentuk dan visual
                   yang lebih mudah dipahami.
                 </p>
               </div>
 
-              <div className="flex shrink-0 items-center gap-2 rounded-2xl border border-violet-200 bg-violet-50 px-4 py-3">
+              <div className="flex w-fit shrink-0 items-center gap-2 rounded-2xl border border-violet-200 bg-violet-50 px-4 py-3">
                 <Sparkles className="h-4 w-4 text-violet-600" />
 
                 <span className="text-xs font-medium text-violet-700">
-                  Visual learning tools
+                  Alat belajar visual
                 </span>
               </div>
             </div>
@@ -233,18 +233,18 @@ export default async function GeometryPage({
 
         {/* Geometry Shapes */}
 
-        <section className="mt-10">
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-slate-900">
+        <section className="mt-8 sm:mt-10">
+          <div className="mb-5 sm:mb-6">
+            <h2 className="text-lg font-semibold tracking-tight text-slate-900">
               Bentuk Geometri
             </h2>
 
-            <p className="mt-1 text-sm text-slate-600">
+            <p className="mt-1 text-sm leading-6 text-slate-600">
               Pilih bentuk yang ingin Anda eksplorasi.
             </p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
             {geometryShapes.map((shape) => {
               const Icon = shape.icon
               const colors =
@@ -255,15 +255,15 @@ export default async function GeometryPage({
                   key={shape.title}
                   className={`group cursor-pointer bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${colors.card}`}
                 >
-                  <CardContent className="flex h-full flex-col !p-5">
-                    <div className="flex items-start justify-between">
+                  <CardContent className="flex h-full min-h-[190px] flex-col !p-5">
+                    <div className="flex items-start justify-between gap-3">
                       <div
-                        className={`flex h-11 w-11 items-center justify-center rounded-xl border ${colors.icon}`}
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border ${colors.icon}`}
                       >
                         <Icon className="h-5 w-5" />
                       </div>
 
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 transition-colors group-hover:bg-slate-100">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-50 transition-colors group-hover:bg-slate-100">
                         <Plus className="h-4 w-4 text-slate-400 transition-colors group-hover:text-slate-700" />
                       </div>
                     </div>
@@ -291,7 +291,7 @@ export default async function GeometryPage({
 
         {/* Workspace Info */}
 
-        <Card className="mt-8 border-violet-200 bg-gradient-to-r from-violet-50 via-sky-50/50 to-white">
+        <Card className="mt-8 border-violet-200 bg-gradient-to-r from-violet-50 via-indigo-50/50 to-white shadow-sm shadow-violet-100/50">
           <CardContent className="flex items-start gap-3 !p-5 sm:!p-6">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-violet-50">
               <Sparkles className="h-4 w-4 text-violet-600" />
@@ -299,11 +299,11 @@ export default async function GeometryPage({
 
             <div>
               <p className="text-sm font-semibold text-slate-800">
-                Geometry Workspace
+                Ruang Kerja Geometri
               </p>
 
               <p className="mt-1 text-xs leading-5 text-slate-600">
-                Area ini dapat dikembangkan menjadi workspace
+                Area ini dapat dikembangkan menjadi ruang
                 interaktif untuk menggambar dan memanipulasi
                 objek geometri.
               </p>
@@ -313,7 +313,7 @@ export default async function GeometryPage({
 
         <Link
           href={`/${organization.slug}`}
-          className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-sky-600 transition-colors hover:text-sky-700"
+          className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-violet-600 transition-colors hover:text-violet-700"
         >
           Kembali ke Dashboard
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

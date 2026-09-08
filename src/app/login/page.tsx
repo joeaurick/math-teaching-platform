@@ -11,7 +11,10 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { createClient } from '@/lib/supabase/client'
 
@@ -19,10 +22,17 @@ export default function LoginPage() {
   const router = useRouter()
   const supabase = createClient()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] =
+    useState('')
+
+  const [password, setPassword] =
+    useState('')
+
+  const [errorMessage, setErrorMessage] =
+    useState('')
+
+  const [loading, setLoading] =
+    useState(false)
 
   async function handleLogin(
     event: FormEvent<HTMLFormElement>,
@@ -51,117 +61,132 @@ export default function LoginPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#f6f8fc]">
-      {/* Background decoration */}
+      {/* Dekorasi latar */}
+
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-sky-400/10 blur-3xl" />
-        <div className="absolute -bottom-40 -right-32 h-[30rem] w-[30rem] rounded-full bg-violet-400/10 blur-3xl" />
-        <div className="absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-400/5 blur-3xl" />
+        <div className="absolute -left-32 -top-32 h-80 w-80 rounded-full bg-sky-400/10 blur-3xl sm:h-96 sm:w-96" />
+
+        <div className="absolute -bottom-40 -right-32 h-[26rem] w-[26rem] rounded-full bg-violet-400/10 blur-3xl sm:h-[30rem] sm:w-[30rem]" />
+
+        <div className="absolute left-1/2 top-1/3 h-64 w-64 -translate-x-1/2 rounded-full bg-emerald-400/5 blur-3xl sm:h-72 sm:w-72" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen w-full max-w-6xl items-center px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid w-full overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60 lg:grid-cols-[1.05fr_0.95fr]">
-          {/* Brand panel */}
+      <div className="relative mx-auto flex min-h-screen w-full max-w-6xl items-center px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
+        <div className="grid w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60 sm:rounded-3xl lg:grid-cols-[1.05fr_0.95fr]">
+          {/* Panel Brand */}
+
           <div className="relative hidden overflow-hidden border-r border-slate-200 bg-gradient-to-br from-sky-50 via-violet-50 to-white p-10 lg:flex lg:flex-col lg:justify-between xl:p-14">
             <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full border border-sky-200/70" />
+
             <div className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full border border-violet-200/70" />
 
             <div className="relative">
               {/* Logo */}
+
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-violet-500 shadow-lg shadow-sky-200/60">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 via-violet-500 to-fuchsia-500 shadow-lg shadow-violet-200/60">
                   <BookOpen className="h-5 w-5 text-white" />
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-semibold text-slate-900">
                     Math Teaching
                   </p>
+
                   <p className="text-xs text-slate-500">
-                    Teacher Workspace
+                    Workspace Guru
                   </p>
                 </div>
               </div>
 
               {/* Hero */}
+
               <div className="mt-24 max-w-md">
-                <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1.5 text-xs font-medium text-sky-700">
+                <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/70 px-3 py-1.5 text-xs font-medium text-violet-700">
                   <Sparkles className="h-3.5 w-3.5" />
-                  Teaching workspace
+                  Ruang kerja guru
                 </div>
 
                 <h1 className="mt-6 text-4xl font-semibold leading-tight tracking-tight text-slate-900 xl:text-5xl">
                   Buat pembelajaran
-                  <span className="block bg-gradient-to-r from-sky-500 via-violet-500 to-emerald-500 bg-clip-text text-transparent">
+                  <span className="block bg-gradient-to-r from-sky-500 via-violet-500 to-fuchsia-500 bg-clip-text text-transparent">
                     matematika lebih mudah.
                   </span>
                 </h1>
 
                 <p className="mt-6 text-sm leading-7 text-slate-600">
-                  Kelola module, question bank,
-                  worksheet, kelas, dan student
-                  submissions dalam satu workspace.
+                  Kelola modul, bank soal, lembar kerja,
+                  kelas, dan pengumpulan siswa dalam satu
+                  workspace.
                 </p>
               </div>
             </div>
 
-            {/* Features */}
+            {/* Fitur */}
+
             <div className="relative mt-12 space-y-3">
               {[
                 'Buat dan kelola soal matematika',
-                'Bagikan worksheet kepada siswa',
-                'Pantau dan nilai student submissions',
+                'Bagikan lembar kerja kepada siswa',
+                'Pantau dan nilai pengumpulan siswa',
               ].map((feature) => (
                 <div
                   key={feature}
                   className="flex items-center gap-3 text-sm text-slate-600"
                 >
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
-                  {feature}
+
+                  <span>{feature}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Login panel */}
-          <div className="flex items-center justify-center bg-slate-50/80 p-5 sm:p-8 lg:p-10 xl:p-14">
+          {/* Panel Login */}
+
+          <div className="flex items-center justify-center bg-slate-50/80 p-4 sm:p-6 md:p-8 lg:p-10 xl:p-14">
             <Card className="w-full max-w-md border-slate-200 bg-white shadow-lg shadow-slate-200/60">
-              <CardContent className="!p-6 sm:!p-8">
-                {/* Mobile brand */}
-                <div className="mb-8 flex items-center gap-3 lg:hidden">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 to-violet-500 shadow-sm">
+              <CardContent className="!p-5 sm:!p-8">
+                {/* Brand Mobile */}
+
+                <div className="mb-7 flex items-center gap-3 lg:hidden">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 via-violet-500 to-fuchsia-500 shadow-sm shadow-violet-200/60">
                     <BookOpen className="h-5 w-5 text-white" />
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm font-semibold text-slate-900">
                       Math Teaching
                     </p>
+
                     <p className="text-xs text-slate-500">
-                      Teacher Workspace
+                      Workspace Guru
                     </p>
                   </div>
                 </div>
 
                 {/* Heading */}
+
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-                    Welcome back
+                    Selamat datang kembali
                   </p>
 
-                  <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">
-                    Login ke workspace
+                  <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-[26px]">
+                    Masuk ke workspace
                   </h2>
 
                   <p className="mt-2 text-sm leading-6 text-slate-500">
-                    Masuk menggunakan akun teacher
-                    Anda untuk melanjutkan.
+                    Masuk menggunakan akun guru Anda untuk
+                    melanjutkan.
                   </p>
                 </div>
 
                 {/* Form */}
+
                 <form
                   onSubmit={handleLogin}
-                  className="mt-8 space-y-5"
+                  className="mt-7 space-y-5 sm:mt-8"
                 >
                   <div>
                     <label
@@ -178,21 +203,23 @@ export default function LoginPage() {
                       placeholder="nama@email.com"
                       value={email}
                       onChange={(event) =>
-                        setEmail(event.target.value)
+                        setEmail(
+                          event.target.value,
+                        )
                       }
                       disabled={loading}
                       required
-                      className="mt-2"
+                      className="mt-2 h-11"
                     />
                   </div>
 
                   <div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-3">
                       <label
                         htmlFor="password"
                         className="text-sm font-medium text-slate-800"
                       >
-                        Password
+                        Kata Sandi
                       </label>
                     </div>
 
@@ -200,21 +227,24 @@ export default function LoginPage() {
                       id="password"
                       type="password"
                       autoComplete="current-password"
-                      placeholder="Masukkan password"
+                      placeholder="Masukkan kata sandi"
                       value={password}
                       onChange={(event) =>
-                        setPassword(event.target.value)
+                        setPassword(
+                          event.target.value,
+                        )
                       }
                       disabled={loading}
                       required
-                      className="mt-2"
+                      className="mt-2 h-11"
                     />
                   </div>
 
                   {/* Error */}
+
                   {errorMessage && (
                     <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3">
-                      <p className="text-sm leading-5 text-rose-700">
+                      <p className="break-words text-sm leading-5 text-rose-700">
                         {errorMessage}
                       </p>
                     </div>
@@ -228,22 +258,21 @@ export default function LoginPage() {
                     {loading ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        Signing in...
+                        Sedang masuk...
                       </>
                     ) : (
                       <>
-                        Login
+                        Masuk
                         <ArrowRight className="h-4 w-4" />
                       </>
                     )}
                   </Button>
                 </form>
 
-                <div className="mt-8 border-t border-slate-100 pt-5">
+                <div className="mt-7 border-t border-slate-100 pt-5">
                   <p className="text-center text-xs leading-5 text-slate-400">
-                    Gunakan akun teacher yang telah
-                    terdaftar untuk mengakses
-                    workspace.
+                    Gunakan akun guru yang telah terdaftar
+                    untuk mengakses workspace.
                   </p>
                 </div>
               </CardContent>

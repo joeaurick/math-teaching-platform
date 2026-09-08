@@ -1,5 +1,9 @@
 import Link from 'next/link'
-import { ArrowLeft, FileQuestion } from 'lucide-react'
+import {
+  ArrowLeft,
+  FileQuestion,
+  Sparkles,
+} from 'lucide-react'
 import { notFound, redirect } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
@@ -33,12 +37,14 @@ export default async function QuestionDetailPage({
     redirect('/login')
   }
 
-  const { data: organization, error: organizationError } =
-    await supabase
-      .from('organizations')
-      .select('id, name, slug')
-      .eq('slug', slug)
-      .maybeSingle()
+  const {
+    data: organization,
+    error: organizationError,
+  } = await supabase
+    .from('organizations')
+    .select('id, name, slug')
+    .eq('slug', slug)
+    .maybeSingle()
 
   if (organizationError) {
     throw new Error(
@@ -50,13 +56,15 @@ export default async function QuestionDetailPage({
     notFound()
   }
 
-  const { data: membership, error: membershipError } =
-    await supabase
-      .from('organization_members')
-      .select('id, role')
-      .eq('organization_id', organization.id)
-      .eq('user_id', user.id)
-      .maybeSingle()
+  const {
+    data: membership,
+    error: membershipError,
+  } = await supabase
+    .from('organization_members')
+    .select('id, role')
+    .eq('organization_id', organization.id)
+    .eq('user_id', user.id)
+    .maybeSingle()
 
   if (membershipError) {
     throw new Error(
@@ -68,24 +76,28 @@ export default async function QuestionDetailPage({
     notFound()
   }
 
-  const { data: question, error: questionError } =
-    await supabase
-      .from('questions')
-      .select(`
-        id,
-        module_id,
-        title,
-        question_type,
-        content,
-        explanation,
-        status,
-        created_by,
-        created_at,
-        updated_at
-      `)
-      .eq('id', questionId)
-      .eq('organization_id', organization.id)
-      .maybeSingle()
+  const {
+    data: question,
+    error: questionError,
+  } = await supabase
+    .from('questions')
+    .select(`
+      id,
+      module_id,
+      title,
+      question_type,
+      content,
+      explanation,
+      status,
+      created_by,
+      created_at,
+      updated_at,
+      deleted_at
+    `)
+    .eq('id', questionId)
+    .eq('organization_id', organization.id)
+    .is('deleted_at', null)
+    .maybeSingle()
 
   if (questionError) {
     throw new Error(
@@ -97,12 +109,14 @@ export default async function QuestionDetailPage({
     notFound()
   }
 
-  const { data: modules, error: modulesError } =
-    await supabase
-      .from('modules')
-      .select('id, title')
-      .eq('organization_id', organization.id)
-      .order('title', { ascending: true })
+  const {
+    data: modules,
+    error: modulesError,
+  } = await supabase
+    .from('modules')
+    .select('id, title')
+    .eq('organization_id', organization.id)
+    .order('title', { ascending: true })
 
   if (modulesError) {
     throw new Error(
@@ -110,17 +124,19 @@ export default async function QuestionDetailPage({
     )
   }
 
-  const { data: options, error: optionsError } =
-    await supabase
-      .from('question_options')
-      .select(`
-        id,
-        option_text,
-        is_correct,
-        sort_order
-      `)
-      .eq('question_id', question.id)
-      .order('sort_order', { ascending: true })
+  const {
+    data: options,
+    error: optionsError,
+  } = await supabase
+    .from('question_options')
+    .select(`
+      id,
+      option_text,
+      is_correct,
+      sort_order
+    `)
+    .eq('question_id', question.id)
+    .order('sort_order', { ascending: true })
 
   if (optionsError) {
     throw new Error(
@@ -128,49 +144,61 @@ export default async function QuestionDetailPage({
     )
   }
 
+  const statusLabel =
+    question.status === 'published'
+      ? 'Dipublikasikan'
+      : question.status === 'archived'
+        ? 'Diarsipkan'
+        : 'Draft'
+
+  const statusVariant =
+    question.status === 'published'
+      ? 'success'
+      : question.status === 'archived'
+        ? 'muted'
+        : 'warning'
+
   return (
-    <div className="min-h-full">
-      <div className="mx-auto w-full max-w-[1000px] px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <div className="min-h-full bg-slate-50/40">
+      <div className="mx-auto w-full max-w-[1000px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}/questions`}
-          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-sky-300/70 transition-colors hover:text-sky-200"
+          className="group mb-6 inline-flex items-center gap-2 rounded-lg px-1 py-1 text-sm font-medium text-slate-500 transition-colors hover:text-violet-700"
         >
           <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-0.5" />
-          Back to Questions
+          Kembali ke Bank Soal
         </Link>
 
         <PageHeader
-          eyebrow="Teaching / Question Builder"
-          title="Edit Question"
-          description="Update the question, answer options, explanation, and status."
+          eyebrow="Pembelajaran / Bank Soal"
+          title="Edit Soal"
+          description="Perbarui pertanyaan, pilihan jawaban, penjelasan, dan status soal."
           actions={
             <Badge
-              variant={
-                question.status === 'published'
-                  ? 'success'
-                  : question.status === 'archived'
-                    ? 'muted'
-                    : 'warning'
-              }
-              className="capitalize"
+              variant={statusVariant}
+              className="whitespace-nowrap"
             >
-              {question.status}
+              {statusLabel}
             </Badge>
           }
         />
 
-        <div className="mt-8">
-          <div className="mb-5 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-400/10">
-              <FileQuestion className="h-[18px] w-[18px] text-sky-300" />
+        <div className="mt-7 sm:mt-8">
+          <div className="mb-5 flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-200 bg-gradient-to-br from-violet-50 to-indigo-50">
+              <FileQuestion className="h-[18px] w-[18px] text-violet-600" />
             </div>
 
-            <div>
-              <p className="text-xs text-white/30">
-                Question ID
-              </p>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                  ID Soal
+                </p>
 
-              <p className="mt-1 text-xs text-white/50">
+                <Sparkles className="h-3.5 w-3.5 text-violet-400" />
+              </div>
+
+              <p className="mt-1 break-all font-mono text-xs text-slate-500">
                 {question.id}
               </p>
             </div>
@@ -183,9 +211,11 @@ export default async function QuestionDetailPage({
             initialData={{
               moduleId: question.module_id,
               title: question.title,
-              questionType: question.question_type,
+              questionType:
+                question.question_type,
               content: question.content,
-              explanation: question.explanation ?? '',
+              explanation:
+                question.explanation ?? '',
               status: question.status,
               options: options ?? [],
             }}

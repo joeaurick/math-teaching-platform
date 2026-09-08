@@ -23,6 +23,19 @@ type ModuleStudentsPageProps = {
   }>
 }
 
+function getStatusLabel(status: string) {
+  switch (status) {
+    case 'published':
+      return 'Diterbitkan'
+    case 'archived':
+      return 'Diarsipkan'
+    case 'draft':
+      return 'Draf'
+    default:
+      return status
+  }
+}
+
 export default async function ModuleStudentsPage({
   params,
 }: ModuleStudentsPageProps) {
@@ -89,7 +102,7 @@ export default async function ModuleStudentsPage({
 
   if (moduleError) {
     throw new Error(
-      `Gagal mengambil module: ${moduleError.message}`,
+      `Gagal mengambil modul: ${moduleError.message}`,
     )
   }
 
@@ -115,7 +128,7 @@ export default async function ModuleStudentsPage({
 
   if (assignmentsError) {
     throw new Error(
-      `Gagal mengambil assignment: ${assignmentsError.message}`,
+      `Gagal mengambil penugasan: ${assignmentsError.message}`,
     )
   }
 
@@ -126,20 +139,20 @@ export default async function ModuleStudentsPage({
     ) ?? []
 
   return (
-    <div className="min-h-full">
-      <div className="mx-auto w-full max-w-6xl px-4 py-7 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <div className="min-h-full bg-slate-50/40">
+      <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <Link
           href={`/${organization.slug}/modules/${module.id}`}
-          className="group inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+          className="group inline-flex items-center gap-2 text-sm font-medium text-violet-600 transition-colors hover:text-violet-700"
         >
           <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
-          Kembali ke Module
+          Kembali ke Modul
         </Link>
 
         <PageHeader
-          eyebrow="Teaching / Module / Students"
+          eyebrow="Pembelajaran / Modul / Siswa"
           title="Berikan ke Siswa"
-          description={`Pilih siswa yang dapat menerima module "${module.title}".`}
+          description={`Pilih siswa yang dapat menerima modul "${module.title}".`}
           actions={
             <Badge
               variant={
@@ -148,31 +161,32 @@ export default async function ModuleStudentsPage({
                   ? 'success'
                   : 'warning'
               }
-              className="capitalize"
             >
-              {module.status}
+              {getStatusLabel(
+                module.status,
+              )}
             </Badge>
           }
         />
 
         {module.status !== 'published' && (
-          <Card className="mt-8 overflow-hidden border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white shadow-sm shadow-amber-100/60">
-            <CardContent className="!p-5">
-              <div className="flex items-start gap-4">
+          <Card className="mt-6 overflow-hidden border-amber-200 bg-gradient-to-br from-amber-50 via-white to-white shadow-sm shadow-amber-100/60 sm:mt-8">
+            <CardContent className="!p-5 sm:!p-6">
+              <div className="flex items-start gap-3.5 sm:gap-4">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-200 bg-amber-50">
                   <BookOpen className="h-4 w-4 text-amber-600" />
                 </div>
 
-                <div>
+                <div className="min-w-0">
                   <h2 className="text-sm font-semibold text-slate-900">
-                    Module belum dipublish
+                    Modul belum diterbitkan
                   </h2>
 
                   <p className="mt-1 text-sm leading-6 text-slate-600">
                     Anda dapat menentukan siswa sekarang.
-                    Namun module belum akan muncul di ruang
-                    belajar siswa sampai statusnya
-                    menjadi Published.
+                    Namun modul belum akan muncul di ruang
+                    belajar siswa sampai statusnya menjadi
+                    Diterbitkan.
                   </p>
                 </div>
               </div>
@@ -180,7 +194,7 @@ export default async function ModuleStudentsPage({
           </Card>
         )}
 
-        <section className="mt-8">
+        <section className="mt-7 sm:mt-8">
           <div className="mb-5 flex items-start gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-violet-200 bg-violet-50">
               <Users className="h-4 w-4 text-violet-600" />
@@ -191,9 +205,9 @@ export default async function ModuleStudentsPage({
                 Daftar Siswa
               </h2>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm leading-6 text-slate-500">
                 {assignedStudentIds.length}{' '}
-                siswa telah diberikan module ini.
+                siswa telah diberikan modul ini.
               </p>
             </div>
           </div>
@@ -218,7 +232,7 @@ export default async function ModuleStudentsPage({
             />
           ) : (
             <Card className="overflow-hidden border-slate-200 bg-white shadow-sm">
-              <CardContent className="flex min-h-[240px] flex-col items-center justify-center !p-8 text-center">
+              <CardContent className="flex min-h-[240px] flex-col items-center justify-center !p-6 text-center sm:!p-8">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-200 bg-sky-50">
                   <Users className="h-5 w-5 text-sky-600" />
                 </div>
@@ -228,15 +242,15 @@ export default async function ModuleStudentsPage({
                 </h2>
 
                 <p className="mt-2 max-w-md text-sm leading-6 text-slate-500">
-                  Buat Student Access terlebih dahulu
-                  agar siswa dapat menerima module.
+                  Buat akses siswa terlebih dahulu agar
+                  siswa dapat menerima modul.
                 </p>
 
                 <Link
                   href={`/${organization.slug}/classes/student-access`}
-                  className="mt-5 text-sm font-medium text-primary transition-colors hover:text-primary/80"
+                  className="mt-5 text-sm font-medium text-violet-600 transition-colors hover:text-violet-700"
                 >
-                  Kelola Student Access
+                  Kelola Akses Siswa
                 </Link>
               </CardContent>
             </Card>

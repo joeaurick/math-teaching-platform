@@ -2,6 +2,12 @@
 
 import { useActionState } from 'react'
 import Link from 'next/link'
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  Loader2,
+} from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -37,73 +43,116 @@ export function ModuleForm({
     return result ?? { success: true }
   }
 
-  const [state, formAction, isPending] = useActionState(
-    action,
-    initialState,
-  )
+  const [state, formAction, isPending] =
+    useActionState(
+      action,
+      initialState,
+    )
 
   return (
     <form action={formAction}>
-      <Card>
-        <CardContent className="space-y-6 p-6">
+      <Card className="overflow-hidden border-slate-200 bg-white shadow-sm shadow-slate-200/50">
+        <div className="border-b border-slate-100 bg-gradient-to-br from-violet-50 via-white to-indigo-50/50 px-5 py-5 sm:px-6 sm:py-6">
+          <div className="flex items-start gap-3.5">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-100">
+              <BookOpen className="h-5 w-5 text-violet-600" />
+            </div>
+
+            <div>
+              <h2 className="text-sm font-semibold text-slate-900 sm:text-base">
+                Informasi Modul
+              </h2>
+
+              <p className="mt-1 text-xs leading-5 text-slate-500 sm:text-sm">
+                Masukkan nama dan deskripsi singkat
+                untuk modul pembelajaran ini.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <CardContent className="space-y-5 !p-5 sm:space-y-6 sm:!p-6">
           <div>
             <label
               htmlFor="title"
-              className="mb-2 block text-sm font-medium text-white"
+              className="mb-2 block text-sm font-medium text-slate-800"
             >
-              Module title
+              Judul modul
             </label>
 
             <Input
               id="title"
               name="title"
               type="text"
-              placeholder="e.g. Algebra Basics"
+              placeholder="Contoh: Dasar-Dasar Aljabar"
               required
               disabled={isPending}
-              className="h-11 rounded-xl border-white/[0.10] bg-white/[0.04] text-white placeholder:text-white/25 focus:border-white/[0.20] focus:bg-white/[0.06]"
+              className="h-11 rounded-xl border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:ring-violet-100"
             />
+
+            <p className="mt-2 text-xs leading-5 text-slate-400">
+              Gunakan judul yang mudah dikenali oleh Anda dan siswa.
+            </p>
           </div>
 
           <div>
             <label
               htmlFor="description"
-              className="mb-2 block text-sm font-medium text-white"
+              className="mb-2 block text-sm font-medium text-slate-800"
             >
-              Description
+              Deskripsi
             </label>
 
             <Textarea
               id="description"
               name="description"
               rows={5}
-              placeholder="Describe what students will learn in this module..."
+              placeholder="Jelaskan secara singkat apa yang akan dipelajari siswa dalam modul ini..."
               disabled={isPending}
-              className="resize-none rounded-xl border-white/[0.10] bg-white/[0.04] leading-6 text-white placeholder:text-white/25 focus:border-white/[0.20] focus:bg-white/[0.06]"
+              className="resize-none rounded-xl border-slate-200 bg-white leading-6 text-slate-900 placeholder:text-slate-400 focus:border-violet-400 focus:ring-violet-100"
             />
+
+            <p className="mt-2 text-xs leading-5 text-slate-400">
+              Deskripsi membantu menjelaskan tujuan dan isi modul.
+            </p>
           </div>
 
           {state.error && (
-            <div className="rounded-xl border border-red-500/20 bg-red-500/[0.08] px-4 py-3 text-sm text-red-300">
-              {state.error}
+            <div
+              role="alert"
+              className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3"
+            >
+              <p className="text-sm leading-5 text-rose-700">
+                {state.error}
+              </p>
             </div>
           )}
 
-          <div className="flex items-center justify-end gap-3 border-t border-white/[0.07] pt-5">
+          <div className="flex flex-col-reverse gap-2 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-3">
             <Link
               href={`/${organizationSlug}/modules`}
-              className="inline-flex h-10 items-center justify-center rounded-xl px-4 text-sm font-medium text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 hover:text-slate-800 sm:w-auto"
             >
-              Cancel
+              <ArrowLeft className="h-4 w-4" />
+              Batal
             </Link>
 
             <Button
               type="submit"
               disabled={isPending}
+              className="h-11 w-full bg-gradient-to-r from-violet-600 to-indigo-600 shadow-md shadow-violet-200/60 hover:from-violet-700 hover:to-indigo-700 sm:w-auto"
             >
-              {isPending
-                ? 'Creating...'
-                : 'Create Module'}
+              {isPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Membuat modul...
+                </>
+              ) : (
+                <>
+                  Buat modul
+                  <ArrowRight className="h-4 w-4" />
+                </>
+              )}
             </Button>
           </div>
         </CardContent>

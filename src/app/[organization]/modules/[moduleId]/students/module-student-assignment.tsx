@@ -69,8 +69,8 @@ export function ModuleStudentAssignment({
 
       toast.success(
         assign
-          ? 'Module diberikan ke siswa.'
-          : 'Module dilepas dari siswa.',
+          ? 'Modul diberikan ke siswa.'
+          : 'Modul dilepas dari siswa.',
       )
 
       router.refresh()
@@ -98,9 +98,9 @@ export function ModuleStudentAssignment({
                 : 'overflow-hidden border-slate-200 bg-white shadow-sm transition-all hover:border-sky-200 hover:bg-sky-50/30 hover:shadow-md hover:shadow-sky-100/50'
             }
           >
-            <CardContent className="!p-5">
+            <CardContent className="!p-4 sm:!p-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex min-w-0 items-center gap-4">
+                <div className="flex min-w-0 items-center gap-3.5 sm:gap-4">
                   <div
                     className={
                       isAssigned
@@ -117,14 +117,12 @@ export function ModuleStudentAssignment({
 
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-sm font-semibold text-slate-900">
+                      <h3 className="truncate text-sm font-semibold text-slate-900">
                         {studentName}
                       </h3>
 
                       {isAssigned && (
-                        <Badge
-                          variant="success"
-                        >
+                        <Badge variant="success">
                           Diberikan
                         </Badge>
                       )}
@@ -139,13 +137,13 @@ export function ModuleStudentAssignment({
                         moduleStatus ===
                           'published' && (
                           <Badge variant="info">
-                            Bisa mengakses
+                            Dapat mengakses
                           </Badge>
                         )}
                     </div>
 
                     <p className="mt-1 text-xs text-slate-400">
-                      Student Access
+                      Akses Siswa
                     </p>
                   </div>
                 </div>
@@ -167,14 +165,14 @@ export function ModuleStudentAssignment({
                   }
                   className={
                     isAssigned
-                      ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100'
-                      : 'border-sky-200 text-sky-700 hover:border-sky-300 hover:bg-sky-50'
+                      ? 'w-full border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100 sm:w-auto'
+                      : 'w-full border-sky-200 text-sky-700 hover:border-sky-300 hover:bg-sky-50 sm:w-auto'
                   }
                 >
                   {isPending ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Saving...
+                      Menyimpan...
                     </>
                   ) : isAssigned ? (
                     <>
