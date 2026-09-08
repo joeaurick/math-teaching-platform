@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 
 type StudentAccessRelation = {
+  id: string
   student_name: string | null
 }
 
@@ -94,6 +95,24 @@ export function TeacherChatWidget({
   const [unreadCount, setUnreadCount] =
     useState(0)
 
+  /*
+   * Nama siswa terakhir yang mengirim
+   * pesan baru.
+   */
+  const [
+    incomingStudentName,
+    setIncomingStudentName,
+  ] = useState<string | null>(null)
+
+  /*
+   * Ambil daftar conversation.
+   *
+   * Nama siswa sengaja diambil melalui
+   * student_access_id secara terpisah.
+   *
+   * Jadi kita tidak bergantung pada nested
+   * relation Supabase.
+   */
   const loadConversations =
     useCallback(async () => {
       const {
@@ -107,10 +126,7 @@ export function TeacherChatWidget({
           student_access_id,
           teacher_profile_id,
           created_at,
-          updated_at,
-          student_access (
-            student_name
-          )
+          updated_at
         `)
         .eq(
           'organization_id',
@@ -129,19 +145,149 @@ export function TeacherChatWidget({
           '[TEACHER CHAT] conversations error:',
           error,
         )
-        return
+        return []
       }
 
+      const conversationRows =
+        (data ?? []) as Omit<
+          ChatConversation,
+          'student_access'
+        >[]
+
+      if (
+        conversationRows.length === 0
+      ) {
+        setConversations([])
+        setLoaded(true)
+        return []
+      }
+
+      const studentAccessIds =
+        Array.from(
+          new Set(
+            conversationRows
+              .map(
+                (conversation) =>
+                  conversation.student_access_id,
+              )
+              .filter(Boolean),
+          ),
+        )
+
+      const {
+        data: studentRows,
+        error: studentError,
+      } = await supabase
+        .from('student_access')
+        .select(`
+          id,
+          student_name
+        `)
+        .eq(
+          'organization_id',
+          organizationId,
+        )
+        .in(
+          'id',
+          studentAccessIds,
+        )
+
+      if (studentError) {
+        console.error(
+          '[TEACHER CHAT] student access error:',
+          studentError,
+        )
+      }
+
+      const students =
+        (studentRows ??
+          []) as StudentAccessRelation[]
+
+      const studentMap = new Map<
+        string,
+        StudentAccessRelation
+      >()
+
+      for (const student of students) {
+        studentMap.set(
+          student.id,
+          student,
+        )
+      }
+
+      const conversationsWithStudents =
+        conversationRows.map(
+          (conversation) => {
+            const student =
+              studentMap.get(
+                conversation.student_access_id,
+              )
+
+            return {
+              ...conversation,
+              student_access: student
+                ? [student]
+                : [],
+            }
+          },
+        )
+
       setConversations(
-        (data ?? []) as ChatConversation[],
+        conversationsWithStudents,
       )
 
       setLoaded(true)
+
+      return conversationsWithStudents
     }, [
       organizationId,
       supabase,
       teacherProfileId,
     ])
+
+  /*
+   * Ambil nama siswa langsung berdasarkan
+   * sender_student_access_id.
+   */
+  const loadStudentName =
+    useCallback(
+      async (
+        studentAccessId: string,
+      ) => {
+        const {
+          data,
+          error,
+        } = await supabase
+          .from('student_access')
+          .select(`
+            id,
+            student_name
+          `)
+          .eq(
+            'id',
+            studentAccessId,
+          )
+          .eq(
+            'organization_id',
+            organizationId,
+          )
+          .maybeSingle()
+
+        if (error) {
+          console.error(
+            '[TEACHER CHAT] student name error:',
+            error,
+          )
+          return null
+        }
+
+        return data?.student_name ?? null
+      },
+      [
+        organizationId,
+        supabase,
+      ],
+    )
 
   const loadMessages = useCallback(
     async (
@@ -183,10 +329,16 @@ export function TeacherChatWidget({
     [supabase],
   )
 
+  /*
+   * Load awal.
+   */
   useEffect(() => {
     void loadConversations()
   }, [loadConversations])
 
+  /*
+   * Realtime chat.
+   */
   useEffect(() => {
     const channel = supabase
       .channel(
@@ -199,7 +351,7 @@ export function TeacherChatWidget({
           schema: 'public',
           table: 'chat_messages',
         },
-        (payload) => {
+        async (payload) => {
           const incoming =
             payload.new as ChatMessage
 
@@ -210,38 +362,94 @@ export function TeacherChatWidget({
             return
           }
 
-          setConversations(
-            (current) => {
-              const existing =
-                current.find(
-                  (item) =>
-                    item.id ===
-                    incoming.conversation_id,
-                )
+          /*
+           * Hanya pesan dari siswa yang
+           * mempunyai sender_student_access_id
+           * dianggap sebagai pesan siswa.
+           */
+          if (
+            incoming.sender_student_access_id
+          ) {
+            /*
+             * INI BAGIAN PENTING:
+             *
+             * Jangan mengambil nama dari
+             * conversation.student_access.
+             *
+             * Ambil langsung dari:
+             *
+             * sender_student_access_id
+             *        ↓
+             * student_access.id
+             *        ↓
+             * student_name
+             */
+            const studentName =
+              await loadStudentName(
+                incoming.sender_student_access_id,
+              )
 
-              if (!existing) {
-                void loadConversations()
-                return current
-              }
+            setIncomingStudentName(
+              studentName ||
+                'Siswa Tanpa Nama',
+            )
+          }
 
-              const updatedConversation =
-                {
-                  ...existing,
-                  updated_at:
-                    incoming.created_at,
+          /*
+           * Update conversation.
+           */
+          const existingConversation =
+            conversations.find(
+              (conversation) =>
+                conversation.id ===
+                incoming.conversation_id,
+            )
+
+          if (
+            !existingConversation
+          ) {
+            /*
+             * Conversation belum ada di
+             * state, reload daftar.
+             */
+            await loadConversations()
+          } else {
+            setConversations(
+              (current) => {
+                const existing =
+                  current.find(
+                    (item) =>
+                      item.id ===
+                      incoming.conversation_id,
+                  )
+
+                if (!existing) {
+                  return current
                 }
 
-              return [
-                updatedConversation,
-                ...current.filter(
-                  (item) =>
-                    item.id !==
-                    incoming.conversation_id,
-                ),
-              ]
-            },
-          )
+                const updatedConversation =
+                  {
+                    ...existing,
+                    updated_at:
+                      incoming.created_at,
+                  }
 
+                return [
+                  updatedConversation,
+                  ...current.filter(
+                    (item) =>
+                      item.id !==
+                      incoming.conversation_id,
+                  ),
+                ]
+              },
+            )
+          }
+
+          /*
+           * Jika conversation sedang dibuka,
+           * masukkan pesan ke layar.
+           */
           if (
             selectedConversationId ===
             incoming.conversation_id
@@ -266,6 +474,10 @@ export function TeacherChatWidget({
             )
           }
 
+          /*
+           * Pesan siswa menjadi unread ketika
+           * conversation tidak sedang aktif.
+           */
           if (
             incoming.sender_student_access_id &&
             (!open || minimized)
@@ -277,7 +489,9 @@ export function TeacherChatWidget({
         },
       )
       .subscribe((status) => {
-        if (status === 'SUBSCRIBED') {
+        if (
+          status === 'SUBSCRIBED'
+        ) {
           console.log(
             '[TEACHER CHAT] Realtime connected',
           )
@@ -291,7 +505,9 @@ export function TeacherChatWidget({
           )
         }
 
-        if (status === 'TIMED_OUT') {
+        if (
+          status === 'TIMED_OUT'
+        ) {
           console.error(
             '[TEACHER CHAT] Realtime timeout',
           )
@@ -304,7 +520,9 @@ export function TeacherChatWidget({
       )
     }
   }, [
+    conversations,
     loadConversations,
+    loadStudentName,
     minimized,
     open,
     organizationId,
@@ -327,6 +545,7 @@ export function TeacherChatWidget({
     )
 
     setUnreadCount(0)
+    setIncomingStudentName(null)
   }
 
   function backToInbox() {
@@ -498,9 +717,36 @@ export function TeacherChatWidget({
         selectedConversationId,
     ) ?? null
 
+  /*
+   * Widget tertutup.
+   */
   if (!open) {
     return (
       <div className="fixed bottom-4 right-4 z-[100] sm:bottom-5 sm:right-5">
+        {incomingStudentName && (
+          <button
+            type="button"
+            onClick={handleOpen}
+            className="absolute bottom-full right-0 mb-3 flex max-w-[280px] items-center gap-3 rounded-2xl border border-violet-100 bg-white px-4 py-3 text-left shadow-xl shadow-violet-100/70 transition-all hover:-translate-y-0.5 hover:border-violet-200"
+          >
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-violet-100 to-indigo-100 text-sm font-semibold text-violet-700">
+              {incomingStudentName
+                .charAt(0)
+                .toUpperCase()}
+            </div>
+
+            <div className="min-w-0">
+              <p className="truncate text-xs font-semibold text-slate-800">
+                {incomingStudentName}
+              </p>
+
+              <p className="mt-0.5 text-[10px] text-slate-400">
+                Mengirim pesan baru
+              </p>
+            </div>
+          </button>
+        )}
+
         <button
           type="button"
           onClick={handleOpen}
@@ -530,6 +776,9 @@ export function TeacherChatWidget({
     )
   }
 
+  /*
+   * Widget minimize.
+   */
   if (minimized) {
     return (
       <div className="fixed bottom-4 right-4 z-50 sm:bottom-5 sm:right-5">
@@ -543,12 +792,15 @@ export function TeacherChatWidget({
           </div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold text-slate-800">
-              Chat Siswa
+            <p className="truncate text-xs font-semibold text-slate-800">
+              {incomingStudentName ||
+                'Chat Siswa'}
             </p>
 
-            <p className="mt-0.5 text-[10px] text-slate-400">
-              Klik untuk membuka
+            <p className="mt-0.5 truncate text-[10px] text-slate-400">
+              {incomingStudentName
+                ? 'Mengirim pesan baru'
+                : 'Klik untuk membuka'}
             </p>
           </div>
 
@@ -600,7 +852,10 @@ export function TeacherChatWidget({
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
 
                 <span className="text-[10px] text-slate-400">
-                  Percakapan pribadi
+                  {incomingStudentName &&
+                  !selectedConversation
+                    ? `${incomingStudentName} mengirim pesan baru`
+                    : 'Percakapan pribadi'}
                 </span>
               </div>
             </div>

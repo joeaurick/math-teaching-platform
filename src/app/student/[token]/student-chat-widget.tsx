@@ -339,13 +339,13 @@ export function StudentChatWidget({
         <button
           type="button"
           onClick={handleOpen}
-          className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-400/20 bg-gradient-to-br from-violet-500/25 via-indigo-500/20 to-cyan-500/15 text-white shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:border-violet-300/30 hover:from-violet-500/35 hover:to-cyan-500/25 active:scale-95"
+          className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-200 bg-gradient-to-br from-cyan-500 via-teal-500 to-emerald-500 text-white shadow-lg shadow-cyan-200/60 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-200/70 active:scale-95"
           aria-label="Buka chat"
         >
           <MessageCircle className="h-5 w-5" />
 
           {unreadCount > 0 && (
-            <span className="absolute -right-1 -top-1 flex min-h-5 min-w-5 items-center justify-center rounded-full border border-[#090909] bg-violet-500 px-1 text-[10px] font-semibold text-white">
+            <span className="absolute -right-1 -top-1 flex min-h-5 min-w-5 items-center justify-center rounded-full border-2 border-white bg-rose-500 px-1 text-[10px] font-semibold text-white shadow-sm">
               {unreadCount > 9
                 ? '9+'
                 : unreadCount}
@@ -368,24 +368,24 @@ export function StudentChatWidget({
           <button
             type="button"
             onClick={handleRestore}
-            className="flex items-center gap-3 rounded-2xl border border-white/[0.10] bg-[#111113]/95 px-4 py-3 text-left shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-all hover:border-violet-400/20 hover:bg-[#151518]"
+            className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left shadow-xl shadow-slate-200/70 transition-all hover:border-cyan-200 hover:shadow-2xl hover:shadow-slate-200/80"
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500/20 to-cyan-500/15">
-              <MessageCircle className="h-4 w-4 text-violet-200/80" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-emerald-500 shadow-sm">
+              <MessageCircle className="h-4 w-4 text-white" />
             </div>
 
             <div className="min-w-[120px]">
-              <p className="text-xs font-medium text-white/80">
+              <p className="text-xs font-semibold text-slate-900">
                 Chat dengan Guru
               </p>
 
-              <p className="mt-0.5 text-[10px] text-white/30">
+              <p className="mt-0.5 text-[10px] text-slate-400">
                 Klik untuk membuka
               </p>
             </div>
 
             {unreadCount > 0 && (
-              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-violet-500 px-1 text-[10px] font-semibold text-white">
+              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white">
                 {unreadCount > 9
                   ? '9+'
                   : unreadCount}
@@ -409,7 +409,7 @@ export function StudentChatWidget({
         }`}
       >
         <div
-          className={`flex overflow-hidden border border-white/[0.10] bg-[#0d0d0f]/95 shadow-[0_20px_70px_rgba(0,0,0,0.5)] backdrop-blur-2xl ${
+          className={`flex overflow-hidden border border-slate-200 bg-white shadow-2xl shadow-slate-300/50 ${
             mode === 'docked'
               ? 'h-full rounded-2xl md:rounded-none md:border-y-0 md:border-r-0'
               : 'h-[min(680px,calc(100vh-32px))] rounded-3xl'
@@ -418,21 +418,21 @@ export function StudentChatWidget({
           <div className="flex min-h-0 flex-1 flex-col">
             {/* Header */}
 
-            <div className="shrink-0 border-b border-white/[0.07] bg-gradient-to-r from-violet-500/[0.06] via-transparent to-cyan-500/[0.06] px-4 py-3">
+            <div className="shrink-0 border-b border-slate-200 bg-gradient-to-r from-cyan-50 via-white to-emerald-50 px-4 py-3">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-violet-400/15 bg-gradient-to-br from-violet-500/20 to-cyan-500/10">
-                  <MessageCircle className="h-4 w-4 text-violet-200/80" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-emerald-500 shadow-sm">
+                  <MessageCircle className="h-4 w-4 text-white" />
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold text-white/90">
+                  <p className="truncate text-sm font-semibold text-slate-900">
                     Chat dengan Guru
                   </p>
 
                   <div className="mt-0.5 flex items-center gap-1.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/80" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
 
-                    <span className="text-[10px] text-white/30">
+                    <span className="text-[10px] text-slate-400">
                       Percakapan pribadi
                     </span>
                   </div>
@@ -444,7 +444,7 @@ export function StudentChatWidget({
                     variant="ghost"
                     size="icon"
                     onClick={toggleMode}
-                    className="h-8 w-8 rounded-lg text-white/40 hover:text-white"
+                    className="h-8 w-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700"
                     aria-label={
                       mode === 'floating'
                         ? 'Sisipkan di samping'
@@ -468,7 +468,7 @@ export function StudentChatWidget({
                     variant="ghost"
                     size="icon"
                     onClick={handleMinimize}
-                    className="h-8 w-8 rounded-lg text-white/40 hover:text-white"
+                    className="h-8 w-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700"
                     aria-label="Minimize chat"
                     title="Minimize"
                   >
@@ -480,7 +480,7 @@ export function StudentChatWidget({
                     variant="ghost"
                     size="icon"
                     onClick={handleClose}
-                    className="h-8 w-8 rounded-lg text-white/40 hover:text-white"
+                    className="h-8 w-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700"
                     aria-label="Tutup chat"
                     title="Tutup"
                   >
@@ -492,7 +492,7 @@ export function StudentChatWidget({
 
             {/* Messages */}
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5">
+            <div className="min-h-0 flex-1 overflow-y-auto bg-slate-50/50 px-4 py-5">
               {conversation ? (
                 messages.length > 0 ? (
                   <ChatMessages
@@ -500,15 +500,15 @@ export function StudentChatWidget({
                   />
                 ) : (
                   <div className="flex min-h-[300px] flex-col items-center justify-center text-center">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[0.08] bg-gradient-to-br from-violet-500/[0.12] to-cyan-500/[0.08]">
-                      <MessageCircle className="h-5 w-5 text-white/40" />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-100 bg-gradient-to-br from-cyan-50 to-emerald-50">
+                      <MessageCircle className="h-5 w-5 text-cyan-500" />
                     </div>
 
-                    <p className="mt-4 text-sm font-medium text-white/70">
+                    <p className="mt-4 text-sm font-medium text-slate-700">
                       Belum ada pesan
                     </p>
 
-                    <p className="mt-1 max-w-xs text-xs leading-5 text-white/30">
+                    <p className="mt-1 max-w-xs text-xs leading-5 text-slate-400">
                       Kirim pesan kepada guru
                       untuk memulai percakapan.
                     </p>
@@ -516,15 +516,15 @@ export function StudentChatWidget({
                 )
               ) : (
                 <div className="flex h-full min-h-[300px] flex-col items-center justify-center text-center">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/[0.08] bg-gradient-to-br from-violet-500/[0.12] to-cyan-500/[0.08]">
-                    <MessageCircle className="h-5 w-5 text-white/40" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-100 bg-gradient-to-br from-cyan-50 to-emerald-50">
+                    <MessageCircle className="h-5 w-5 text-cyan-500" />
                   </div>
 
-                  <p className="mt-4 text-sm font-medium text-white/70">
+                  <p className="mt-4 text-sm font-medium text-slate-700">
                     Chat belum tersedia
                   </p>
 
-                  <p className="mt-1 max-w-xs text-xs leading-5 text-white/30">
+                  <p className="mt-1 max-w-xs text-xs leading-5 text-slate-400">
                     Guru belum membuka
                     percakapan dengan Anda.
                   </p>
@@ -534,7 +534,7 @@ export function StudentChatWidget({
 
             {/* Composer */}
 
-            <div className="shrink-0 border-t border-white/[0.07] bg-[#0b0b0d]/80 p-3">
+            <div className="shrink-0 border-t border-slate-200 bg-white p-3">
               <ChatComposer
                 token={token}
                 studentAccessId={

@@ -148,18 +148,18 @@ export function ChatMessages({
 
   if (messages.length === 0) {
     return (
-      <div className="flex min-h-[320px] flex-col items-center justify-center px-6 text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-cyan-50">
+      <div className="flex min-h-[300px] flex-col items-center justify-center px-5 text-center">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-indigo-50">
           <span className="text-lg">
             💬
           </span>
         </div>
 
-        <p className="mt-4 text-sm font-medium text-slate-800">
+        <p className="mt-4 text-sm font-semibold text-slate-800">
           Belum ada pesan
         </p>
 
-        <p className="mt-1 max-w-xs text-xs leading-5 text-slate-400">
+        <p className="mt-1.5 max-w-xs text-xs leading-5 text-slate-500">
           {emptyMessage}
         </p>
       </div>
@@ -168,7 +168,7 @@ export function ChatMessages({
 
   return (
     <div ref={contentRef}>
-      <div className="space-y-6">
+      <div className="space-y-5">
         {messages.map((message, index) => {
           const previousMessage =
             messages[index - 1]
@@ -217,8 +217,8 @@ export function ChatMessages({
                 <div
                   className={
                     isStudentMessage
-                      ? 'flex max-w-[84%] flex-col items-end sm:max-w-[72%]'
-                      : 'flex max-w-[84%] flex-col items-start sm:max-w-[72%]'
+                      ? 'flex max-w-[88%] flex-col items-end sm:max-w-[78%]'
+                      : 'flex max-w-[88%] flex-col items-start sm:max-w-[78%]'
                   }
                 >
                   <div
@@ -228,35 +228,37 @@ export function ChatMessages({
                             'rounded-2xl rounded-br-md',
                             'border border-violet-200',
                             'bg-gradient-to-br',
-                            'from-violet-50',
-                            'via-indigo-50',
-                            'to-fuchsia-50',
+                            'from-violet-600',
+                            'to-indigo-600',
                             'px-4 py-3',
-                            'text-slate-800',
-                            'shadow-sm shadow-violet-100',
+                            'text-white',
+                            'shadow-sm shadow-violet-200',
                           ].join(' ')
                         : [
                             'rounded-2xl rounded-bl-md',
-                            'border border-cyan-200',
-                            'bg-gradient-to-br',
-                            'from-cyan-50',
-                            'via-teal-50',
-                            'to-emerald-50',
+                            'border border-slate-200',
+                            'bg-white',
                             'px-4 py-3',
                             'text-slate-800',
-                            'shadow-sm shadow-cyan-100',
+                            'shadow-sm shadow-slate-200/70',
                           ].join(' ')
                     }
                   >
-                    <p className="whitespace-pre-wrap break-words text-sm leading-6 text-slate-800">
+                    <p
+                      className={
+                        isStudentMessage
+                          ? 'whitespace-pre-wrap break-words text-sm leading-6 text-white'
+                          : 'whitespace-pre-wrap break-words text-sm leading-6 text-slate-700'
+                      }
+                    >
                       {message.message}
                     </p>
 
                     <div
                       className={
                         isStudentMessage
-                          ? 'mt-2 flex justify-end text-[10px] leading-none text-violet-500'
-                          : 'mt-2 flex justify-end text-[10px] leading-none text-cyan-600'
+                          ? 'mt-2 flex justify-end text-[10px] leading-none text-violet-100'
+                          : 'mt-2 flex justify-end text-[10px] leading-none text-slate-400'
                       }
                     >
                       {formatChatMetadata(
@@ -267,13 +269,13 @@ export function ChatMessages({
 
                   {isTeacherMessage &&
                     !isStudentMessage && (
-                      <span className="mt-1 px-1 text-[9px] uppercase tracking-[0.12em] text-cyan-600">
+                      <span className="mt-1 px-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-indigo-500">
                         Guru
                       </span>
                     )}
 
                   {isStudentMessage && (
-                    <span className="mt-1 px-1 text-[9px] uppercase tracking-[0.12em] text-violet-600">
+                    <span className="mt-1 px-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-violet-500">
                       Anda
                     </span>
                   )}

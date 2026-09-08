@@ -35,8 +35,7 @@ export function ChatComposer({
   onMessageSent,
   onMessageRemoved,
 }: ChatComposerProps) {
-  const [message, setMessage] =
-    useState('')
+  const [message, setMessage] = useState('')
 
   const [isPending, startTransition] =
     useTransition()
@@ -81,15 +80,6 @@ export function ChatComposer({
         return
       }
 
-      /*
-       * Pesan sudah berhasil masuk database.
-       *
-       * Widget kemudian mengambil ulang
-       * messages dari database.
-       *
-       * Tidak ada optimistic message,
-       * sehingga tidak mungkin double.
-       */
       setMessage('')
 
       onMessageSent()
@@ -117,7 +107,7 @@ export function ChatComposer({
           event.preventDefault()
           handleSubmit()
         }}
-        className="flex items-end gap-3"
+        className="flex items-end gap-2 sm:gap-3"
       >
         <textarea
           value={message}
@@ -125,14 +115,14 @@ export function ChatComposer({
             setMessage(event.target.value)
           }
           onKeyDown={handleKeyDown}
-          placeholder="Ketik pesan kepada guru..."
+          placeholder="Tulis pesan kepada guru..."
           rows={2}
           maxLength={5000}
           disabled={
             isPending ||
             !conversationId
           }
-          className="min-h-[54px] flex-1 resize-none rounded-2xl border border-white/[0.09] bg-white/[0.035] px-4 py-3 text-sm leading-6 text-white outline-none transition-colors placeholder:text-white/25 focus:border-white/[0.18] focus:bg-white/[0.045] disabled:cursor-not-allowed disabled:opacity-50"
+          className="min-h-[54px] flex-1 resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-800 outline-none transition-all placeholder:text-slate-400 focus:border-violet-300 focus:bg-white focus:ring-4 focus:ring-violet-100 disabled:cursor-not-allowed disabled:opacity-60"
         />
 
         <Button
@@ -144,18 +134,18 @@ export function ChatComposer({
             message.trim().length === 0
           }
           aria-label="Kirim pesan"
-          className="h-[54px] w-[54px] shrink-0 rounded-2xl"
+          className="h-[54px] w-[54px] shrink-0 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-600 shadow-sm shadow-violet-200 transition-all hover:from-violet-700 hover:to-indigo-700 hover:shadow-md disabled:opacity-50"
         >
           <Send className="h-4 w-4" />
         </Button>
       </form>
 
       <div className="flex items-center justify-between px-1">
-        <p className="text-[10px] text-white/20">
+        <p className="text-[10px] text-slate-400">
           Ctrl + Enter untuk mengirim
         </p>
 
-        <p className="text-[10px] text-white/20">
+        <p className="text-[10px] text-slate-400">
           {message.length}/5000
         </p>
       </div>

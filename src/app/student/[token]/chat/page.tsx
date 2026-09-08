@@ -74,8 +74,9 @@ export default async function StudentChatPage({
   }
 
   const workspace =
-    (workspaceData?.[0] as StudentWorkspace | undefined) ??
-    null
+    (workspaceData?.[0] as
+      | StudentWorkspace
+      | undefined) ?? null
 
   if (!workspace) {
     notFound()
@@ -131,42 +132,44 @@ export default async function StudentChatPage({
       )
     }
 
-    messages = (messageData ?? []) as ChatMessage[]
+    messages =
+      (messageData ?? []) as ChatMessage[]
   }
 
   const studentName =
-    workspace.student_name?.trim() || 'Student'
+    workspace.student_name?.trim() || 'Siswa'
 
   return (
-    <div className="min-h-screen bg-[#090909] text-white">
-      <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+    <div className="min-h-screen">
+      <main className="mx-auto w-full max-w-5xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         {/* Header */}
 
-        <div className="flex flex-col gap-5">
+        <div className="mb-6 sm:mb-8">
           <Link
             href={`/student/${token}`}
-            className="inline-flex w-fit items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
+            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-500 shadow-sm transition-colors hover:border-violet-200 hover:bg-violet-50 hover:text-violet-600"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to Workspace
+            Kembali ke Ruang Belajar
           </Link>
 
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-sm text-white/40">
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-violet-600">
                 {workspace.organization_name}
               </p>
 
-              <h1 className="mt-2 text-3xl font-semibold tracking-tight">
-                Chat
+              <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                Chat dengan Guru
               </h1>
 
-              <p className="mt-2 text-sm text-white/45">
-                Percakapan langsung dengan guru.
+              <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500 sm:text-base">
+                Percakapan langsung dengan guru untuk membantu
+                Anda dalam proses belajar.
               </p>
             </div>
 
-            <Badge>
+            <Badge className="w-fit">
               {studentName}
             </Badge>
           </div>
@@ -174,20 +177,20 @@ export default async function StudentChatPage({
 
         {/* Chat */}
 
-        <Card className="mt-8 overflow-hidden">
+        <Card className="overflow-hidden border-slate-200 bg-white shadow-[0_12px_40px_rgba(15,23,42,0.07)]">
           <CardContent className="p-0">
-            <div className="border-b border-white/[0.08] px-5 py-4 sm:px-6">
+            <div className="border-b border-slate-200 bg-gradient-to-r from-violet-50 via-white to-indigo-50 px-4 py-4 sm:px-6 sm:py-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06]">
-                  <MessageCircle className="h-5 w-5 text-white/60" />
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-violet-200 bg-violet-100 text-violet-600">
+                  <MessageCircle className="h-5 w-5" />
                 </div>
 
-                <div>
-                  <p className="text-sm font-medium text-white">
-                    Teacher Chat
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-slate-900">
+                    Percakapan Pribadi
                   </p>
 
-                  <p className="mt-0.5 text-xs text-white/35">
+                  <p className="mt-1 text-xs text-slate-500">
                     Tanya sesuatu kepada guru Anda.
                   </p>
                 </div>
@@ -195,15 +198,20 @@ export default async function StudentChatPage({
             </div>
 
             <ChatClient
-  token={token}
-  studentAccessId={workspace.access_id}
-  conversationId={
-    conversation?.conversation_id ?? null
-  }
-  initialMessages={messages}
-/>
+              token={token}
+              studentAccessId={
+                workspace.access_id
+              }
+              conversationId={
+                conversation?.conversation_id ??
+                null
+              }
+              initialMessages={messages}
+            />
           </CardContent>
         </Card>
+
+        <div className="h-12" />
       </main>
     </div>
   )
